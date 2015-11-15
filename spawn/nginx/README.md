@@ -1,0 +1,3 @@
+## Install
+
+    docker pull nginx
