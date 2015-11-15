@@ -4,5 +4,7 @@ nginx:
     - '80:80'
     - '443:443'
   volumes:
-   - '~/sites:/sites:ro'
-   - '~/keys:/keys:ro'
+    - '~/sites:/sites:ro'
+    - '~/keys:/keys:ro'
+  external_links:
+    - atom-china
