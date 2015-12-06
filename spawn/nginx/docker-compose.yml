@@ -1,0 +1,14 @@
+nginx:
+  image: nginx
+  ports:
+    - '80:80'
+    - '443:443'
+  volumes:
+    - './nginx.conf:/etc/nginx/nginx.conf:ro'
+    - './certificates:/etc/nginx/certificates:ro'
+    - './sites:/etc/nginx/conf.d:ro'
+    - '~/sites:/sites:ro'
+    - '~/keys:/keys:ro'
+  external_links:
+    - atom-china
+    - sentry
