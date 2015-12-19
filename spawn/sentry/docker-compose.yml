@@ -24,6 +24,8 @@ sentry-celery1:
 sentry:
   image: sentry
   container_name: sentry
+  volumes:
+    - ./sentry.conf.py:/home/user/.sentry/sentry.conf.py:ro
   links:
     - sentry-redis:redis
     - sentry-postgres:postgres
