@@ -8,10 +8,6 @@ Host us1
     HostName us1.rpvhost.net
     User root
 
-Host gs1
-    HostName gs1.rpvhost.net
-    User root
-
 Host spawn
     HostName spawn.rpvhost.net
     User root
