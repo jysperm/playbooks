@@ -9,23 +9,12 @@
     chmod +x /usr/local/bin/docker-compose
     useradd -m -g docker docker
 
-## Home
+## Nginx
 
-* atom-china
+    apt-get install nginx
 
-    [discourse/launcher](https://github.com/discourse/discourse_docker)
-
-* keys
-
-    Nginx SSL Keys, `chmod 600 keys/*`
-
-* servers
-
-    [jysperm/servers](https://github.com/jysperm/servers)
-
-* sites
-
-    Nginx Sites
+* /etc/nginx/keys
+* /home/docker/sites
 
     * blog
     * cats-blog
@@ -35,3 +24,13 @@
     * random
     * rootpanel
     * rpvhost-blog
+
+## Home
+
+* atom-china
+
+    [discourse/launcher](https://github.com/discourse/discourse_docker)
+
+* servers
+
+    [jysperm/servers](https://github.com/jysperm/servers)
