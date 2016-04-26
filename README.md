@@ -1,6 +1,2 @@
 # Servers
-
-## Install
-
-    git clone git@github.com:jysperm/servers.git
-    ln -s servers/current servers/spawn
+Some configuration and scripts used by my servers.

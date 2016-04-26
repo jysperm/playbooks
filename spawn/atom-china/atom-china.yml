@@ -61,10 +61,10 @@ env:
   DISCOURSE_HOSTNAME: 'atom-china.org'
 
   ## TODO: The mailserver this Discourse instance will use
-  DISCOURSE_SMTP_ADDRESS: 'smtp.mandrillapp.com'         # (mandatory)
+  DISCOURSE_SMTP_ADDRESS: 'smtp.postmarkapp.com'  # (mandatory)
   DISCOURSE_SMTP_PORT: 587                        # (optional)
-  DISCOURSE_SMTP_USER_NAME: 'jysperm@gmail.com'      # (optional)
-  DISCOURSE_SMTP_PASSWORD: '66vv2zjl9AGJ7Frihx0bJQ'               # (optional, WARNING the char '#' in pw can cause problems!)
+  DISCOURSE_SMTP_USER_NAME: '{{SaaS/Postmark/tokens/atom-china}}'  # (optional)
+  DISCOURSE_SMTP_PASSWORD: '{{SaaS/Postmark/tokens/atom-china}}'   # (optional, WARNING the char '#' in pw can cause problems!)
   #DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
 
   ## The CDN address for this Discourse instance (configured to pull)

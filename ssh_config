@@ -1,13 +1,21 @@
 ServerAliveInterval 60
 
-Host jp1
-    HostName jp1.rpvhost.net
-    User root
-
-Host us1
-    HostName us1.rpvhost.net
-    User root
-
 Host spawn
-    HostName spawn.rpvhost.net
+    HostName 207.226.143.89
+    User root
+
+Host linode-agent-sg
+    HostName 139.162.57.130
+    User root
+
+Host qcloud-agent-shanghai
+    HostName 115.159.23.212
+    User root
+
+Host digitalocean-agent-sg
+    HostName 128.199.140.124
+    User root
+
+Host digitalocean-agent-us3
+    HostName 104.236.197.143
     User root
