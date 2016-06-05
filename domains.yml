@@ -1,0 +1,56 @@
+- atom-china.org:
+  registry: gandi
+  expire: 2017-04-08
+  NS: rage4
+  MX: fastmail
+- rpvhost.net:
+  registry: gandi
+  expire: 2017-05-15
+  NS: linode
+  MX: fastmail
+- e466cf1e.pub:
+  registry: gandi
+  expire: 2017-06-04
+  NS: rage4
+  MX: fastmail
+- pidan.cat:
+  registry: gandi
+  expire: 2017-07-27
+  NS: linode
+- doufu.cat:
+  registry: gandi
+  expire: 2017-07-27
+  NS: linode
+- ziting.wang:
+  registry: xinnet
+  expire: 2017-08-11
+  NS: linode
+  MX: fastmail
+- jybox.net:
+  registry: gandi
+  expire: 2017-08-18
+  NS: rage4
+  MX: fastmail
+- greenshadow.net:
+  registry: gandi
+  expire: 2017-08-24
+  NS: linode
+- rootpanel.io:
+  registry: gandi
+  expire: 2016-09-30
+  NS: linode
+- jysperm.me:
+  registry: gandi
+  expire: 2018-10-15
+  NS: linode
+  MX: fastmail
+- 0-ms.org:
+  registry: gandi
+  expire: 2016-11-01
+  NS: linode
+- stream.pub:
+  registry: gandi
+  expire: 2016-11-18
+- hexo-china.org:
+  registry: gandi
+  expire: 2016-12-22
