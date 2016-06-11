@@ -1,0 +1,7 @@
+$ORIGIN 0-ms.org.
+$TTL 1h
+
+0-ms.org.	3600	IN	NS	1	ns1.r4ns.com.
+0-ms.org.	3600	IN	NS	1	ns2.r4ns.net.
+0-ms.org.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465663192 10800 3600 604800 3600
+0-ms.org.	3600	IN	ANAME	1	spawn.rpvhost.net.

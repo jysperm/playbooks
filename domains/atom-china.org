@@ -1,14 +1,6 @@
 $ORIGIN atom-china.org.
 $TTL 1h
 
-atom-china.org.	IN	SOA	ns1.r4ns.com. jysperm.gmail.com. (
-	1464969407
-	1d
-	2h
-	4w
-	1h
-	)
-
 atom-china.org.	3600	IN	NS	1	ns1.r4ns.com.
 atom-china.org.	3600	IN	NS	1	ns2.r4ns.net.
 atom-china.org.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1464969407 10800 3600 604800 3600

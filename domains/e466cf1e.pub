@@ -1,0 +1,9 @@
+$ORIGIN e466cf1e.pub.
+$TTL 1h
+
+e466cf1e.pub.	3600	IN	NS	1	ns1.r4ns.com.
+e466cf1e.pub.	3600	IN	NS	1	ns2.r4ns.net.
+e466cf1e.pub.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465123094 10800 3600 604800 3600
+e466cf1e.pub.	3600	IN	MX	10	in1-smtp.messagingengine.com.
+e466cf1e.pub.	3600	IN	MX	20	in2-smtp.messagingengine.com.
+e466cf1e.pub.	3600	IN	ANAME	1	web.messagingengine.com.

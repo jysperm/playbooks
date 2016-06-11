@@ -1,14 +1,6 @@
 $ORIGIN jybox.net.
 $TTL 1h
 
-jybox.net.	IN	SOA	ns1.r4ns.com. jysperm.gmail.com. (
-	1464931422
-	1d
-	2h
-	4w
-	1h
-	)
-
 jybox.net.	3600	IN	NS	1	ns1.r4ns.com.
 jybox.net.	3600	IN	NS	1	ns2.r4ns.net.
 jybox.net.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1464931422 10800 3600 604800 3600

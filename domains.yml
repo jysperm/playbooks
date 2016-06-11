@@ -38,7 +38,7 @@
 - rootpanel.io:
   registry: gandi
   expire: 2016-09-30
-  NS: linode
+  NS: rage4
 - jysperm.me:
   registry: gandi
   expire: 2018-10-15
@@ -47,10 +47,12 @@
 - 0-ms.org:
   registry: gandi
   expire: 2016-11-01
-  NS: linode
+  NS: rage4
 - stream.pub:
   registry: gandi
   expire: 2016-11-18
+  NS: rage4
 - hexo-china.org:
   registry: gandi
   expire: 2016-12-22
+  NS: rage4

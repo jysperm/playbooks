@@ -1,0 +1,7 @@
+$ORIGIN hexo-china.org.
+$TTL 1h
+
+hexo-china.org.	3600	IN	NS	1	ns1.r4ns.com.
+hexo-china.org.	3600	IN	NS	1	ns2.r4ns.net.
+hexo-china.org.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465663271 10800 3600 604800 3600
+hexo-china.org.	3600	IN	ANAME	1	spawn.rpvhost.net.

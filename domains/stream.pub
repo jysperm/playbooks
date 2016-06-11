@@ -1,0 +1,7 @@
+$ORIGIN stream.pub.
+$TTL 1h
+
+stream.pub.	3600	IN	NS	1	ns1.r4ns.com.
+stream.pub.	3600	IN	NS	1	ns2.r4ns.net.
+stream.pub.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465663220 10800 3600 604800 3600
+stream.pub.	3600	IN	ANAME	1	spawn.rpvhost.net.
