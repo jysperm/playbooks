@@ -19,3 +19,7 @@ Host digitalocean-agent-sg
 Host digitalocean-agent-us3
     HostName 104.236.197.143
     User root
+
+Host sg-agent
+    HostName 188.166.186.228
+    User root
