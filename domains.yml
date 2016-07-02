@@ -42,7 +42,7 @@
 - jysperm.me:
   registry: gandi
   expire: 2018-10-15
-  NS: linode
+  NS: rage4
   MX: fastmail
 - 0-ms.org:
   registry: gandi
