@@ -4,16 +4,8 @@ Host spawn
     HostName 207.226.143.89
     User root
 
-Host linode-agent-sg
-    HostName 139.162.57.130
-    User root
-
-Host qcloud-agent-shanghai
+Host qcloud-agent
     HostName 115.159.23.212
-    User root
-
-Host digitalocean-agent-sg
-    HostName 128.199.140.124
     User root
 
 Host digitalocean-agent-us3
