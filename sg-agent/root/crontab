@@ -1,0 +1,1 @@
+@reboot ssserver -c /root/shadowsocks.json -d start
