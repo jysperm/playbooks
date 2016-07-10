@@ -8,7 +8,7 @@ Host qcloud-agent
     HostName 115.159.23.212
     User root
 
-Host digitalocean-agent-us3
+Host us-agent
     HostName 104.236.197.143
     User root
 
