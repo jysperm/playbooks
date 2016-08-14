@@ -1,0 +1,20 @@
+$ORIGIN rpvhost.net.
+$TTL 1h
+
+rpvhost.net. 3600 IN SOA rpvhost.net. jysperm.gmail.com. 1471081701 86400 7200 604800 300
+rpvhost.net. 3600 IN NS ns1.dnsimple.com.
+rpvhost.net. 3600 IN NS ns2.dnsimple.com.
+rpvhost.net. 3600 IN A 207.226.143.89
+jp1.rpvhost.net. 3600 IN A 207.226.143.89
+us1.rpvhost.net. 3600 IN A 207.226.143.89
+spawn.rpvhost.net. 3600 IN A 207.226.143.89
+*.jp1.rpvhost.net. 3600 IN CNAME jp1.rpvhost.net.
+*.us1.rpvhost.net. 3600 IN CNAME us1.rpvhost.net.
+rpvhost.net. 3600 IN MX 10 in1-smtp.messagingengine.com.
+rpvhost.net. 3600 IN MX 20 in2-smtp.messagingengine.com.
+blog.rpvhost.net. 3600 IN CNAME spawn.rpvhost.net.
+www.rpvhost.net. 3600 IN CNAME spawn.rpvhost.net.
+rpvhost.net. 3600 IN TXT keybase-site-verification=pIZpD7VgZE0zuWhzTKns_NCoEQ2vJf0mqAydo7AgdEA
+rpvhost.net. 3600 IN TXT v=spf1 include:spf.messagingengine.com include:spf.mtasv.net ~all
+20140813145024.pm._domainkey.rpvhost.net. 3600 IN TXT k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpEGvtGBbe6WdhHgjneJQNKVoqo65OYMwdASaZOCVkmB+FZ+Uu3+8Qxh16ZSA27eC+hUNi76ai7i4TlKFYma3VLn8/SuhxqfB4h8Q4GpiCa0wf7ImKu4gXbNkviUYpuqjIScf+oAAQCRgdd7bFpyMiXIrBtx67IIev1Lmx1Mvm4wIDAQAB
+mesmtp._domainkey.rpvhost.net. 3600 IN TXT v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPN3Bf1Fb4MZFnSHU+UHRq2Bk+73mnFuwqWTzSHVDOw6BBYMI7ltMeaC4wnry7kTZVhklmAHAkUwG2gCyKBCR43Zq4PraL/NUKmXuvhxJr6OHa2LUALY5AwT4TRtwAMiP1CjYKEpkeCjM+ln0CFDjZ1Jqo/bLsUsyOoMV5mhc6GwIDAQAB
