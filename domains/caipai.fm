@@ -1,9 +1,9 @@
 $ORIGIN caipai.fm.
-$TTL 1h
-
-caipai.fm.	3600	IN	NS	1	lucy.ns.cloudflare.com.
-caipai.fm.	3600	IN	NS	1	sid.ns.cloudflare.com.
-caipai.fm.	3600	IN	SOA	1	caipai.fm jysperm.gmail.com 1464931422 10800 3600 604800 3600
-caipai.fm.	3600	IN	MX	10	in1-smtp.messagingengine.com.
-caipai.fm.	3600	IN	MX	20	in2-smtp.messagingengine.com.
-caipai.fm.	3600	IN	A	207.226.143.89.
+@	3600	IN	SOA	ns-1528.awsdns-63.org. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+@	3600	IN	A	207.226.143.89
+@	3600	IN	MX	10 IN1-SMTP.MESSAGINGENGINE.COM
+@	3600	IN	MX	20 IN2-SMTP.MESSAGINGENGINE.COM
+@	172800	IN	NS	ns-1528.awsdns-63.org.
+@	172800	IN	NS	ns-475.awsdns-59.com.
+@	172800	IN	NS	ns-614.awsdns-12.net.
+@	172800	IN	NS	ns-2032.awsdns-62.co.uk.

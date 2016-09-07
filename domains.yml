@@ -24,7 +24,7 @@ doufu.cat:
 caipai.fm:
   registry: gandi
   expire: 2017-07-30
-  NS: cloudflare
+  NS: route53
   MX: fastmail
 ziting.wang:
   registry: xinnet
@@ -47,7 +47,7 @@ rootpanel.io:
 jysperm.me:
   registry: gandi
   expire: 2018-10-15
-  NS: rage4
+  NS: route53
   MX: fastmail
 0-ms.org:
   registry: gandi
@@ -56,7 +56,7 @@ jysperm.me:
 stream.pub:
   registry: gandi
   expire: 2016-11-18
-  NS: rage4
+  NS: route53
 hexo-china.org:
   registry: gandi
   expire: 2016-12-22

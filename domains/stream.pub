@@ -1,7 +1,7 @@
 $ORIGIN stream.pub.
-$TTL 1h
-
-stream.pub.	3600	IN	NS	1	ns1.r4ns.com.
-stream.pub.	3600	IN	NS	1	ns2.r4ns.net.
-stream.pub.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465663220 10800 3600 604800 3600
-stream.pub.	3600	IN	A	1	121.201.68.154.
+@	3600	IN	SOA	ns-694.awsdns-22.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+@	3600	IN	A	121.201.68.154
+@	172800	IN	NS	ns-694.awsdns-22.net.
+@	172800	IN	NS	ns-109.awsdns-13.com.
+@	172800	IN	NS	ns-1090.awsdns-08.org.
+@	172800	IN	NS	ns-1816.awsdns-35.co.uk.
