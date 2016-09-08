@@ -1,7 +1,7 @@
 atom-china.org:
   registry: gandi
   expire: 2017-04-08
-  NS: rage4
+  NS: route53
   MX: fastmail
 rpvhost.net:
   registry: gandi
@@ -11,7 +11,7 @@ rpvhost.net:
 e466cf1e.pub:
   registry: gandi
   expire: 2017-06-04
-  NS: rage4
+  NS: route53
   MX: fastmail
 pidan.cat:
   registry: gandi
