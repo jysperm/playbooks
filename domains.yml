@@ -16,11 +16,11 @@ e466cf1e.pub:
 pidan.cat:
   registry: gandi
   expire: 2017-07-27
-  NS: linode
+  NS: route53
 doufu.cat:
   registry: gandi
   expire: 2017-07-27
-  NS: linode
+  NS: route53
 caipai.fm:
   registry: gandi
   expire: 2017-07-30
@@ -29,7 +29,7 @@ caipai.fm:
 ziting.wang:
   registry: xinnet
   expire: 2017-08-11
-  NS: linode
+  NS: route53
   MX: fastmail
 jybox.net:
   registry: gandi
@@ -39,11 +39,11 @@ jybox.net:
 greenshadow.net:
   registry: gandi
   expire: 2017-08-24
-  NS: linode
+  NS: route53
 rootpanel.io:
   registry: gandi
-  expire: 2016-09-30
-  NS: rage4
+  expire: 2017-09-30
+  NS: route53
 jysperm.me:
   registry: gandi
   expire: 2018-10-15
@@ -51,8 +51,8 @@ jysperm.me:
   MX: fastmail
 0-ms.org:
   registry: gandi
-  expire: 2016-11-01
-  NS: rage4
+  expire: 2017-11-01
+  NS: route53
 stream.pub:
   registry: gandi
   expire: 2016-11-18
@@ -60,4 +60,4 @@ stream.pub:
 hexo-china.org:
   registry: gandi
   expire: 2016-12-22
-  NS: rage4
+  NS: route53

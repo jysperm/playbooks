@@ -1,7 +1,7 @@
 $ORIGIN rootpanel.io.
-$TTL 1h
-
-rootpanel.io.	3600	IN	NS	1	ns1.r4ns.com.
-rootpanel.io.	3600	IN	NS	1	ns2.r4ns.net.
-rootpanel.io.	3600	IN	SOA	1	ns1.r4ns.com jysperm.gmail.com 1465663006 10800 3600 604800 3600
-rootpanel.io.	3600	IN	ANAME	1	spawn.rpvhost.net.
+@	3600	IN	SOA	ns-1171.awsdns-18.org. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+@	3600	IN	A	207.226.143.89
+@	172800	IN	NS	ns-1171.awsdns-18.org.
+@	172800	IN	NS	ns-1587.awsdns-06.co.uk.
+@	172800	IN	NS	ns-105.awsdns-13.com.
+@	172800	IN	NS	ns-898.awsdns-48.net.
