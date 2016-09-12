@@ -6,7 +6,7 @@ atom-china.org:
 rpvhost.net:
   registry: gandi
   expire: 2017-05-15
-  NS: dnsimple
+  NS: route53
   MX: fastmail
 e466cf1e.pub:
   registry: gandi
@@ -34,7 +34,7 @@ ziting.wang:
 jybox.net:
   registry: gandi
   expire: 2017-08-18
-  NS: cloudflare
+  NS: route53
   MX: fastmail
 greenshadow.net:
   registry: gandi
