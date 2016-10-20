@@ -8,6 +8,10 @@ $ORIGIN atom-china.org.
 @	172800	IN	NS	ns-599.awsdns-10.net.
 @	172800	IN	NS	ns-2004.awsdns-58.co.uk.
 @	3600	IN	TXT	"keybase-site-verification=NzfXgrBWhE979Sm0jUEdfkzs8Q2FhWio-09bxbdDLbI"
-@	3600	IN	TXT	"v=spf1 a mx include:spf.mandrillapp.com include:spf.mtasv.net ~all"
+@	3600	IN	TXT	"v=spf1 a mx include:spf.mandrillapp.com include:spf.mtasv.net include:amazonses.com ~all"
 20160416150951pm._domainkey	3600	IN	TXT	"k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuDUGpHNHuI5joKqt47iqmTpf4UeQvhIs5XdtgIBFOfe7xIA2O5SfbS7JJLgvmF+mt0vNaLL0TeET3Qmjk3Zjv0wa+8KxDw4LJdDwCr1FxRciT7v3DZNamjogtN9CSCCjrOQD3acedk3lHCtoq6YCWSaL9hxAl74AKs6mYx6gSaQIDAQAB"
+_amazonses	1800	IN	TXT	"DQEKO5cvqEFglEbC873+ahMThgJObSVNiibABz6NWcc="
 dmarc	3600	IN	CNAME	pm.mtasv.net
+kdnhlreqin73wqsf6zb4zwyzpn7gh6dj._domainkey	3600	IN	CNAME	kdnhlreqin73wqsf6zb4zwyzpn7gh6dj.dkim.amazonses.com
+qlrt6rnet7e4v4wizm3ew7rwcfstixmt._domainkey	3600	IN	CNAME	qlrt6rnet7e4v4wizm3ew7rwcfstixmt.dkim.amazonses.com
+xfhwvre6ujafmpy7qnngsl2buzpoxihf._domainkey	3600	IN	CNAME	xfhwvre6ujafmpy7qnngsl2buzpoxihf.dkim.amazonses.com

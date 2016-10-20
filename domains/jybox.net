@@ -19,3 +19,4 @@ mesmtp._domainkey	3600	IN	TXT	"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADC
 netdata	3600	IN	CNAME	spawn.rpvhost.net
 old-bbs	3600	IN	CNAME	spawn.rpvhost.net
 sentry	3600	IN	CNAME	spawn.rpvhost.net
+status	3600	IN	CNAME	stats.uptimerobot.com
