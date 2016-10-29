@@ -24,7 +24,7 @@ doufu.cat:
 caipai.fm:
   registry: gandi
   expire: 2017-07-30
-  NS: route53
+  NS: cloudflare
   MX: fastmail
 ziting.wang:
   registry: xinnet
