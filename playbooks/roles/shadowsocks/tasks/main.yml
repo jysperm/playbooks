@@ -1,0 +1,17 @@
+---
+- name: install apt packages
+  apt: name={{item}} state=installed
+  with_items:
+    - python-pip
+    - python-m2crypto
+
+- name: install python version of shadowsocks
+  pip: name=shadowsocks
+
+- name: create config file
+  template: src=config.json
+            dest=/root/config.json
+  notify: restart shadowsocks
+
+- name: create cronjob to start shadowsocks
+  cron: name=shadowsocks special_time=reboot job='ssserver -c /root/config.json -d start'

@@ -1,0 +1,3 @@
+---
+- name: restart shadowsocks
+  command: ssserver -c /root/config.json -d restart

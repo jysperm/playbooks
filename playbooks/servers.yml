@@ -1,0 +1,4 @@
+---
+- hosts: sg-agent
+  roles:
+    - shadowsocks
