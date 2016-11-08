@@ -1,0 +1,16 @@
+---
+- name: add apt repository key
+  apt_key: url=https://syncthing.net/release-key.txt
+
+- name: add apt repository
+  apt_repository: repo='deb http://apt.syncthing.net/ syncthing release'
+
+- name: install apt packages
+  apt: name=syncthing
+
+- name: create syncthing user
+  user: name=syncthing
+
+- name: create upstart config
+  template: src=syncthing.conf dest=/etc/init/syncthing.conf
+  notify: restart syncthing

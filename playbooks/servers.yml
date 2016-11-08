@@ -2,3 +2,4 @@
 - hosts: sg-agent
   roles:
     - shadowsocks
+    - syncthing
