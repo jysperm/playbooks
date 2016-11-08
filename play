@@ -1,2 +1,2 @@
 #!/bin/bash
-ansible-playbook playbooks/servers.yml --extra-vars '@playbooks/secrets.yml'
+ansible-playbook playbooks/servers.yml

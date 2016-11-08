@@ -1,15 +1,8 @@
 ServerAliveInterval 60
 
+# QingCloud Instance ap1 2Core/2G
 Host spawn
     HostName 207.226.143.89
-    User root
-
-Host qcloud-agent
-    HostName 115.159.23.212
-    User root
-
-Host us-agent
-    HostName 104.236.197.143
     User root
 
 # AWS EC2 ap-southeast-1b t2.micro
