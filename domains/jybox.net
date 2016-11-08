@@ -12,7 +12,6 @@ $ORIGIN jybox.net.
 @	3600	IN	TXT	"v=spf1 include:spf.mail.qq.com include:spf.mandrillapp.com ~all"
 beta	3600	IN	CNAME	spawn.rpvhost.net
 chronograf	3600	IN	CNAME	spawn.rpvhost.net
-labbs	3600	IN	A	188.166.240.68
 maillist	3600	IN	CNAME	spawn.rpvhost.net
 mandrill._domainkey	3600	IN	TXT	"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrLHiExVd55zd/IQ/J/mRwSRMAocV/hMB3jXwaHH36d9NaVynQFYV8NaWi69c1veUtRzGt7yAioXqLj7Z4TeEUoOLgrKsn8YnckGs9i3B3tVFB+Ch/4mPhXWiNfNdynHWBcPcbJ8kjEQ2U8y78dHZj1YeRXXVvWob2OaKynO8/lQIDAQAB;"
 mesmtp._domainkey	3600	IN	TXT	"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHMZ013x6I1y/DQ043ulxQJu8fgGxBF6Mz08HFDiWX7NMKRGW3QVqiDS8gBF+lsTjAR+whmaL+bEpVZ7K0GooI/rAv6rNh8qf9Bg9fCskOXH8ve5ZGOfwvh55jZ/7e4u0Tk8R9Ts8eRu1PErIw1E2Oaxp6gMNlsls+G8+DniMFFQIDAQAB"
