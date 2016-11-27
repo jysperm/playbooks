@@ -1,6 +1,6 @@
 $ORIGIN hexo-china.org.
 @	3600	IN	SOA	ns-451.awsdns-56.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-@	3600	IN	A	207.226.143.89
+@	3600	IN	A	207.226.143.24
 @	172800	IN	NS	ns-451.awsdns-56.com.
 @	172800	IN	NS	ns-1458.awsdns-54.org.
 @	172800	IN	NS	ns-1958.awsdns-52.co.uk.
