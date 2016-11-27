@@ -5,3 +5,10 @@
   roles:
     - shadowsocks
     - syncthing
+
+- hosts: us-agent
+  vars_files:
+    - secrets.yml
+  roles:
+    - shadowsocks
+    - syncthing

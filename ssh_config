@@ -9,3 +9,8 @@ Host spawn
 Host sg-agent
     HostName 52.77.208.230
     User root
+
+# DigitalOcean NYC3 512M
+Host us-agent
+    HostName 104.131.32.114
+    User root

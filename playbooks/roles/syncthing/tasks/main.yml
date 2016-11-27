@@ -14,3 +14,7 @@
 - name: create upstart config
   template: src=syncthing.conf dest=/etc/init/syncthing.conf
   notify: restart syncthing
+
+- name: export webui on all interfaces
+  replace: dest=/home/syncthing/.config/syncthing/config.xml regexp='<address>127\.0\.0\.1:8384</address>' replace='<address>0.0.0.0:8384</address>'
+  notify: restart syncthing
