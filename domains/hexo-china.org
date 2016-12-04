@@ -1,7 +1,13 @@
 $ORIGIN hexo-china.org.
 @	3600	IN	SOA	ns-451.awsdns-56.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-@	3600	IN	A	207.226.143.24
+@	3600	IN	A	209.9.106.29
+@	3600	IN	MX	10 in1-smtp.messagingengine.com
+@	3600	IN	MX	20 in2-smtp.messagingengine.com
 @	172800	IN	NS	ns-451.awsdns-56.com.
 @	172800	IN	NS	ns-1458.awsdns-54.org.
 @	172800	IN	NS	ns-1958.awsdns-52.co.uk.
 @	172800	IN	NS	ns-634.awsdns-15.net.
+67fuoxopay5jtgksbes3sv35n4qhlxtb._domainkey	1800	IN	CNAME	67fuoxopay5jtgksbes3sv35n4qhlxtb.dkim.amazonses.com
+6uyh4mjucvq7lhro2dch63nsxpxecacg._domainkey	1800	IN	CNAME	6uyh4mjucvq7lhro2dch63nsxpxecacg.dkim.amazonses.com
+_amazonses	1800	IN	TXT	"LkLZaLld7h4DyEWbmyrZc3XUr/pfsM9OKllNWpIvR7I="
+jheljljf3oxczfaneuix5vnkrczlmnby._domainkey	1800	IN	CNAME	jheljljf3oxczfaneuix5vnkrczlmnby.dkim.amazonses.com

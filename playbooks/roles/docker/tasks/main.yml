@@ -1,0 +1,21 @@
+---
+- name: get kernel version
+  shell: uname -r
+  register: kernel_version
+
+- name: add apt repository key
+  apt_key:
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+    keyserver: 'hkp://ha.pool.sks-keyservers.net:80'
+
+- name: add apt repository
+  apt_repository:
+    repo: 'deb https://apt.dockerproject.org/repo {{ ansible_lsb.id|lower }}-{{ ansible_lsb.codename|lower }} main'
+    update_cache: yes
+
+- name: install apt packages
+  apt: name={{item}}
+  with_items:
+    - linux-image-extra-{{ kernel_version.stdout }}
+    - linux-image-extra-virtual
+    - docker-engine

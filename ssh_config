@@ -5,6 +5,11 @@ Host spawn
     HostName 207.226.143.24
     User root
 
+# QingCloud ap1 1Core/2G
+Host forum
+    HostName 209.9.106.29
+    User root
+
 # AWS EC2 ap-southeast-1b t2.micro
 Host sg-agent
     HostName 52.77.208.230

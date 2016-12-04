@@ -1,0 +1,13 @@
+---
+- name: clone git repository
+  git:
+    repo: 'https://github.com/discourse/discourse_docker.git'
+    dest: /var/discourse
+
+- name: upload container definitions
+  template:
+    src: 'containers/{{item}}'
+    dest: '/var/discourse/containers/{{item}}'
+  with_items:
+    - hexo-china.yml
+    - atom-china.yml

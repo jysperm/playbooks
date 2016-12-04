@@ -12,3 +12,16 @@
   roles:
     - shadowsocks
     - syncthing
+
+- hosts: forum
+  vars:
+    letsencrypt:
+      - hexo-china.org
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+    - nginx
+    - letsencrypt
+    - docker
+    - discourse
