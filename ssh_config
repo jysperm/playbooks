@@ -19,3 +19,8 @@ Host sg-agent
 Host us-agent
     HostName 104.131.32.114
     User root
+
+# Linode Tokyo 2 1Core/2G
+Host jp-agent
+    HostName 139.162.70.25
+    User root

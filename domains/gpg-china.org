@@ -1,0 +1,13 @@
+$ORIGIN gpg-china.org.
+@	900	IN	SOA	ns-1894.awsdns-44.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+@	3600	IN	A	209.9.106.29
+@	3600	IN	MX	10 in1-smtp.messagingengine.com
+@	3600	IN	MX	20 in2-smtp.messagingengine.com
+@	172800	IN	NS	ns-1894.awsdns-44.co.uk.
+@	172800	IN	NS	ns-1288.awsdns-33.org.
+@	172800	IN	NS	ns-58.awsdns-07.com.
+@	172800	IN	NS	ns-625.awsdns-14.net.
+_amazonses	1800	IN	TXT	"WSWtLQMYMrnrYBCruGgJf8H6TvWF8CiEu4Ii2P0Xq7Y="
+jzqtgtydtvmzgibm6nwhrabua67dkjda._domainkey	1800	IN	CNAME	jzqtgtydtvmzgibm6nwhrabua67dkjda.dkim.amazonses.com
+muueqhl4ncnydk2f3lcgezhjsggczija._domainkey	1800	IN	CNAME	muueqhl4ncnydk2f3lcgezhjsggczija.dkim.amazonses.com
+um45w5cq56u7lo3dexdjgtucv7pbmwkk._domainkey	1800	IN	CNAME	um45w5cq56u7lo3dexdjgtucv7pbmwkk.dkim.amazonses.com

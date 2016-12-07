@@ -55,8 +55,17 @@ jysperm.me:
   NS: route53
 stream.pub:
   registry: gandi
-  expire: 2016-11-18
+  expire: 2017-11-18
   NS: route53
+nohttps.org:
+  registry: gandi
+  expire: 2017-12-04
+  NS: cloudflare
+gpg-china.org:
+  registry: gandi
+  expire: 2017-12-07
+  NS: cloudflare
+  MX: fastmail
 hexo-china.org:
   registry: gandi
   expire: 2017-12-22
