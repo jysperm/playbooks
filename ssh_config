@@ -5,7 +5,7 @@ Host spawn
     HostName 207.226.143.24
     User root
 
-# QingCloud ap1 1Core/2G
+# QingCloud ap1 2Core/4G
 Host forum
     HostName 209.9.106.29
     User root

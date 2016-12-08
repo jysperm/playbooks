@@ -22,8 +22,10 @@
 - hosts: forum
   vars:
     letsencrypt:
+      - atom-china.org
       - hexo-china.org
       - gpg-china.org
+      - git-china.org
   vars_files:
     - secrets.yml
   roles:

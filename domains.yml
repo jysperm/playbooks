@@ -64,7 +64,12 @@ nohttps.org:
 gpg-china.org:
   registry: gandi
   expire: 2017-12-07
-  NS: cloudflare
+  NS: route53
+  MX: fastmail
+git-china.org:
+  registry: gandi
+  expire: 2017-12-08
+  NS: route53
   MX: fastmail
 hexo-china.org:
   registry: gandi
