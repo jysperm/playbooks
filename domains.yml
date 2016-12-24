@@ -61,6 +61,8 @@ nohttps.org:
   registry: gandi
   expire: 2017-12-04
   NS: cloudflare
+  MX: fastmail
+  HSTS: preload
 gpg-china.org:
   registry: gandi
   expire: 2017-12-07
