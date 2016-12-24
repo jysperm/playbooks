@@ -5,7 +5,13 @@
     update_cache: yes
 
 - name: install apt packages
-  apt: name=nginx
+  apt: name={{item}}
+  with_items:
+    - nginx
+    - python-pip
+
+- name: install ngxtop
+  pip: name=ngxtop
 
 - name: upload nginx main config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf

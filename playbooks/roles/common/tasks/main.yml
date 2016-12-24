@@ -4,7 +4,3 @@
   with_items:
     - nethogs
     - htop
-    - python-pip
-
-- name: install ngxtop
-  ip: name=ngxtop

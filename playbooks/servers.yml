@@ -1,4 +1,10 @@
 ---
+- hosts: all
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+
 - hosts: sg-agent
   vars_files:
     - secrets.yml
@@ -29,7 +35,6 @@
   vars_files:
     - secrets.yml
   roles:
-    - common
     - nginx
     - letsencrypt
     - docker
