@@ -3,6 +3,8 @@ atom-china.org:
   expire: 2018-04-08
   NS: route53
   MX: fastmail
+  HSTS: preload
+  SSL: letsencrypt
 rpvhost.net:
   registry: gandi
   expire: 2018-05-15
@@ -26,16 +28,19 @@ caipai.fm:
   expire: 2017-07-30
   NS: cloudflare
   MX: fastmail
+  SSL: cloudflare
 ziting.wang:
   registry: xinnet
   expire: 2017-08-11
   NS: route53
   MX: fastmail
+  ICP: pending
 jybox.net:
   registry: gandi
   expire: 2017-08-18
   NS: route53
   MX: fastmail
+  SSL: letsencrypt
 greenshadow.net:
   registry: gandi
   expire: 2017-08-24
@@ -49,6 +54,8 @@ jysperm.me:
   expire: 2018-10-15
   NS: route53
   MX: fastmail
+  HSTS: preload
+  SSL: letsencrypt
 0-ms.org:
   registry: gandi
   expire: 2017-11-01
@@ -57,24 +64,29 @@ stream.pub:
   registry: gandi
   expire: 2017-11-18
   NS: route53
+  SSL: letsencrypt
 nohttps.org:
   registry: gandi
   expire: 2017-12-04
   NS: cloudflare
   MX: fastmail
   HSTS: preload
+  SSL: cloudflare
 gpg-china.org:
   registry: gandi
   expire: 2017-12-07
   NS: route53
   MX: fastmail
+  SSL: letsencrypt
 git-china.org:
   registry: gandi
   expire: 2017-12-08
   NS: route53
   MX: fastmail
+  SSL: letsencrypt
 hexo-china.org:
   registry: gandi
   expire: 2017-12-22
   NS: route53
   MX: fastmail
+  SSL: letsencrypt
