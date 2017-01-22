@@ -44,7 +44,7 @@ jybox.net:
 greenshadow.net:
   registry: gandi
   expire: 2017-08-24
-  NS: route53
+  NS: cloudflare
 rootpanel.io:
   registry: gandi
   expire: 2017-09-30
