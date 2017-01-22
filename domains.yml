@@ -64,6 +64,7 @@ stream.pub:
   registry: gandi
   expire: 2017-11-18
   NS: route53
+  HSTS: preload
   SSL: letsencrypt
 nohttps.org:
   registry: gandi

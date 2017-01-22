@@ -1,6 +1,6 @@
 $ORIGIN stream.pub.
 @	3600	IN	SOA	ns-694.awsdns-22.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-@	3600	IN	A	121.201.68.154
+@	3600	IN	A	138.68.29.238
 @	172800	IN	NS	ns-694.awsdns-22.net.
 @	172800	IN	NS	ns-109.awsdns-13.com.
 @	172800	IN	NS	ns-1090.awsdns-08.org.

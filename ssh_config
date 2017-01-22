@@ -24,3 +24,8 @@ Host us-agent
 Host jp-agent
     HostName 139.162.70.25
     User root
+
+# DigitalOcean SFO2 2Core/2G
+Host us-w2-app1
+    HostName 138.68.29.238
+    User root
