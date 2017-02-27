@@ -1,5 +1,10 @@
 ServerAliveInterval 60
 
+# https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing
+ControlPath ~/.ssh/controlmasters/%r@%h:%p
+ControlMaster auto
+ControlPersist 60m
+
 # QingCloud ap1 2Core/2G
 Host spawn
     HostName 207.226.143.24
