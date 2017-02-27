@@ -1,3 +1,10 @@
+deploying.cloud:
+  registry: gandi
+  NS: route53
+  expire: 2018-02-06
+dcloud.run:
+  registry: gandi
+  expire: 2018-02-16
 atom-china.org:
   registry: gandi
   expire: 2018-04-08
