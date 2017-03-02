@@ -1,13 +1,6 @@
 $ORIGIN git-china.org.
-@	900	IN	SOA	ns-475.awsdns-59.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-@	3600	IN	A	209.9.106.29
-@	3600	IN	MX	10 in1-smtp.messagingengine.com
-@	3600	IN	MX	20 in2-smtp.messagingengine.com
-@	172800	IN	NS	ns-475.awsdns-59.com.
-@	172800	IN	NS	ns-2002.awsdns-58.co.uk.
-@	172800	IN	NS	ns-1005.awsdns-61.net.
-@	172800	IN	NS	ns-1107.awsdns-10.org.
-24gnw5j5liccqxikb4fru5smqdyelakc._domainkey	1800	IN	CNAME	24gnw5j5liccqxikb4fru5smqdyelakc.dkim.amazonses.com
-_amazonses	1800	IN	TXT	"HrB/7Pfz9+PBIqPpOkIPfujpzj67+5UU6/oB06M636o="
-wo7qefxdctqkfpezfzcb7zddupj5ep4x._domainkey	1800	IN	CNAME	wo7qefxdctqkfpezfzcb7zddupj5ep4x.dkim.amazonses.com
-wyxeixwo6ydsueamkczjbjcg4ao52x2q._domainkey	1800	IN	CNAME	wyxeixwo6ydsueamkczjbjcg4ao52x2q.dkim.amazonses.com
+@	900	IN	SOA	git-china.org. root.git-china.org. 1 7200 900 1209600 86400
+@	3600	IN	A	207.226.143.24
+@	172800	IN	NS	lucy.ns.cloudflare.com.
+@	172800	IN	NS	sid.ns.cloudflare.com.
+www	3600	IN	CNAME	git-china.org
