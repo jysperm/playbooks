@@ -5,17 +5,19 @@ ControlPath ~/.ssh/controlmasters/%r@%h:%p
 ControlMaster auto
 ControlPersist 60m
 
+ForwardAgent yes
+
 # QingCloud ap1 2Core/2G
 Host spawn
-    HostName 207.226.143.24
-    User root
+  HostName 207.226.143.24
+  User root
 
 # QingCloud ap1 2Core/4G
 Host forum
-    HostName 209.9.106.29
-    User root
+  HostName 209.9.106.29
+  User root
 
 # DigitalOcean SFO2 2Core/2G
 Host us-w2-app1
-    HostName 138.68.29.238
-    User root
+  HostName 138.68.29.238
+  User root

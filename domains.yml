@@ -41,7 +41,7 @@ ziting.wang:
   expire: 2017-08-11
   NS: route53
   MX: fastmail
-  ICP: pending
+  ICP: '辽ICP备13006298号-4'
 jybox.net:
   registry: gandi
   expire: 2017-08-18
