@@ -5,6 +5,9 @@ deploying.cloud:
 dcloud.run:
   registry: gandi
   expire: 2018-02-16
+noawait.org:
+  registry: gandi
+  expire: 2018-03-16
 atom-china.org:
   registry: gandi
   expire: 2018-04-08
@@ -24,21 +27,21 @@ e466cf1e.pub:
   MX: fastmail
 pidan.cat:
   registry: gandi
-  expire: 2017-07-27
+  expire: 2018-07-27
   NS: route53
 doufu.cat:
   registry: gandi
-  expire: 2017-07-27
+  expire: 2018-07-27
   NS: route53
 caipai.fm:
   registry: gandi
-  expire: 2017-07-30
+  expire: 2018-07-30
   NS: cloudflare
   MX: fastmail
   SSL: cloudflare
 ziting.wang:
   registry: xinnet
-  expire: 2017-08-11
+  expire: 2019-08-11
   NS: route53
   MX: fastmail
   ICP: '辽ICP备13006298号-4'
@@ -48,10 +51,6 @@ jybox.net:
   NS: route53
   MX: fastmail
   SSL: letsencrypt
-greenshadow.net:
-  registry: gandi
-  expire: 2017-08-24
-  NS: cloudflare
 rootpanel.io:
   registry: gandi
   expire: 2017-09-30
