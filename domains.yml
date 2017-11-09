@@ -4,6 +4,7 @@ deploying.cloud:
   expire: 2018-02-06
 dcloud.run:
   registry: gandi
+  NS: route53
   expire: 2018-02-16
 noawait.org:
   registry: gandi
@@ -51,10 +52,6 @@ jybox.net:
   NS: route53
   MX: fastmail
   SSL: letsencrypt
-rootpanel.io:
-  registry: gandi
-  expire: 2017-09-30
-  NS: cloudflare
 jysperm.me:
   registry: gandi
   expire: 2018-10-15
@@ -62,10 +59,6 @@ jysperm.me:
   MX: fastmail
   HSTS: preload
   SSL: letsencrypt
-0-ms.org:
-  registry: gandi
-  expire: 2017-11-01
-  NS: cloudflare
 stream.pub:
   registry: gandi
   expire: 2017-11-18
