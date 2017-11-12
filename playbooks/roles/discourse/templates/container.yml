@@ -1,0 +1,44 @@
+templates:
+  - "templates/postgres.template.yml"
+  - "templates/redis.template.yml"
+  - "templates/web.template.yml"
+  - "templates/web.ratelimited.template.yml"
+  - "templates/web.socketed.template.yml"
+  {% for template_file in discourse_templates -%}
+  - "{{ template_file }}"
+  {% endfor %}
+
+expose:
+
+params:
+  db_default_text_search_config: "pg_catalog.english"
+  db_shared_buffers: "256MB"
+
+env:
+  LANG: en_US.UTF-8
+  UNICORN_WORKERS: 2
+  DISCOURSE_HOSTNAME: '{{ item.domain }}'
+  DISCOURSE_DEVELOPER_EMAILS: '{{ developer_email }}'
+  DISCOURSE_SMTP_ADDRESS: '{{ smtp_address }}'
+  DISCOURSE_SMTP_PORT: 587
+  DISCOURSE_SMTP_USER_NAME: '{{ item.smtp_user }}'
+  DISCOURSE_SMTP_PASSWORD: '{{ item.smtp_password }}'
+
+volumes:
+  - volume:
+      host: '/var/discourse/shared/{{ item.name }}'
+      guest: /shared
+  - volume:
+      host: '/var/discourse/shared/{{ item.name }}/log/var-log'
+      guest: /var/log
+
+hooks:
+  after_code:
+    - exec:
+        cd: $home/plugins
+        cmd:
+          - git clone https://github.com/discourse/docker_manager.git
+
+run:
+  - exec: echo "Beginning of custom commands"
+  - exec: echo "End of custom commands"

@@ -1,3 +1,4 @@
 ---
 dependencies:
   - docker
+  - nginx

@@ -6,8 +6,15 @@
 
 - name: upload container definitions
   template:
-    src: 'containers/{{item}}'
-    dest: '/var/discourse/containers/{{item}}'
-  with_items:
-    - hexo-china.yml
-    - atom-china.yml
+    src: 'container.yml'
+    dest: '/var/discourse/containers/{{ item.name }}.yml'
+  notify: rebuild discourse
+  register: definitions
+  with_items: '{{ discourse }}'
+
+- name: upload nginx configuration
+  template:
+    src: 'nginx.conf'
+    dest: '/etc/nginx/sites-enabled/{{ item.name }}.conf'
+  notify: restart nginx
+  with_items: '{{ discourse }}'
