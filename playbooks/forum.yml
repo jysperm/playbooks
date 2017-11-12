@@ -1,0 +1,25 @@
+---
+- hosts: cn-forum
+  vars_files:
+    - secrets.yml
+    - cn-mirrors.yml
+  vars:
+    discourse_nginx_http_listen: 80
+    discourse_nginx_https_listen: 8443
+
+    discourse:
+      -
+        name: atom-china
+        domain: atom-china.org
+        smtp_user: '{{ ses_smtp_user_atom_china }}'
+        smtp_password: '{{ ses_smtp_secret_atom_china }}'
+      -
+        name: hexo-china
+        domain: hexo-china.org
+        smtp_user: '{{ ses_smtp_user_hexo_china }}'
+        smtp_password: '{{ ses_smtp_secret_hexo_china }}'
+  roles:
+    - common
+    - nginx
+    - docker
+    - discourse

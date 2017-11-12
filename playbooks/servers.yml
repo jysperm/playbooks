@@ -11,23 +11,9 @@
   vars:
     letsencrypt:
       - jysperm.me
-      - jybox.net
   roles:
     - nginx
     - letsencrypt
-
-- hosts: forum
-  vars_files:
-    - secrets.yml
-  vars:
-    letsencrypt:
-      - atom-china.org
-      - hexo-china.org
-  roles:
-    - nginx
-    - letsencrypt
-    - docker
-    - discourse
 
 - hosts: us-w2-app1
   vars_files:
