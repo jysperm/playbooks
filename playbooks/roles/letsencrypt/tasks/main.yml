@@ -1,10 +1,14 @@
 ---
 - name: install apt packages
-  apt: name=letsencrypt
+  apt:
+    name: letsencrypt
 
 - name: issue certificates
   command: letsencrypt certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
   with_items: '{{letsencrypt}}'
 
 - name: setup cronjob
-  cron: name=letsencrypt special_time=daily job='letsencrypt renew'
+  cron:
+    name: letsencrypt
+    special_time: daily
+    job: 'letsencrypt renew'
