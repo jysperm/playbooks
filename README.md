@@ -1,2 +1,2 @@
-# Servers
-Some configuration and scripts used by my servers.
+# Playbooks
+Play with Ansible

@@ -12,7 +12,7 @@ Host spawn
   HostName 207.226.143.24
   User root
 
-# QCloud Shangehai 1Core/2G
+# QCloud ap-beijing-3 1Core/2G
 Host cn-forum
   HostName 140.143.189.132
   User root
