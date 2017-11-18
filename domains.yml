@@ -1,88 +1,93 @@
 deploying.cloud:
   registry: gandi
   NS: route53
-  expire: 2018-02-06
+  expired: 2018-02-06
 dcloud.run:
   registry: gandi
   NS: route53
-  expire: 2018-02-16
+  expired: 2018-02-16
 noawait.org:
   registry: gandi
-  expire: 2018-03-16
+  expired: 2018-03-16
 atom-china.org:
   registry: gandi
-  expire: 2018-04-08
+  expired: 2018-04-08
   NS: route53
   MX: fastmail
   HSTS: preload
   SSL: letsencrypt
 rpvhost.net:
   registry: gandi
-  expire: 2018-05-15
+  expired: 2018-05-15
   NS: route53
   MX: fastmail
 e466cf1e.pub:
   registry: gandi
-  expire: 2017-06-04
+  expired: 2017-06-04
   NS: route53
   MX: fastmail
 pidan.cat:
   registry: gandi
-  expire: 2018-07-27
+  expired: 2018-07-27
   NS: route53
 doufu.cat:
   registry: gandi
-  expire: 2018-07-27
+  expired: 2018-07-27
   NS: route53
 caipai.fm:
   registry: gandi
-  expire: 2018-07-30
+  expired: 2018-07-30
   NS: cloudflare
   MX: fastmail
   SSL: cloudflare
 ziting.wang:
   registry: xinnet
-  expire: 2019-08-11
+  expired: 2019-08-11
   NS: route53
   MX: fastmail
   ICP: '辽ICP备13006298号-4'
 jybox.net:
   registry: gandi
-  expire: 2017-08-18
+  expired: 2017-08-18
   NS: route53
   MX: fastmail
   SSL: letsencrypt
 jysperm.me:
   registry: gandi
-  expire: 2018-10-15
+  expired: 2018-10-15
   NS: route53
   MX: fastmail
   HSTS: preload
   SSL: letsencrypt
 stream.pub:
   registry: gandi
-  expire: 2017-11-18
+  expired: 2017-11-18
   NS: route53
   HSTS: preload
   SSL: letsencrypt
+decentralizing.io:
+  registry: gandi
+  expired: 2018-11-19
+  NS: route53
 nohttps.org:
   registry: gandi
-  expire: 2017-12-04
+  expired: 2017-12-04
   NS: cloudflare
   MX: fastmail
   HSTS: preload
   SSL: cloudflare
 gpg-china.org:
   registry: gandi
-  expire: 2017-12-07
+  expired: 2017-12-07
   NS: cloudflare
 git-china.org:
   registry: gandi
-  expire: 2017-12-08
+  expired: 2017-12-08
   NS: cloudflare
 hexo-china.org:
   registry: gandi
-  expire: 2017-12-22
+  expired: 2018-12-22
   NS: route53
+  HSTS: preload
   MX: fastmail
   SSL: letsencrypt
