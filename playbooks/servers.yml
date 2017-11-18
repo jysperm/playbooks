@@ -14,15 +14,3 @@
   roles:
     - nginx
     - letsencrypt
-
-- hosts: us-w2-app1
-  vars_files:
-    - secrets.yml
-  vars:
-    letsencrypt:
-      - stream.pub
-  roles:
-    - nginx
-    - letsencrypt
-    - docker
-    - mongodb

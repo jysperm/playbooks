@@ -17,7 +17,4 @@ Host forum
   HostName 209.9.106.29
   User root
 
-# DigitalOcean SFO2 2Core/2G
-Host us-w2-app1
-  HostName 138.68.29.238
   User root
