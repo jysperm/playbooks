@@ -1,7 +1,7 @@
 ---
 - name: add apt repository key
   apt_key:
-    url: '{{ docker_mirror_url | default("https://download.docker.com/linux/ubuntu") }}/gpg'
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
 
 - name: add apt repository
   apt_repository:
