@@ -69,6 +69,8 @@ decentralizing.io:
   registry: gandi
   expired: 2018-11-19
   NS: route53
+  MX: fastmail
+  SSL: letsencrypt
 nohttps.org:
   registry: gandi
   expired: 2017-12-04
