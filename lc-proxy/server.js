@@ -17,10 +17,16 @@ app.get('/', (req, res, next) => {
 
 app.use( (req, res, next) => {
   if (!res.headersSent) {
-    res.status(404).json({
-      'error': 'no such website',
-      'domain': req.hostname
-    });
+    if (req.matchedDomain == 'jysperm.me') {
+      res.status(404).sendFile(`${__dirname}/public/${req.matchedDomain}/404/index.html`);
+    } else if (req.matchedDomain) {
+      res.sendStatus(404);
+    } else {
+      res.status(404).json({
+        'error': 'no such website',
+        'domain': req.hostname
+      });
+    }
   }
 });
 
@@ -29,7 +35,8 @@ app.listen(process.env.LEANCLOUD_APP_PORT || 3000);
 function host(domain, middleware) {
   return (req, res, next) => {
     if (req.hostname === domain) {
-      middleware(req, res, next)
+      req.matchedDomain = domain;
+      middleware(req, res, next);
     } else {
       next();
     }
