@@ -1,0 +1,13 @@
+---
+- hosts: ap-home
+  vars:
+    letsencrypt:
+      - jybox.net
+      - pidan.cat
+      - doufu.cat
+      - deploying.cloud
+      - nohttps.org
+  roles:
+    - common
+    - nginx
+    - letsencrypt

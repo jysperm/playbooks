@@ -36,10 +36,11 @@ doufu.cat:
   NS: route53
 caipai.fm:
   registry: gandi
-  expired: 2018-07-30
-  NS: cloudflare
+  expire: 2018-07-30
+  NS: route53
   MX: fastmail
-  SSL: cloudflare
+  SSL: letsencrypt
+  HSTP: true
 ziting.wang:
   registry: xinnet
   expired: 2019-08-11

@@ -7,11 +7,6 @@ ControlPersist 60m
 
 ForwardAgent yes
 
-# QingCloud ap1 2Core/2G
-Host spawn
-  HostName 207.226.143.24
-  User root
-
 # QCloud ap-beijing-3 1Core/2G
 Host cn-forum
   HostName 140.143.189.132
@@ -20,4 +15,9 @@ Host cn-forum
 # Linode ap-northeast-1b 1Core/2G
 Host ap-forum
   HostName 172.104.95.199
+  User root
+
+# Linode ap-northeast-1b 1Core/2G
+Host ap-home
+  HostName 139.162.109.167
   User root
