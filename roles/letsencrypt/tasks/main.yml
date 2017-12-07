@@ -1,14 +1,19 @@
 ---
+- name: add apt repository
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    update_cache: yes
+
 - name: install apt packages
   apt:
-    name: letsencrypt
+    name: certbot
 
 - name: issue certificates
-  command: letsencrypt certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
+  command: certbot certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
   with_items: '{{letsencrypt}}'
 
 - name: setup cronjob
   cron:
     name: letsencrypt
     special_time: daily
-    job: 'letsencrypt renew'
+    job: 'certbot renew'
