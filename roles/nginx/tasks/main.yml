@@ -15,6 +15,18 @@
     name: ngxtop
     extra_args: '{{ pip_args | default(omit) }}'
 
+- name: create home dir
+  user:
+    name: 'www-data'
+    home: '/home/www-data'
+
+- name: setup ssh public keys
+  authorized_key:
+    user: 'www-data'
+    key: "{{ lookup('file', item) }}"
+  with_fileglob:
+    - authorized-keys/*
+
 - name: upload nginx main config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
   notify: restart nginx
