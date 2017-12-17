@@ -18,6 +18,7 @@
 - name: create home dir
   user:
     name: 'www-data'
+    shell: /bin/bash
     home: '/home/www-data'
 
 - name: setup ssh public keys
