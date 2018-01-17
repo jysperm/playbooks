@@ -1,2 +1,2 @@
 secrets.yml
-.retry
+*.retry

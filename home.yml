@@ -11,3 +11,14 @@
     - common
     - nginx
     - letsencrypt
+
+- hosts: cn-forum
+  vars_files:
+    - secrets.yml
+  vars:
+    rsync_users:
+      -
+        username: 'synology'
+        password: '{{ rsync_synology_password }}'
+  roles:
+    - rsync

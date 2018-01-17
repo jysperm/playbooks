@@ -1,0 +1,26 @@
+---
+- name: create rsync users
+  user:
+    name: '{{ item.username }}'
+    shell: /bin/bash
+    home: '/home/{{ item.username }}'
+  with_items: '{{ rsync_users }}'
+
+- name: enable rsync daemon
+  lineinfile:
+    path: '/etc/default/rsync'
+    regexp: '^RSYNC_ENABLE='
+    line: 'RSYNC_ENABLE=true'
+
+- name: upload rsyncd configuration
+  template:
+    src: 'rsyncd.conf'
+    dest: '/etc/rsyncd.conf'
+  notify: restart rsync
+
+- name: upload rsyncd secrets
+  template:
+    src: 'rsyncd.secrets'
+    dest: '/etc/rsyncd.secrets'
+    mode: '0600'
+  notify: restart rsync
