@@ -5,7 +5,6 @@ const app = express();
 
 app.use(host('ziting.wang', express.static('public/ziting.wang')));
 app.use(host('jysperm.me', express.static('public/jysperm.me')));
-app.use(host('caipai.fm', express.static('public/caipai.fm')));
 app.use(host('atom-china.org', proxy('cn-forum.rpvhost.net:8443', {
   https: true,
   preserveHostHdr: true
