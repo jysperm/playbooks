@@ -1,7 +1,0 @@
-$ORIGIN doufu.cat.
-@	3600	IN	SOA	ns-2027.awsdns-61.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-@	3600	IN	A	207.226.143.24
-@	172800	IN	NS	ns-2027.awsdns-61.co.uk.
-@	172800	IN	NS	ns-295.awsdns-36.com.
-@	172800	IN	NS	ns-544.awsdns-04.net.
-@	172800	IN	NS	ns-1265.awsdns-30.org.

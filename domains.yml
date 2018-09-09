@@ -1,46 +1,39 @@
-deploying.cloud:
+deploybeta.io:
   registry: gandi
+  expired: 2019-03-03
   NS: route53
-  expired: 2018-02-06
-dcloud.run:
+deploybeta.site:
   registry: gandi
+  expired: 2019-03-03
   NS: route53
-  expired: 2018-02-16
 noawait.org:
   registry: gandi
-  expired: 2018-03-16
+  expired: 2019-03-16
 atom-china.org:
   registry: gandi
-  expired: 2018-04-08
+  expired: 2019-04-08
   NS: route53
   MX: fastmail
-  HSTS: preload
   SSL: letsencrypt
+  ICP: '辽ICP备13006298号-6'
 rpvhost.net:
   registry: gandi
-  expired: 2018-05-15
+  expired: 2019-05-15
   NS: route53
   MX: fastmail
 e466cf1e.pub:
   registry: gandi
-  expired: 2017-06-04
+  expired: 2019-06-04
   NS: route53
   MX: fastmail
 pidan.cat:
   registry: gandi
-  expired: 2018-07-27
+  expired: 2019-07-27
   NS: route53
 doufu.cat:
   registry: gandi
-  expired: 2018-07-27
+  expired: 2019-07-27
   NS: route53
-caipai.fm:
-  registry: gandi
-  expire: 2018-07-30
-  NS: route53
-  MX: fastmail
-  SSL: letsencrypt
-  HSTP: true
 ziting.wang:
   registry: xinnet
   expired: 2019-08-11
@@ -49,47 +42,44 @@ ziting.wang:
   ICP: '辽ICP备13006298号-4'
 jybox.net:
   registry: gandi
-  expired: 2017-08-18
+  expired: 2019-08-18
   NS: route53
   MX: fastmail
   SSL: letsencrypt
+elecpass.io:
+  registry: gandi
+  expired: 2019-09-23
+  NS: route53
 jysperm.me:
   registry: gandi
-  expired: 2018-10-15
+  expired: 2020-10-15
   NS: route53
   MX: fastmail
-  HSTS: preload
   SSL: letsencrypt
+  ICP: '辽ICP备13006298号-7'
 stream.pub:
   registry: gandi
-  expired: 2017-11-18
+  expired: 2019-11-18
   NS: route53
-  HSTS: preload
-  SSL: letsencrypt
 decentralizing.io:
   registry: gandi
-  expired: 2018-11-19
+  expired: 2019-11-19
   NS: route53
+  HSTS: preload
   MX: fastmail
   SSL: letsencrypt
 nohttps.org:
   registry: gandi
-  expired: 2017-12-04
+  expired: 2019-12-04
   NS: cloudflare
   MX: fastmail
   HSTS: preload
-  SSL: cloudflare
-gpg-china.org:
+postlink.com:
   registry: gandi
-  expired: 2017-12-07
-  NS: cloudflare
-git-china.org:
-  registry: gandi
-  expired: 2017-12-08
-  NS: cloudflare
+  expired: 2019-12-10
 hexo-china.org:
   registry: gandi
-  expired: 2018-12-22
+  expired: 2019-12-22
   NS: route53
   HSTS: preload
   MX: fastmail
