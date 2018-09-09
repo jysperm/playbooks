@@ -1,12 +1,3 @@
-ServerAliveInterval 60
-
-# https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing
-ControlPath ~/.ssh/controlmasters/%r@%h:%p
-ControlMaster auto
-ControlPersist 60m
-
-ForwardAgent yes
-
 # QCloud ap-beijing-3 1Core/2G
 Host cn-forum
   HostName 140.143.189.132
@@ -20,4 +11,9 @@ Host ap-forum
 # Linode ap-northeast-1b 1Core/2G
 Host ap-home
   HostName 139.162.109.167
+  User root
+
+# Linode ap-northeast-1b 1Core/1G
+Host jp-agent
+  HostName 172.104.81.58
   User root
