@@ -5,7 +5,6 @@
       - jybox.net
       - pidan.cat
       - doufu.cat
-      - deploying.cloud
       - nohttps.org
   roles:
     - common
