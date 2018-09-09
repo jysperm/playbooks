@@ -8,12 +8,28 @@
   apt:
     name: certbot
 
+- name: upload nginx config
+  template: src=nginx.conf dest=/etc/nginx/sites-enabled/letsencrypt.conf
+  register: nginx_conf
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  when: nginx_conf.changed
+
 - name: issue certificates
   command: certbot certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
-  with_items: '{{letsencrypt}}'
+  with_items: '{{ letsencrypt }}'
 
-- name: setup cronjob
+- name: setup renew cronjob
   cron:
     name: letsencrypt
     special_time: daily
     job: 'certbot renew'
+
+- name: setup nginx cronjob
+  cron:
+    name: nginx
+    special_time: daily
+    job: 'service nginx restart'

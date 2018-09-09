@@ -42,7 +42,7 @@
   copy: src={{role_path}}/files/holding dest=/var/www
 
 - name: upload nginx site config
-  template: src={{item}} dest=/etc/nginx/sites-enabled/{{item | basename}}
+  template: src={{ item }} dest=/etc/nginx/sites-enabled/{{ item | basename }}
   notify: restart nginx
   with_fileglob:
-    - nginx-sites/{{ansible_hostname}}/*
+    - nginx-sites/{{ ansible_hostname }}/*
