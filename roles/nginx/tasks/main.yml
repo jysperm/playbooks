@@ -5,8 +5,9 @@
     update_cache: yes
 
 - name: install apt packages
-  apt: name={{item}}
-  with_items:
+  apt:
+    name: '{{item}}'
+  loop:
     - nginx
     - python-pip
 
@@ -20,6 +21,8 @@
     name: 'www-data'
     shell: /bin/bash
     home: '/home/www-data'
+  register: user_result
+  failed_when: "'used by process' not in user_result.msg"
 
 - name: setup ssh public keys
   authorized_key:

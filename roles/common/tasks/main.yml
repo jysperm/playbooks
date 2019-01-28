@@ -7,7 +7,9 @@
     - authorized-keys/*
 
 - name: install apt packages
-  apt: name={{item}}
-  with_items:
+  apt:
+    name: '{{item}}'
+  loop:
     - nethogs
     - htop
+    - iotop

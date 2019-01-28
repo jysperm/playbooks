@@ -1,6 +1,5 @@
 ---
 pip_args: '-i https://pypi.tuna.tsinghua.edu.cn/simple'
-# docker_mirror_url: 'https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu'
 docker_mirror_url: 'https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu'
 docker_registry_url: 'https://docker.mirrors.ustc.edu.cn/'
 discourse_templates: ['templates/web.china.template.yml']
