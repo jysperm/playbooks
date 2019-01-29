@@ -24,3 +24,8 @@
     dest: '/etc/rsyncd.secrets'
     mode: '0600'
   notify: restart rsync
+
+- name: enable rsyncd service
+  service:
+    name: rsync
+    enabled: yes

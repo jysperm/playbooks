@@ -1,25 +1,21 @@
 ---
 - hosts: ap-home
+  vars_files:
+    - secrets.yml
   vars:
     letsencrypt:
       - jybox.net
       - pidan.cat
       - doufu.cat
       - nohttps.org
-  roles:
-    - common
-    - nginx
-    - letsencrypt
-
-- hosts: cn-forum
-  vars_files:
-    - secrets.yml
-  vars:
     rsync_users:
       -
         username: 'synology'
         password: '{{ rsync_synology_password }}'
   roles:
+    - common
+    - nginx
+    - letsencrypt
     - rsync
 
 - hosts: jp-agent
