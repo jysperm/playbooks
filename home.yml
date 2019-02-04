@@ -17,6 +17,7 @@
     - nginx
     - letsencrypt
     - rsync
+    - frps
 
 - hosts: jp-agent
   vars_files:

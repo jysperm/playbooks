@@ -1,0 +1,42 @@
+---
+- name: ensures directory exists
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '/root/downloads'
+    - '/etc/frps'
+
+- name: download frp
+  get_url:
+    url: 'https://github.com/fatedier/frp/releases/download/v{{ frp_release }}/frp_{{ frp_release }}_linux_amd64.tar.gz'
+    dest: '/root/downloads/frp.tar.gz'
+
+- name: unarchive frp
+  unarchive:
+    src: '/root/downloads/frp.tar.gz'
+    dest: '/root/downloads'
+    remote_src: 'yes'
+
+- name: install frps
+  copy:
+    src: '/root/downloads/frp_{{ frp_release }}_linux_amd64/frps'
+    dest: /usr/bin/frps
+    remote_src: yes
+    mode: '0755'
+  notify: restart frps
+
+- name: install frps configure
+  template:
+    src: 'frps.ini'
+    dest: /etc/frps/frps.ini
+  notify: restart frps
+
+- name: create systemd service
+  template:
+    src: 'frps.service'
+    dest: '/etc/systemd/system/frps.service'
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart frps

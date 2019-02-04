@@ -1,0 +1,9 @@
+---
+- name: reload systemd
+  command: systemctl daemon-reload
+
+- name: restart frps
+  service:
+    name: 'frps'
+    state: 'restarted'
+    enabled: 'yes'
