@@ -1,0 +1,39 @@
+- name: install apt packages
+  apt:
+    name: '{{item}}'
+  loop:
+    - nethogs
+    - iptables-persistent
+
+- name: enable forward
+  sysctl:
+    name: 'net.ipv4.ip_forward'
+    value: 1
+
+- name: configure forward (nat)
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: '{{ wan_interface }}'
+    jump: 'MASQUERADE'
+  notify: netfilter-persistent
+
+- name: enable netfilter-persistent
+  service:
+    name: 'netfilter-persistent'
+    enabled: 'yes'
+
+- name: upload netplan config
+  template:
+    src: 'netplan.yaml'
+    dest: /etc/netplan/bridges.yaml
+  notify: apply netplan
+
+- name: 'configure clash'
+  import_tasks: clash.yml
+
+- name: 'configure dnsmasq'
+  import_tasks: dnsmasq.yml
+
+- name: 'configure iptables'
+  import_tasks: iptables.yml

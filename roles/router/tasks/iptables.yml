@@ -1,0 +1,49 @@
+---
+- name: create new chain
+  command: iptables -t nat -N CLASH
+  register: result
+  failed_when: 'result.rc != 0 and "already exists" not in result.stderr'
+  changed_when: '"already exists" not in result.stderr'
+
+- name: configure clash ignored destination
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination: '{{ item }}'
+    jump: RETURN
+  with_items:
+    - '0.0.0.0/8'
+    - '10.0.0.0/8'
+    - '127.0.0.0/8'
+    - '172.16.0.0/12'
+    - '192.168.0.0/16'
+  notify: netfilter-persistent
+
+- name: configure clash ignored port
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination_port: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ [redir_port] + clash_proxy_ports }}'
+  notify: netfilter-persistent
+
+- name: configure clash redirect
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    to_ports: '{{ redir_port }}'
+    jump: REDIRECT
+  notify: netfilter-persistent
+
+- name: redirect PREROUTING to CLASH
+  iptables:
+    table: nat
+    chain: PREROUTING
+    source: '{{ lan_gateway_cidr }}'
+    protocol: tcp
+    jump: CLASH
+  notify: netfilter-persistent

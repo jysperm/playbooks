@@ -1,0 +1,16 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp1s0: {}
+    enp2s0: {}
+    enp3s0: {}
+    enp4s0: {}
+  bridges:
+    brlan:
+      addresses:
+        - {{ lan_gateway_cidr }}
+      interfaces:
+        - enp2s0
+        - enp3s0
+        - enp4s0

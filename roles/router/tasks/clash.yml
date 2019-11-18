@@ -1,0 +1,53 @@
+---
+- name: ensures directory exists
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '/root/downloads'
+    - '/etc/clash'
+
+- name: download clash
+  get_url:
+    url: 'https://github.com/Dreamacro/clash/releases/download/v{{ clash_release }}/clash-linux-amd64-v{{ clash_release }}.gz'
+    dest: '/root/downloads/clash.gz'
+
+- name: unarchive clash
+  command: gzip -dk /root/downloads/clash.gz
+  args:
+    creates: /root/downloads/clash
+
+- name: install clash
+  copy:
+    src: '/root/downloads/clash'
+    dest: /usr/bin/clash
+    remote_src: yes
+    mode: '0755'
+  notify: restart clash
+
+- name: install clash configure
+  template:
+    src: 'clash.yml'
+    dest: /etc/clash/config.yml
+  notify: restart clash
+
+- name: create systemd service
+  template:
+    src: 'clash.service'
+    dest: '/etc/systemd/system/clash.service'
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart clash
+
+- name: disable systemd-resolved
+  service:
+    name: 'systemd-resolved'
+    state: 'stopped'
+    enabled: 'no'
+
+- name: configure DNS
+  copy:
+    dest: '/etc/resolv.conf'
+    content: |
+      nameserver 127.0.0.1
