@@ -47,3 +47,69 @@
     protocol: tcp
     jump: CLASH
   notify: netfilter-persistent
+
+# Firewall
+
+- name: setup allow established
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: all
+    in_interface: '{{ wan_interface }}'
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  notify: netfilter-persistent
+
+- name: setup allowed icmp
+  iptables:
+    table: filter
+    chain: INPUT
+    in_interface: '{{ wan_interface }}'
+    protocol: icmp
+    jump: ACCEPT
+  notify: netfilter-persistent
+
+- name: setup allowed income ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item }}'
+    jump: ACCEPT
+  with_items: '{{ allowed_imcome_ports }}'
+  notify: netfilter-persistent
+
+- name: reject other packet from wan
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: all
+    in_interface: '{{ wan_interface }}'
+    jump: REJECT
+  notify: netfilter-persistent
+
+# Port Forwarding
+
+- name: forwarding netdata to 80
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    in_interface: '{{ lan_interface }}'
+    destination: '{{ lan_gateway_ip }}'
+    destination_port: 80
+    jump: REDIRECT
+    to_ports: 19999
+  notify: netfilter-persistent
+
+- name: forwarding DiskStation to 5000
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    in_interface: '{{ wan_interface }}'
+    destination_port: 5000
+    jump: DNAT
+    to_destination: '10.0.0.1'
+  notify: netfilter-persistent

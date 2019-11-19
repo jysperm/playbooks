@@ -11,6 +11,7 @@
   get_url:
     url: 'https://github.com/Dreamacro/clash/releases/download/v{{ clash_release }}/clash-linux-amd64-v{{ clash_release }}.gz'
     dest: '/root/downloads/clash.gz'
+  tags: [download]
 
 - name: unarchive clash
   command: gzip -dk /root/downloads/clash.gz
@@ -39,15 +40,3 @@
   notify:
     - reload systemd
     - restart clash
-
-- name: disable systemd-resolved
-  service:
-    name: 'systemd-resolved'
-    state: 'stopped'
-    enabled: 'no'
-
-- name: configure DNS
-  copy:
-    dest: '/etc/resolv.conf'
-    content: |
-      nameserver 127.0.0.1

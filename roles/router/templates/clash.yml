@@ -10,8 +10,8 @@ secret: "{{ clash_dashbiard_secret }}"
 dns:
   enable: true
   ipv6: false
-  listen: 0.0.0.0:53
-  # enhanced-mode: redir-host
+  listen: 127.0.0.53:53
+  enhanced-mode: redir-host
   nameserver:
     - 119.29.29.29
     - 114.114.114.114

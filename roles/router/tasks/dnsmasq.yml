@@ -10,8 +10,32 @@
     line: '{{ item.line }}'
     firstmatch: true
   with_items:
-    - { regexp: 'port=', line: 'port=0'}
     - { regexp: 'interface=', line: 'interface={{ lan_interface }}'}
-    - { regexp: 'dhcp-range={{ lan_gateway_ip }}', line: 'dhcp-range={{ lan_dhcp_range }}'}
+    - { regexp: 'dhcp-range=', line: 'dhcp-range={{ lan_interface }},{{ lan_dhcp_range }}'}
     - { regexp: 'dhcp-option=6', line: 'dhcp-option=6,{{ lan_gateway_ip }}' }
   notify: restart dnsmasq
+
+- name: disable systemd-resolved
+  service:
+    name: 'systemd-resolved'
+    state: 'stopped'
+    enabled: 'no'
+
+- name: configure DNS
+  lineinfile:
+    path: '/etc/dnsmasq.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    firstmatch: true
+  with_items:
+    - { regexp: 'port=', line: 'port=53'}
+    - { regexp: 'no-resolv', line: 'no-resolv'}
+    - { regexp: 'server=', line: 'server=127.0.0.53'}
+    - { regexp: 'cache-size=', line: 'cache-size=1000'}
+  notify: restart dnsmasq
+
+- name: configure resolv.conf
+  copy:
+    dest: '/etc/resolv.conf'
+    content: |
+      nameserver 127.0.0.1
