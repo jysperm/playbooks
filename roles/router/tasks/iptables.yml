@@ -20,6 +20,16 @@
     - '192.168.0.0/16'
   notify: netfilter-persistent
 
+- name: configure clash ignored source
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    source: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ clash_ignored_lan_ip }}'
+  notify: netfilter-persistent
+
 - name: configure clash ignored port
   iptables:
     table: nat
@@ -28,6 +38,16 @@
     destination_port: '{{ item }}'
     jump: RETURN
   with_items: '{{ [redir_port] + clash_proxy_ports }}'
+  notify: netfilter-persistent
+
+- name: configure clash ignored address
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ clash_proxy_address }}'
   notify: netfilter-persistent
 
 - name: configure clash redirect
@@ -69,7 +89,7 @@
     jump: ACCEPT
   notify: netfilter-persistent
 
-- name: setup allowed income ports
+- name: setup allowed income tcp ports
   iptables:
     table: filter
     chain: INPUT
@@ -78,6 +98,19 @@
     destination_port: '{{ item }}'
     jump: ACCEPT
   with_items: '{{ allowed_imcome_ports }}'
+  notify: netfilter-persistent
+
+- name: setup allowed income udp ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: udp
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item }}'
+    jump: ACCEPT
+  with_items:
+    - 16881
+    - 6881
   notify: netfilter-persistent
 
 - name: reject other packet from wan
@@ -103,13 +136,30 @@
     to_ports: 19999
   notify: netfilter-persistent
 
-- name: forwarding DiskStation to 5000
+- name: forwarding DiskStation tcp ports
   iptables:
     table: nat
     chain: PREROUTING
     protocol: tcp
     in_interface: '{{ wan_interface }}'
-    destination_port: 5000
+    destination_port: '{{ item }}'
     jump: DNAT
-    to_destination: '10.0.0.1'
+    to_destination: '10.0.0.10'
+  with_items:
+    - 5000
+    - 16881
+  notify: netfilter-persistent
+
+- name: forwarding DiskStation udp port
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: udp
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item }}'
+    jump: DNAT
+    to_destination: '10.0.0.10'
+  with_items:
+    - 16881
+    - 6881
   notify: netfilter-persistent

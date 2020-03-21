@@ -17,3 +17,7 @@ Host ap-home
 Host jp-agent
   HostName 172.104.81.58
   User root
+
+Host voyager
+  HostName 10.0.0.1
+  User root

@@ -8,9 +8,10 @@ lan_gateway_ip: '10.0.0.1'
 lan_gateway_cidr: '10.0.0.1/24'
 lan_subnet: '10.0.0.1/24'
 lan_dhcp_range: '10.0.0.1,10.0.0.255,12h'
-clash_proxy_ports: [10292, 30292, 36292, 48292, 54292]
+clash_proxy_ports: [12345]
 clash_dashbiard_secret: ''
 allowed_imcome_ports: [22, 5000]
+clash_ignored_lan_ip: []
 
 clash_proxies: |
   Proxy:
@@ -18,6 +19,3 @@ clash_proxies: |
 
   Proxy Group:
     - { name: "Proxy", type: select, proxies: ['Some Proxy']}
-    - { name: "CNProxy", type: select, proxies: [DIRECT, Proxy] }
-    - { name: "Netflix", type: select, proxies: [Proxy, DIRECT] }
-    - { name: "Hijacking", type: select, proxies: [REJECT, DIRECT] }
