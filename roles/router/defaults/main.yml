@@ -1,5 +1,5 @@
 ---
-clash_release: 0.14.0
+clash_release: 0.18.0
 redir_port: '7892'
 http_proxy_port: '8118'
 wan_interface: 'enp1s0'

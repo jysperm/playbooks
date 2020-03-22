@@ -8,7 +8,7 @@
 - name: enable forward
   sysctl:
     name: 'net.ipv4.ip_forward'
-    value: 1
+    value: '1'
 
 - name: configure forward (nat)
   iptables:

@@ -5,6 +5,7 @@ allow-lan: true
 mode: Rule
 log-level: info
 external-controller: 0.0.0.0:9090
+external-ui: /etc/clash/dashboard
 secret: "{{ clash_dashbiard_secret }}"
 
 dns:
