@@ -16,7 +16,7 @@
   notify: restart dnsmasq
   when: dnsmasq_dhcp_enable
 
-- name: configure static hosts
+- name: configure DHCP static hosts
   lineinfile:
     path: '/etc/dnsmasq.conf'
     regexp: 'dhcp-host={{ item.mac }}'
@@ -45,6 +45,14 @@
     - { regexp: 'server=', line: 'server={{ dnsmasq_dns_upstream }}'}
     - { regexp: 'cache-size=', line: 'cache-size=10000'}
   notify: restart dnsmasq
+  when: dnsmasq_dns_enable
+
+- name: configure DNS static hosts
+  lineinfile:
+    path: '/etc/hosts'
+    regexp: '{{ item.address }} '
+    line: '{{ item.address }} {{ item.domain }}'
+  loop: '{{ dnsmasq_dns_static_hosts }}'
   when: dnsmasq_dns_enable
 
 - name: configure resolv.conf

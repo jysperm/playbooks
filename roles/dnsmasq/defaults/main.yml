@@ -10,3 +10,7 @@ dnsmasq_dhcp_static_hosts:
   - name: synology
     mac: b4:3b:32:7e:4d:c3
     address: 10.0.0.10
+
+dnsmasq_dns_static_hosts:
+  - domain: nextcloud
+    address: 10.0.0.100
