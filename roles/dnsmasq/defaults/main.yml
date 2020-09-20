@@ -1,0 +1,12 @@
+---
+dnsmasq_dhcp_enable: True
+dnsmasq_dhcp_interface: 'brlan'
+dnsmasq_dhcp_range: '10.0.0.1,10.0.0.255,12h'
+dnsmasq_dhcp_gateway_ip: '10.0.0.1'
+dnsmasq_dns_enable: True
+dnsmasq_dns_upstream: '127.0.0.53'
+
+dnsmasq_dhcp_static_hosts:
+  - name: synology
+    mac: b4:3b:32:7e:4d:c3
+    address: 10.0.0.10

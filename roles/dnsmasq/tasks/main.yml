@@ -1,0 +1,55 @@
+---
+- name: install apt packages
+  apt:
+    name: dnsmasq
+
+- name: configure DHCP
+  lineinfile:
+    path: '/etc/dnsmasq.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    firstmatch: true
+  with_items:
+    - { regexp: 'interface=', line: 'interface={{ dnsmasq_dhcp_interface }}'}
+    - { regexp: 'dhcp-range=', line: 'dhcp-range={{ dnsmasq_dhcp_interface }},{{ dnsmasq_dhcp_range }}'}
+    - { regexp: 'dhcp-option=6', line: 'dhcp-option=6,{{ dnsmasq_dhcp_gateway_ip }}' }
+  notify: restart dnsmasq
+  when: dnsmasq_dhcp_enable
+
+- name: configure static hosts
+  lineinfile:
+    path: '/etc/dnsmasq.conf'
+    regexp: 'dhcp-host={{ item.mac }}'
+    line: 'dhcp-host={{ item.mac }},{{ item.name }},{{ item.address}}'
+    insertafter: '#dhcp-host='
+    firstmatch: true
+  loop: '{{ dnsmasq_dhcp_static_hosts }}'
+  when: dnsmasq_dhcp_enable
+
+- name: disable systemd-resolved
+  service:
+    name: 'systemd-resolved'
+    state: 'stopped'
+    enabled: 'no'
+  when: dnsmasq_dns_enable
+
+- name: configure DNS
+  lineinfile:
+    path: '/etc/dnsmasq.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    firstmatch: true
+  with_items:
+    - { regexp: 'port=', line: 'port=53'}
+    - { regexp: 'no-resolv', line: 'no-resolv'}
+    - { regexp: 'server=', line: 'server={{ dnsmasq_dns_upstream }}'}
+    - { regexp: 'cache-size=', line: 'cache-size=10000'}
+  notify: restart dnsmasq
+  when: dnsmasq_dns_enable
+
+- name: configure resolv.conf
+  copy:
+    dest: '/etc/resolv.conf'
+    content: |
+      nameserver 127.0.0.1
+  when: dnsmasq_dns_enable
