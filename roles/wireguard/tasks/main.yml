@@ -1,0 +1,21 @@
+---
+- name: install apt packages
+  apt:
+    name: wireguard
+
+- name: generate keys
+  shell: umask 077; wg genkey | tee privatekey | wg pubkey > publickey
+  args:
+    chdir: /etc/wireguard
+    creates: /etc/wireguard/privatekey
+
+- name: load private key
+  slurp:
+    src: /etc/wireguard/privatekey
+  register: private_key
+
+- name: install wireguard configure
+  template:
+    src: wg0.conf
+    dest: /etc/wireguard/wg0.conf
+  notify: restart wireguard
