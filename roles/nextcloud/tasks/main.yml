@@ -1,0 +1,23 @@
+---
+- name: create nextcloud compose dir
+  file:
+    path: /root/nextcloud
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/nextcloud/docker-compose.yml'
+
+- name: upload web image files
+  copy:
+    src: '{{ role_path }}/files/{{ item }}'
+    dest: '/root/nextcloud'
+  loop:
+    - web
+    - app
+
+- name: Start nextcloud
+  command:
+    cmd: docker-compose up -d
+    chdir: /root/nextcloud

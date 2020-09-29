@@ -1,0 +1,52 @@
+# Modify from https://github.com/nextcloud/docker/blob/65f3f6d167defbef27d01819da34314e0569040d/.examples/docker-compose/insecure/mariadb-cron-redis/fpm/docker-compose.yml
+
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - '{{ nextcloud_db }}:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: '{{ nextcloud_mysql_password }}'
+      MYSQL_PASSWORD: '{{ nextcloud_mysql_password }}'
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+
+  redis:
+    image: redis:alpine
+
+  app:
+    build: ./app
+    volumes:
+      - '{{ nextcloud_root }}:/var/www/html'
+    environment:
+      OVERWRITEPROTOCOL: 'https'
+      MYSQL_ROOT_PASSWORD: '{{ nextcloud_mysql_password }}'
+      MYSQL_PASSWORD: '{{ nextcloud_mysql_password }}'
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_HOST: db
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+
+  web:
+    build: ./web
+    ports:
+      - 8080:80
+    volumes:
+      - '{{ nextcloud_root }}:/var/www/html:ro'
+    depends_on:
+      - app
+
+  cron:
+    build: ./app
+    volumes:
+      - '{{ nextcloud_root }}:/var/www/html'
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
