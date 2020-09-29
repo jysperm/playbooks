@@ -1,0 +1,40 @@
+---
+- name: ensures directory exists
+  file:
+    path: '/root/downloads'
+    state: 'directory'
+
+- name: download restic
+  get_url:
+    url: 'https://github.com/restic/restic/releases/download/v0.9.6/restic_0.9.6_linux_amd64.bz2'
+    dest: '/root/downloads/restic-0.9.6.bz2'
+
+- name: unarchive restic
+  command: bzip2 -d restic-0.9.6.bz2
+  args:
+    chdir: /root/downloads
+    creates: restic-0.9.6
+
+- name: install restic
+  copy:
+    src: '/root/downloads/restic-0.9.6'
+    dest: /usr/local/bin/restic
+    remote_src: yes
+    mode: '0755'
+
+- name: install systemd files
+  template:
+    src: '{{ item }}'
+    dest: '/etc/systemd/system/{{ item }}'
+  loop:
+    - restic-backup.service
+    - restic-backup.timer
+  notify: reload systemd
+
+- name: enable timers
+  service:
+    name: '{{ item }}'
+    state: 'restarted'
+    enabled: 'yes'
+  loop:
+    - restic-backup.timer

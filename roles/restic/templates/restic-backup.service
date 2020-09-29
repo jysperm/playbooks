@@ -1,0 +1,9 @@
+[Unit]
+Description=Backup via restic
+
+[Service]
+Type=simple
+Environment="B2_ACCOUNT_ID={{ restic_b2_account_id }}"
+Environment="B2_ACCOUNT_KEY={{ restic_b2_account_key }}"
+Environment="RESTIC_CACHE_DIR=/tmp/restic"
+ExecStart=/bin/bash -c "restic -r {{ restic_repository }} -p /storage/.restic/key backup -v {{ restic_backup_paths | join(' ') }}"
