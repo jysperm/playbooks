@@ -1,0 +1,4 @@
+---
+miniflux_base_url: 'http://localhost/'
+miniflux_postgres_password: 'secret'
+miniflux_db: '/storage/db/miniflux'

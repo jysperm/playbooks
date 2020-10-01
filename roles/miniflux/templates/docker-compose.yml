@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  app:
+    image: miniflux/miniflux
+    ports:
+      - 8081:8080
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://miniflux:{{ miniflux_postgres_password }}@db/miniflux?sslmode=disable
+      - BASE_URL={{ miniflux_base_url }}
+      - RUN_MIGRATIONS=1
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD={{ miniflux_postgres_password }}
+    volumes:
+      - '{{ miniflux_db }}:/var/lib/postgresql/data'

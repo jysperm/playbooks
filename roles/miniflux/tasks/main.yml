@@ -1,0 +1,15 @@
+---
+- name: create miniflux compose dir
+  file:
+    path: /root/miniflux
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/miniflux/docker-compose.yml'
+
+- name: Start miniflux
+  command:
+    cmd: docker-compose up -d
+    chdir: /root/miniflux
