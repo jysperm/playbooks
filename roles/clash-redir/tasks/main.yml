@@ -1,0 +1,111 @@
+---
+- name: ensures directory exists
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '/root/downloads'
+    - '/etc/clash'
+
+- name: download clash
+  get_url:
+    url: 'https://github.com/Dreamacro/clash/releases/download/v{{ clash_release }}/clash-linux-amd64-v{{ clash_release }}.gz'
+    dest: '/root/downloads/clash.gz'
+  tags: [download]
+
+- name: unarchive clash
+  command: gzip -dk /root/downloads/clash.gz
+  args:
+    creates: /root/downloads/clash
+
+- name: install clash
+  copy:
+    src: '/root/downloads/clash'
+    dest: /usr/bin/clash
+    remote_src: yes
+    mode: '0755'
+  notify: restart clash
+
+- name: install clash configure
+  template:
+    src: 'clash.yaml'
+    dest: /etc/clash/config.yaml
+  notify: restart clash
+
+- name: create systemd service
+  template:
+    src: 'clash.service'
+    dest: '/etc/systemd/system/clash.service'
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart clash
+
+- name: create new chain
+  command: iptables -t nat -N CLASH
+  register: result
+  failed_when: 'result.rc != 0 and "already exists" not in result.stderr'
+  changed_when: '"already exists" not in result.stderr'
+
+- name: configure clash ignored destination
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination: '{{ item }}'
+    jump: RETURN
+  with_items:
+    - '0.0.0.0/8'
+    - '10.0.0.0/8'
+    - '127.0.0.0/8'
+    - '172.16.0.0/12'
+    - '192.168.0.0/16'
+  notify: netfilter-persistent
+
+- name: configure clash ignored source
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    source: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ clash_ignored_lan_ip }}'
+  notify: netfilter-persistent
+
+- name: configure clash ignored address
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ clash_proxy_address }}'
+  notify: netfilter-persistent
+
+- name: configure clash ignored port
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    destination_port: '{{ item }}'
+    jump: RETURN
+  with_items: '{{ [clash_redir_port] + clash_proxy_ports }}'
+  notify: netfilter-persistent
+
+- name: configure clash redirect
+  iptables:
+    table: nat
+    chain: CLASH
+    protocol: tcp
+    to_ports: '{{ clash_redir_port }}'
+    jump: REDIRECT
+  notify: netfilter-persistent
+
+- name: redirect PREROUTING to CLASH
+  iptables:
+    table: nat
+    chain: PREROUTING
+    source: '{{ lan_gateway_cidr }}'
+    protocol: tcp
+    jump: CLASH
+  notify: netfilter-persistent
