@@ -5,7 +5,7 @@
 
 - name: add apt repository
   apt_repository:
-    repo: 'deb https://packagecloud.io/netdata/netdata/ubuntu/ trusty main'
+    repo: 'deb https://packagecloud.io/netdata/netdata/ubuntu/ {{ ansible_lsb.codename | lower }} main'
     update_cache: yes
 
 - name: install apt packages
@@ -19,6 +19,6 @@
     line: '{{ item.line }}'
     firstmatch: true
   with_items:
-    - { regexp: 'bind socket to IP =', line: 'bind socket to IP = 0.0.0.0' }
+    - { regexp: 'bind to =', line: 'bind socket to IP = 0.0.0.0' }
   when: nextdata_exposed
   notify: restart netdata

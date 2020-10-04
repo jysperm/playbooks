@@ -13,3 +13,14 @@
     - nethogs
     - htop
     - iotop
+    - nmon
+    - neofetch
+
+- name: uninstall snap
+  apt:
+    name: '{{item}}'
+    state: absent
+    purge: yes
+  loop:
+    - snap
+    - snapd

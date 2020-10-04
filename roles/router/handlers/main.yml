@@ -2,18 +2,6 @@
 - name: reload systemd
   command: systemctl daemon-reload
 
-- name: restart clash
-  service:
-    name: 'clash'
-    state: 'restarted'
-    enabled: 'yes'
-
-- name: restart dnsmasq
-  service:
-    name: 'dnsmasq'
-    state: 'restarted'
-    enabled: 'yes'
-
 - name: apply netplan
   command: netplan apply
 

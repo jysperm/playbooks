@@ -1,8 +1,9 @@
 - name: install apt packages
   apt:
-    name: '{{item}}'
+    name: '{{ item }}'
   loop:
     - nethogs
+    - iftop
     - iptables-persistent
 
 - name: enable forward
@@ -29,11 +30,77 @@
     dest: /etc/netplan/bridges.yaml
   notify: apply netplan
 
-- name: 'configure clash'
-  import_tasks: clash.yml
+- name: setup allow established
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: all
+    in_interface: '{{ wan_interface }}'
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  notify: netfilter-persistent
 
-- name: 'configure dnsmasq'
-  import_tasks: dnsmasq.yml
+- name: setup allowed icmp
+  iptables:
+    table: filter
+    chain: INPUT
+    in_interface: '{{ wan_interface }}'
+    protocol: icmp
+    jump: ACCEPT
+  notify: netfilter-persistent
 
-- name: 'configure iptables'
-  import_tasks: iptables.yml
+- name: setup allowed income tcp ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item }}'
+    jump: ACCEPT
+  loop: '{{ allowed_income_tcp_ports }}'
+  notify: netfilter-persistent
+
+- name: setup allowed income udp ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: udp
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item }}'
+    jump: ACCEPT
+  loop: '{{ allowed_income_udp_ports }}'
+  notify: netfilter-persistent
+
+- name: reject other packet from wan
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: all
+    in_interface: '{{ wan_interface }}'
+    jump: REJECT
+  notify: netfilter-persistent
+
+- name: lan port forwarding
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: '{{ item.protocol }}'
+    in_interface: '{{ lan_interface }}'
+    destination: '{{ item.destination }}'
+    destination_port: '{{ item.port }}'
+    jump: REDIRECT
+    to_ports: '{{ item.destination_port }}'
+  loop: '{{ lan_port_forwarding }}'
+  notify: netfilter-persistent
+
+- name: wan port forwarding
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: '{{ item.protocol }}'
+    in_interface: '{{ wan_interface }}'
+    destination_port: '{{ item.port }}'
+    jump: DNAT
+    to_destination: '{{ item.destination }}'
+  loop: '{{ wan_port_forwarding }}'
+  notify: netfilter-persistent

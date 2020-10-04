@@ -50,7 +50,6 @@
 - name: configure DNS static hosts
   lineinfile:
     path: '/etc/hosts'
-    regexp: '{{ item.address }} '
     line: '{{ item.address }} {{ item.domain }}'
   loop: '{{ dnsmasq_dns_static_hosts }}'
   when: dnsmasq_dns_enable

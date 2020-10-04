@@ -1,21 +1,15 @@
 ---
-clash_release: 0.18.0
-redir_port: '7892'
-http_proxy_port: '8118'
-wan_interface: 'enp1s0'
-lan_interface: 'brlan'
-lan_gateway_ip: '10.0.0.1'
 lan_gateway_cidr: '10.0.0.1/24'
-lan_subnet: '10.0.0.1/24'
-lan_dhcp_range: '10.0.0.1,10.0.0.255,12h'
-clash_proxy_ports: [12345]
-clash_dashbiard_secret: ''
-allowed_imcome_ports: [22, 5000]
-clash_ignored_lan_ip: []
+lan_interface: 'brlan'
+wan_interface: 'ppp0'
 
-clash_proxies: |
-  Proxy:
-    - { name: 'Some Proxy', type: 'ss', server: '1.2.3.4', port: 12345, cipher: 'aes-128-gcm',password :'123456' }
+allowed_income_tcp_ports: [22]
+allowed_income_udp_ports: []
 
-  Proxy Group:
-    - { name: "Proxy", type: select, proxies: ['Some Proxy']}
+lan_port_forwarding:
+  - port: 80
+    protocol: tcp
+    destination: 127.0.0.1
+    destination_port: 19999
+
+wan_port_forwarding: []

@@ -1,0 +1,3 @@
+- name: install apt packages
+  apt:
+    name: 'pppoeconf'

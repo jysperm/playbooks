@@ -1,0 +1,13 @@
+- hosts: voyager
+  vars:
+    nextdata_exposed: true
+  vars_files:
+    - secrets.yml
+    - voyager-secrets.yml
+  roles:
+    - common
+    - pppoe
+    - router
+    - clash-redir
+    - dnsmasq
+    - netdata
