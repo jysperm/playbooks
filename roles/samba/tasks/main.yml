@@ -1,0 +1,63 @@
+- name: install apt packages
+  apt:
+    name: '{{ item }}'
+  loop:
+    - samba
+    - avahi-daemon
+
+- name: create group
+  group:
+    name: staff
+
+- name: create user
+  user:
+    name: '{{ item.name }}'
+    group: '{{ item.name }}'
+    groups:
+      - staff
+    home: '/home/{{ item.name }}'
+  loop: '{{ samba_users }}'
+
+- name: create Home dir
+  file:
+    path: '{{ samba_home_root }}/{{ item.name }}'
+    state: directory
+    owner: '{{ item.name }}'
+    group: '{{ item.name }}'
+  loop: '{{ samba_users }}'
+
+- name: create Backup dir
+  file:
+    path: '{{ samba_backup_root }}/{{ item.name }}'
+    state: directory
+    owner: '{{ item.name }}'
+    group: '{{ item.name }}'
+  loop: '{{ samba_users }}'
+
+- name: create TimeMachine dir
+  file:
+    path: '{{ samba_timemachine_root }}/{{ item.name }}'
+    state: directory
+    owner: '{{item.name}}'
+    group: '{{item.name}}'
+  loop: '{{ samba_users }}'
+  when: 'item.time_machine_quota | default(false)'
+
+- name: setup TimeMachine quota
+  template:
+    src: com.apple.TimeMachine.quota.plist
+    dest: '{{ samba_timemachine_root }}/{{ item.name }}/.com.apple.TimeMachine.quota.plist'
+  loop: '{{ samba_users }}'
+  when: 'item.time_machine_quota'
+
+- name: install samba configure
+  template:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+  notify: restart samba
+
+- name: install avahi configure
+  template:
+    src: avahi.service
+    dest: /etc/avahi/services/timemachine.service
+  notify: restart avahi
