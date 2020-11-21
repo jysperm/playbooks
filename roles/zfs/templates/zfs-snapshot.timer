@@ -1,0 +1,8 @@
+[Unit]
+Description=Make ZFS snapshoot every day
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target

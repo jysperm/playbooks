@@ -1,0 +1,29 @@
+---
+- name: install apt packages
+  apt:
+    name: '{{item}}'
+  loop:
+    - zfs-dkms
+    - zfsutils-linux
+
+- name: get ZFS info
+  zfs_facts:
+    name: '{{zpool_name}}'
+    recurse: yes
+
+- name: install systemd files
+  template:
+    src: '{{ item }}'
+    dest: '/etc/systemd/system/{{ item }}'
+  loop:
+    - zfs-snapshot.service
+    - zfs-snapshot.timer
+  notify: reload systemd
+
+- name: enable timers
+  service:
+    name: '{{ item }}'
+    state: 'restarted'
+    enabled: 'yes'
+  loop:
+    - zfs-snapshot.timer

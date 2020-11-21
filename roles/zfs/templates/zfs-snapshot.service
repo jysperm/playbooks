@@ -1,0 +1,6 @@
+[Unit]
+Description=Make ZFS snapshot
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "zfs snapshot -r storage@$(date '+%%Y-%%m-%%d')"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+echo -n 'Password: '
+read -s password
+
+printf "${password}\n%.0s" {1..10} | zfs mount -al

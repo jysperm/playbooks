@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+diff_date() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "$2" +%s)
+    echo $(( (d1 - d2) / 86400 ))
+}
+
+exists_snapshot_after_days() {
+    local line
+    local AGE_ATLEAST=$(diff_date now $2)
+    local DAYS_ATMOST=$3
+
+    while IFS= read -r line; do
+        local DATE=${line#*@}
+        local AGE=$(diff_date now $DATE)
+        local DAYS=$((AGE_ATLEAST - AGE))
+
+        if (( DAYS > 0 && DAYS < DAYS_ATMOST )); then
+            return 0
+        fi
+    done <<< "$(zfs list $1 -t snapshot -Ho name)"
+
+    return 1
+}
+
+while IFS= read -r line; do
+    DATASET=${line%@*}
+    DATE=${line#*@}
+    AGE=$(diff_date now $DATE)
+
+    if (( AGE > 336)); then
+        if exists_snapshot_after_days $DATASET $DATE 336; then
+            echo $line
+        fi
+    elif (( AGE > 28 )); then
+        if exists_snapshot_after_days $DATASET $DATE 28; then
+            echo $line
+        fi
+    elif (( AGE > 7 )); then
+        if exists_snapshot_after_days $DATASET $DATE 7; then
+            echo $line
+        fi
+    fi
+done <<< "$(zfs list -t snapshot -Ho name)"
