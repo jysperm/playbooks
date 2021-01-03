@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+SNAPSHOTS=$(zfs list -t snapshot -Ho name | sed '1!G;h;$!d')
+DELETED_SNAPSHOTS=()
+
 diff_date() {
     d1=$(date -d "$1" +%s)
     d2=$(date -d "$2" +%s)
@@ -13,14 +16,18 @@ exists_snapshot_after_days() {
 
     while IFS= read -r line; do
         local DATE=${line#*@}
-        local AGE=$(diff_date now $DATE)
-        local DAYS=$((AGE_ATLEAST - AGE))
+	local AGE=$(diff_date now $DATE)
+	local DAYS=$((AGE_ATLEAST - AGE))
 
-        if (( DAYS > 0 && DAYS < DAYS_ATMOST )); then
-            return 0
-        fi
+        if [[ ! " ${DELETED_SNAPSHOTS[@]} " =~ " ${line} " ]]; then
+	    if (( DAYS > 0 && DAYS < DAYS_ATMOST )); then
+                >&2 echo "Delete ${1}@${2} due to ${line} in ${3} days"
+	        return 0
+	    fi
+	fi
     done <<< "$(zfs list $1 -t snapshot -Ho name)"
 
+    >&2 echo "Keep ${1}@${2}"
     return 1
 }
 
@@ -31,15 +38,20 @@ while IFS= read -r line; do
 
     if (( AGE > 336)); then
         if exists_snapshot_after_days $DATASET $DATE 336; then
-            echo $line
-        fi
+	    echo $line
+	    DELETED_SNAPSHOTS+=($line)
+	fi
     elif (( AGE > 28 )); then
-        if exists_snapshot_after_days $DATASET $DATE 28; then
-            echo $line
-        fi
+	if exists_snapshot_after_days $DATASET $DATE 28; then
+	    echo $line
+	    DELETED_SNAPSHOTS+=($line)
+	fi
     elif (( AGE > 7 )); then
-        if exists_snapshot_after_days $DATASET $DATE 7; then
+	if exists_snapshot_after_days $DATASET $DATE 7; then
             echo $line
-        fi
+	    DELETED_SNAPSHOTS+=($line)
+	fi
+    else
+	>&2 echo "Keep ${line}"
     fi
-done <<< "$(zfs list -t snapshot -Ho name)"
+done <<< "$SNAPSHOTS"
