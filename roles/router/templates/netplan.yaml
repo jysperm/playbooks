@@ -2,10 +2,14 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    enp1s0: {}
-    enp2s0: {}
-    enp3s0: {}
-    enp4s0: {}
+    enp1s0:
+      optional: true
+    enp2s0:
+      optional: true
+    enp3s0:
+      optional: true
+    enp4s0:
+      optional: true
   bridges:
     brlan:
       addresses:

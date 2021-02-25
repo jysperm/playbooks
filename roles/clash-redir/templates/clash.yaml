@@ -18,12 +18,14 @@ dns:
     - 223.5.5.5
   fallback:
     - 'tls://1.1.1.1:853'
-    - 'tls://1.0.0.1:853'
+    - 'tls://9.9.9.9:853'
+    - 'tls://dns.rubyfish.cn:853'
 
 {{ clash_proxies }}
 
 rules:
 - DOMAIN-SUFFIX,firebaseio.com,Proxy
+- DOMAIN-SUFFIX,developer.apple.com,Proxy
 
 # LAN
 - DOMAIN-SUFFIX,local,DIRECT
@@ -31,7 +33,6 @@ rules:
 - IP-CIDR,172.16.0.0/12,DIRECT
 - IP-CIDR,192.168.0.0/16,DIRECT
 - IP-CIDR,10.0.0.0/8,DIRECT
-- IP-CIDR,17.0.0.0/8,DIRECT
 - IP-CIDR,100.64.0.0/10,DIRECT
 
 # Apple
@@ -181,7 +182,6 @@ rules:
 - DOMAIN-SUFFIX,umetrip.com,DIRECT
 - DOMAIN-SUFFIX,upaiyun.com,DIRECT
 - DOMAIN-SUFFIX,upyun.com,DIRECT
-- DOMAIN-SUFFIX,v2ex.com,DIRECT
 - DOMAIN-SUFFIX,veryzhun.com,DIRECT
 - DOMAIN-SUFFIX,weather.com,DIRECT
 - DOMAIN-SUFFIX,weibo.com,DIRECT
