@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  {{ factorio_server }}:
+    image: 'factoriotools/factorio:{{ factorio_version }}'
+    container_name: 'factorio-{{ factorio_server }}'
+    ports:
+      - 34197:34197/udp
+    environment:
+      - LOAD_LATEST_SAVE=false
+      - UPDATE_MODS_ON_START=true
+      - SAVE_NAME={{ factorio_server }}
+    volumes:
+      - '/storage/db/factorio/{{ factorio_server }}:/factorio'

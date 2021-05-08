@@ -1,0 +1,15 @@
+---
+- name: create factorio compose dir
+  file:
+    path: /root/factorio
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/factorio/docker-compose.yml'
+
+- name: Start factorio
+  command:
+    cmd: docker-compose up -d
+    chdir: /root/factorio
