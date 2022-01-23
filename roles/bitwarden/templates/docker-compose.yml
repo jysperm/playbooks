@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  bitwarden:
+    image: vaultwarden/server
+    container_name: bitwarden
+    ports:
+      - 8082:80
+      - 3012:3012
+    environment:
+      # - SIGNUPS_ALLOWED=true
+      - DOMAIN={{ bitwarden_base_url }}
+    volumes:
+      - '{{ bitwarden_db }}:/data'

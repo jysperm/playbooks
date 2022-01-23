@@ -1,0 +1,15 @@
+---
+- name: create bitwarden compose dir
+  file:
+    path: /root/bitwarden
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/bitwarden/docker-compose.yml'
+
+- name: Start bitwarden
+  command:
+    cmd: docker-compose up -d
+    chdir: /root/bitwarden
