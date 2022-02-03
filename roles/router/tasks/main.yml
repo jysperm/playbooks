@@ -18,6 +18,7 @@
     out_interface: '{{ wan_interface }}'
     jump: 'MASQUERADE'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: enable netfilter-persistent
   service:
@@ -29,6 +30,7 @@
     src: 'netplan.yaml'
     dest: /etc/netplan/bridges.yaml
   notify: apply netplan
+  tags: [config]
 
 - name: setup allow established
   iptables:
@@ -39,6 +41,7 @@
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: setup allowed icmp
   iptables:
@@ -48,6 +51,7 @@
     protocol: icmp
     jump: ACCEPT
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: setup allowed income tcp ports
   iptables:
@@ -59,6 +63,7 @@
     jump: ACCEPT
   loop: '{{ allowed_income_tcp_ports }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: setup allowed income udp ports
   iptables:
@@ -70,6 +75,7 @@
     jump: ACCEPT
   loop: '{{ allowed_income_udp_ports }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: reject other packet from wan
   iptables:
@@ -79,6 +85,7 @@
     in_interface: '{{ wan_interface }}'
     jump: REJECT
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: lan port forwarding
   iptables:
@@ -92,6 +99,7 @@
     to_ports: '{{ item.destination_port }}'
   loop: '{{ lan_port_forwarding }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: wan port forwarding
   iptables:
@@ -104,3 +112,4 @@
     to_destination: '{{ item.destination }}'
   loop: '{{ wan_port_forwarding }}'
   notify: netfilter-persistent
+  tags: [iptables]

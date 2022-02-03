@@ -1,7 +1,7 @@
 ---
 lan_gateway_cidr: '10.0.0.1/24'
 lan_interface: 'brlan'
-wan_interface: 'ppp0'
+wan_interface: 'enp1s0'
 
 allowed_income_tcp_ports: [22]
 allowed_income_udp_ports: []

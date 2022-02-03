@@ -19,6 +19,6 @@
     line: '{{ item.line }}'
     firstmatch: true
   with_items:
-    - { regexp: 'bind to =', line: 'bind socket to IP = 0.0.0.0' }
+    - { regexp: 'bind to =', line: 'bind to = 0.0.0.0' }
   when: nextdata_exposed
   notify: restart netdata

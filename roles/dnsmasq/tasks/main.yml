@@ -44,6 +44,7 @@
     - { regexp: 'no-resolv', line: 'no-resolv'}
     - { regexp: 'server=', line: 'server={{ dnsmasq_dns_upstream }}'}
     - { regexp: 'cache-size=', line: 'cache-size=10000'}
+    - { regexp: 'log-queries=', line: 'log-queries=extra'}
   notify: restart dnsmasq
   when: dnsmasq_dns_enable
 

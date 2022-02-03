@@ -19,13 +19,11 @@ dns:
   fallback:
     - 'tls://1.1.1.1:853'
     - 'tls://9.9.9.9:853'
-    - 'tls://dns.rubyfish.cn:853'
 
 {{ clash_proxies }}
 
 rules:
-- DOMAIN-SUFFIX,firebaseio.com,Proxy
-- DOMAIN-SUFFIX,developer.apple.com,Proxy
+{{ clash_rules }}
 
 # LAN
 - DOMAIN-SUFFIX,local,DIRECT
@@ -39,6 +37,8 @@ rules:
 - DOMAIN,hls.itunes.apple.com,Proxy
 - DOMAIN,itunes.apple.com,Proxy
 - DOMAIN,itunes.com,Proxy
+- DOMAIN-SUFFIX,tv.apple.com,Proxy
+- DOMAIN-SUFFIX,developer.apple.com,Proxy
 - DOMAIN-SUFFIX,digicert.com,DIRECT
 - DOMAIN-SUFFIX,icloud.com,DIRECT
 - DOMAIN-SUFFIX,icloud-content.com,DIRECT
@@ -48,20 +48,14 @@ rules:
 - DOMAIN-SUFFIX,cdn-apple.com,DIRECT
 - DOMAIN-SUFFIX,apple.com,DIRECT
 
-# Netflix
-- DOMAIN-SUFFIX,netflix.com,Netflix
-- DOMAIN-SUFFIX,netflix.net,Netflix
-- DOMAIN-SUFFIX,nflxext.com,Netflix
-- DOMAIN-SUFFIX,nflximg.com,Netflix
-- DOMAIN-SUFFIX,nflximg.net,Netflix
-- DOMAIN-SUFFIX,nflxso.net,Netflix
-- DOMAIN-SUFFIX,nflxvideo.net,Netflix
-
-# Spark
-- DOMAIN-SUFFIX,api.amplitude.com,DIRECT
-- DOMAIN-SUFFIX,app.smartmailcloud.com,DIRECT
-- DOMAIN-SUFFIX,firebaseio.com,DIRECT
-- DOMAIN-SUFFIX,gate.hockeyapp.net,DIRECT
+# Streaming Media
+- DOMAIN-SUFFIX,netflix.com,Streaming
+- DOMAIN-SUFFIX,netflix.net,Streaming
+- DOMAIN-SUFFIX,nflxext.com,Streaming
+- DOMAIN-SUFFIX,nflximg.com,Streaming
+- DOMAIN-SUFFIX,nflximg.net,Streaming
+- DOMAIN-SUFFIX,nflxso.net,Streaming
+- DOMAIN-SUFFIX,nflxvideo.net,Streaming
 
 # Telegram
 - DOMAIN-SUFFIX,telegra.ph,Proxy

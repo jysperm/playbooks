@@ -47,6 +47,7 @@
   register: result
   failed_when: 'result.rc != 0 and "already exists" not in result.stderr'
   changed_when: '"already exists" not in result.stderr'
+  tags: [iptables]
 
 - name: configure clash ignored destination
   iptables:
@@ -62,6 +63,7 @@
     - '172.16.0.0/12'
     - '192.168.0.0/16'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: configure clash ignored source
   iptables:
@@ -72,6 +74,7 @@
     jump: RETURN
   with_items: '{{ clash_ignored_lan_ip }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: configure clash ignored address
   iptables:
@@ -82,6 +85,7 @@
     jump: RETURN
   with_items: '{{ clash_proxy_address }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: configure clash ignored port
   iptables:
@@ -92,6 +96,7 @@
     jump: RETURN
   with_items: '{{ [clash_redir_port] + clash_proxy_ports }}'
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: configure clash redirect
   iptables:
@@ -101,6 +106,7 @@
     to_ports: '{{ clash_redir_port }}'
     jump: REDIRECT
   notify: netfilter-persistent
+  tags: [iptables]
 
 - name: redirect PREROUTING to CLASH
   iptables:
@@ -110,3 +116,18 @@
     protocol: tcp
     jump: CLASH
   notify: netfilter-persistent
+  tags: [iptables]
+
+- name: redirect DNS to CLASH
+  iptables:
+    table: nat
+    chain: OUTPUT
+    destination: '{{ item }}'
+    protocol: tcp
+    jump: CLASH
+  with_items:
+    - '1.1.1.1'
+    - '9.9.9.9'
+  notify: netfilter-persistent
+  when: dns_proxied
+  tags: [iptables]

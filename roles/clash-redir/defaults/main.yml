@@ -6,11 +6,14 @@ http_proxy_port: '8118'
 clash_proxy_ports: [12345]
 clash_dashbiard_secret: ''
 clash_ignored_lan_ip: []
+dns_proxied: false
 
 clash_proxies: |
   proxies:
     - { name: 'Proxy', type: 'ss', server: '1.2.3.4', port: 12345, cipher: 'aes-128-gcm',password :'123456' }
 
   proxy-groups:
-    - { name: 'Netflix', type: select, proxies: [Proxy] }
+    - { name: 'Streaming', type: select, proxies: [Proxy] }
     - { name: 'Blocked', type: select, proxies: [REJECT] }
+
+clash_rules: |

@@ -1,3 +1,4 @@
+---
 - hosts: voyager
   vars:
     nextdata_exposed: true
