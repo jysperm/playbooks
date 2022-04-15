@@ -1,11 +1,4 @@
 ---
-- name: setup ssh public keys
-  authorized_key:
-    user: root
-    key: "{{ lookup('file', item) }}"
-  with_fileglob:
-    - authorized-keys/*
-
 - name: install apt packages
   apt:
     name: '{{item}}'

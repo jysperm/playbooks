@@ -1,5 +1,13 @@
 # Playbooks
-Play with Ansible
+My Linux server automation scripts
+
+## Import SSH Key
+
+```
+mkdir -m 700 ~/.ssh
+curl https://github.com/jysperm.keys >> ~/.ssh/authorized_keys
+chown 600 ~/.ssh/authorized_keys
+```
 
 ## Encrypted files
 
