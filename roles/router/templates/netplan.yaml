@@ -3,7 +3,7 @@ network:
   renderer: networkd
   ethernets:
     enp1s0:
-      optional: true
+      dhcp4: true
     enp2s0:
       optional: true
     enp3s0:
