@@ -1,9 +1,4 @@
-# QCloud ap-beijing-3 1Core/2G
-Host cn-forum
-  HostName 140.143.189.132
-  User root
-
-# Linode ap-northeast-1b 1Core/2G
+# Linode ap-northeast-1b 2Core/4G
 Host ap-forum
   HostName 172.104.95.199
   User root
@@ -13,11 +8,11 @@ Host ap-home
   HostName 139.162.109.167
   User root
 
-# Linode ap-northeast-1b 1Core/1G
-Host jp-agent
-  HostName 172.104.81.58
-  User root
-
 Host voyager
   HostName 10.0.0.1
   User root
+
+Host infinity
+  HostName 10.0.0.100
+  User root
+

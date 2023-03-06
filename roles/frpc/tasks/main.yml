@@ -5,7 +5,7 @@
     state: 'directory'
   with_items:
     - '/root/downloads'
-    - '/etc/frps'
+    - '/etc/frpc'
 
 - name: download frp
   get_url:
@@ -19,25 +19,32 @@
     dest: '/root/downloads'
     remote_src: 'yes'
 
-- name: install frps
+- name: install frpc
   copy:
-    src: '/root/downloads/frp_{{ frp_release }}_linux_amd64/frps'
-    dest: /usr/bin/frps
+    src: '/root/downloads/frp_{{ frp_release }}_linux_amd64/frpc'
+    dest: /usr/bin/frpc
     remote_src: yes
     mode: '0755'
-  notify: restart frps
 
-- name: install frps configure
+- name: generate frpc configure
   template:
-    src: 'frps.ini'
-    dest: /etc/frps/frps.ini
-  notify: restart frps
+    src: 'frpc.ini'
+    dest: '/etc/frpc/frpc-{{ item }}.ini'
+  with_items: '{{ frp_servers }}'
+  register: generate_result
 
 - name: create systemd service
   template:
-    src: 'frps.service'
-    dest: '/etc/systemd/system/frps.service'
+    src: 'frpc.service'
+    dest: '/etc/systemd/system/frpc@.service'
     mode: '0644'
   notify:
     - reload systemd
-    - restart frps
+
+- name: restart frpc services
+  service:
+    name: 'frpc@{{ item }}'
+    state: 'restarted'
+    enabled: 'yes'
+  with_items: '{{ frp_servers }}'
+  when: generate_result.changed

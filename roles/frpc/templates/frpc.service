@@ -1,0 +1,9 @@
+[Unit]
+Description=frpc daemon (%i)
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/frpc -c /etc/frpc/frpc-%i.ini
+
+[Install]
+WantedBy=multi-user.target

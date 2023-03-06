@@ -1,6 +1,7 @@
 ---
-wireguard_self_cidr: '10.0.1.100/24'
+wireguard_self_cidr: '10.0.1.1/24'
 wireguard_clients_cidr: '10.0.1.0/24'
 wireguard_port: '41194'
 wireguard_peers:
   - public_key: R4jEchX+mi+lezwltGQavd9d8jY2gIzk4fYW69mu/BE=
+    address: '192.168.1.1/32'

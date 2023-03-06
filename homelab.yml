@@ -2,6 +2,12 @@
 - hosts: voyager
   vars:
     nextdata_exposed: true
+    # dns_proxied: true
+    frp_client_proxies:
+      - name: wireguard
+        local_port: 41194
+        remote_port: 41194
+        type: udp
   vars_files:
     - secrets.yml
     - voyager-secrets.yml
@@ -12,3 +18,13 @@
     - clash-redir
     - dnsmasq
     - netdata
+    - wireguard
+    - frpc
+
+
+- hosts: refinity
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+    - frps
