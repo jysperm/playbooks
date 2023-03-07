@@ -1,4 +1,4 @@
-FROM nextcloud:22-fpm-alpine
+FROM nextcloud:25-fpm-alpine
 
 RUN apk --no-cache add shadow &&\
     userdel xfs &&\

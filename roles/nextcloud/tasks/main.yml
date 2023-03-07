@@ -21,6 +21,6 @@
 
 - name: Start nextcloud
   command:
-    cmd: docker-compose up -d
+    cmd: docker-compose up --build -d
     chdir: /root/nextcloud
   when: 'compose_file_result.changed or image_file_result.changed'
