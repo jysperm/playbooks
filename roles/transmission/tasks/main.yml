@@ -1,0 +1,17 @@
+---
+- name: create transmission compose dir
+  file:
+    path: /root/transmission
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/transmission/docker-compose.yml'
+  register: compose_file_result
+
+- name: Start transmission
+  command:
+    cmd: docker-compose up -d
+    chdir: /root/transmission
+  when: compose_file_result.changed

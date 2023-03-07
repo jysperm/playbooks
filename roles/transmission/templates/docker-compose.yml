@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  miniflux:
+    image: linuxserver/transmission
+    container_name: transmission
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - USER={{ transmission_user }}
+      - PASS={{ transmission_password }}
+    volumes:
+      - '{{ transmission_downloads }}:/downloads'

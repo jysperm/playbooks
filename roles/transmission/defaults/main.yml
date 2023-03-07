@@ -1,0 +1,4 @@
+---
+transmission_user: username
+transmission_password: password
+transmission_downloads: /storage/public/Downloads
