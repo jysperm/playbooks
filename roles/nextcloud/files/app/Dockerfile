@@ -1,4 +1,4 @@
-FROM nextcloud:fpm-alpine
+FROM nextcloud:22-fpm-alpine
 
 RUN apk --no-cache add shadow &&\
     userdel xfs &&\
@@ -7,4 +7,6 @@ RUN apk --no-cache add shadow &&\
     usermod -u 33 www-data &&\
     groupmod -g 33 www-data
 
-RUN echo '*/10 * * * * php -f /var/www/html/occ files:scan --all' >> /etc/crontabs/www-data
+RUN ln -s /usr/local/bin/php /usr/bin/php
+
+RUN echo '*/15 * * * * php -f /var/www/html/occ files:scan --all' >> /etc/crontabs/www-data

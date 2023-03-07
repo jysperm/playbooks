@@ -8,6 +8,7 @@
   template:
     src: 'docker-compose.yml'
     dest: '/root/nextcloud/docker-compose.yml'
+  register: compose_file_result
 
 - name: upload web image files
   copy:
@@ -16,8 +17,10 @@
   loop:
     - web
     - app
+  register: image_file_result
 
 - name: Start nextcloud
   command:
     cmd: docker-compose up -d
     chdir: /root/nextcloud
+  when: 'compose_file_result.changed or image_file_result.changed'

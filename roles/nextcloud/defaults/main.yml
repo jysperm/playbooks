@@ -2,3 +2,4 @@
 nextcloud_root: '/storage/nextcloud'
 nextcloud_db: '/storage/db/nextcloud'
 nextcloud_mysql_password: 'password'
+nextcloud_external_storage: []

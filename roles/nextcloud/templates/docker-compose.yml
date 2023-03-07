@@ -21,6 +21,9 @@ services:
     build: ./app
     volumes:
       - '{{ nextcloud_root }}:/var/www/html'
+{% for path in nextcloud_external_storage %}
+      - '{{ path }}:{{ path }}:ro'
+{% endfor %}
     environment:
       OVERWRITEPROTOCOL: 'https'
       MYSQL_ROOT_PASSWORD: '{{ nextcloud_mysql_password }}'
