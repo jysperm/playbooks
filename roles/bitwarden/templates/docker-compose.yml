@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitwarden:
-    image: vaultwarden/server
+    image: vaultwarden/server:1.27.0
     container_name: bitwarden
     ports:
       - 8082:80
