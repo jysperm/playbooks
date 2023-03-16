@@ -8,6 +8,7 @@
   get_url:
     url: 'https://github.com/restic/restic/releases/download/v0.9.6/restic_0.9.6_linux_amd64.bz2'
     dest: '/root/downloads/restic-0.9.6.bz2'
+  tags: [download]
 
 - name: unarchive restic
   command: bzip2 -d restic-0.9.6.bz2
@@ -34,7 +35,7 @@
 - name: enable timers
   service:
     name: '{{ item }}'
-    state: 'restarted'
+    state: 'started'
     enabled: 'yes'
   loop:
     - restic-backup.timer

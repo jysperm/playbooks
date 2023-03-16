@@ -19,7 +19,7 @@
     - app
   register: image_file_result
 
-- name: Start nextcloud
+- name: start nextcloud
   command:
     cmd: docker-compose up --build -d
     chdir: /root/nextcloud

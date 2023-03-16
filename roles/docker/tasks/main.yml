@@ -18,3 +18,17 @@
     dest: /etc/docker/daemon.json
   when: docker_registry_url is defined
   notify: restart docker
+
+- name: download docker-compose
+  get_url:
+    url: 'https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64'
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+  tags: [download]
+
+- name: download ctop
+  get_url:
+    url: 'https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-amd64'
+    dest: /usr/local/bin/ctop
+    mode: '0755'
+  tags: [download]

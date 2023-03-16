@@ -1,5 +1,5 @@
 # Playbooks
-My Linux server automation scripts
+Infrastructure as Code of my servers, NAS and router. Currently using Ansible.
 
 ## Import SSH Key
 

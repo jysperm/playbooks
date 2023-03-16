@@ -11,6 +11,22 @@
     name: '{{zpool_name}}'
     recurse: yes
 
+- name: create dataset
+  zfs:
+    name: '{{item.name}}'
+    state: present
+    extra_zfs_properties: '{{item.properties}}'
+  loop: '{{zfs_datasets}}'
+  when: item.name not in (ansible_zfs_datasets | map(attribute='name'))
+
+- name: create directories
+  file:
+    path: '/{{item.0.name}}/{{item.1}}'
+    state: directory
+  with_subelements:
+    - '{{zfs_datasets}}'
+    - directories
+
 - name: install systemd files
   template:
     src: '{{ item }}'
@@ -23,7 +39,7 @@
 - name: enable timers
   service:
     name: '{{ item }}'
-    state: 'restarted'
+    state: 'started'
     enabled: 'yes'
   loop:
     - zfs-snapshot.timer

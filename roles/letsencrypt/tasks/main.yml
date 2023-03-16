@@ -3,6 +3,7 @@
   apt_repository:
     repo: 'ppa:certbot/certbot'
     update_cache: yes
+  when: '(ansible_distribution_major_version | int) < 20'
 
 - name: install apt packages
   apt:
@@ -21,6 +22,8 @@
 - name: issue certificates
   command: certbot certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
   with_items: '{{ letsencrypt }}'
+  register: certbot_result
+  changed_when: certbot_result.stdout is not search('no action taken')
 
 - name: setup renew cronjob
   cron:

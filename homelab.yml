@@ -21,8 +21,71 @@
     - wireguard
     - frpc
 
+- hosts: infinity
+  vars_files:
+    - secrets.yml
+    - infinity-secrets.yml
+  vars:
+    nextdata_exposed: true
+    letsencrypt:
+      - 'nextcloud.{{ infinity_domain }}'
+      - 'miniflux.{{ infinity_domain }}'
+      - 'bitwarden.{{ infinity_domain }}'
+    miniflux_base_url: 'https://miniflux.{{ infinity_domain }}/'
+    bitwarden_base_url: 'https://bitwarden.{{ infinity_domain }}/'
+    zpool_name: storage
+    frp_client_proxies:
+      - name: nginx-http
+        local_port: 80
+        remote_port: 80
+        type: tcp
+      - name: nginx-https
+        local_port: 443
+        remote_port: 443
+        type: tcp
+    restic_backup_paths:
+      - /storage/db
+      - /storage/nextcloud
+      - /storage/private
+      - /storage/shares/AudioWorks/Caipai
+      - /storage/shares/VideoWorks/Rendered
+  roles:
+    - common
+    - docker
+    - frpc
+    - netdata
+    - nextcloud
+    - nginx
+    - letsencrypt
+    - samba
+    - zfs
+    - restic
+    - transmission
+    - bitwarden
+
+# - hosts: infinity
+#   vars_files:
+#     - secrets.yml
+#     - infinity-secrets.yml
+#   vars:
+#     factorio_version: '1.1.35'
+#     factorio_server: 'spaceex'
+#     frp_client_proxies:
+#       - name: factorio-spaceex
+#         local_port: 34197
+#         remote_port: 34197
+#         type: udp
+#   roles:
+#     - factorio
 
 - hosts: refinity
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+    - frps
+
+- hosts: qcfinity
   vars_files:
     - secrets.yml
   roles:
