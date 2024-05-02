@@ -1,0 +1,4 @@
+---
+prometheus_root: '/var/lib/prometheus'
+grafana_root: '/var/lib/grafana'
+loki_root: '/var/lib/loki'

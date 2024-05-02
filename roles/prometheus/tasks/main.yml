@@ -1,0 +1,25 @@
+---
+- name: create compose dir
+  file:
+    path: /root/prometheus
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/prometheus/docker-compose.yml'
+
+- name: upload prometheus config
+  template:
+    src: '{{ item }}'
+    dest: '/root/prometheus/prometheus.yml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/prometheus.yml'
+    - 'files/prometheus.yml'
+
+- name: docker compose up
+  command:
+    cmd: docker compose up -d
+    chdir: /root/prometheus
+  register: compose_up_result
+  changed_when: compose_up_result.stdout.find('Creating') != -1 or compose_up_result.stdout.find('Starting') != -1
