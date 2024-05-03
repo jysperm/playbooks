@@ -1,4 +1,6 @@
 ---
+- include_vars: ../../global-vars.yml
+
 - name: ensures directory exists
   file:
     path: '{{ item }}'
@@ -9,7 +11,7 @@
 
 - name: download frp
   get_url:
-    url: 'https://github.com/fatedier/frp/releases/download/v{{ frp_release }}/frp_{{ frp_release }}_linux_amd64.tar.gz'
+    url: 'https://github.com/fatedier/frp/releases/download/v{{ frp_release }}/frp_{{ frp_release }}_linux_{{ deb_architecture[ansible_architecture] }}.tar.gz'
     dest: '/root/downloads/frp.tar.gz'
   tags: [download]
 
@@ -21,7 +23,7 @@
 
 - name: install frpc
   copy:
-    src: '/root/downloads/frp_{{ frp_release }}_linux_amd64/frpc'
+    src: '/root/downloads/frp_{{ frp_release }}_linux_{{ deb_architecture[ansible_architecture] }}/frpc'
     dest: /usr/bin/frpc
     remote_src: yes
     mode: '0755'

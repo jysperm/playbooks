@@ -1,9 +1,12 @@
 [Unit]
 Description=frpc daemon (%i)
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
 ExecStart=/usr/bin/frpc -c /etc/frpc/frpc-%i.ini
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
