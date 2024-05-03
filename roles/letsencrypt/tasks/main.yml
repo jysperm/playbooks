@@ -1,16 +1,12 @@
 ---
-- name: add apt repository
-  apt_repository:
-    repo: 'ppa:certbot/certbot'
-    update_cache: yes
-  when: '(ansible_distribution_major_version | int) < 20'
-
 - name: install apt packages
   apt:
     name: certbot
 
 - name: upload nginx config
-  template: src=nginx.conf dest=/etc/nginx/sites-enabled/letsencrypt.conf
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/sites-enabled/letsencrypt.conf
   register: nginx_conf
 
 - name: restart nginx
@@ -20,7 +16,7 @@
   when: nginx_conf.changed
 
 - name: issue certificates
-  command: certbot certonly --webroot -w /var/www/html -d {{item}} --email {{letsencrypt_email}} --agree-tos --noninteractive
+  command: certbot certonly --webroot -w /var/www/html -d {{ item }} --email {{ letsencrypt_email }} --noninteractive --agree-tos
   with_items: '{{ letsencrypt }}'
   register: certbot_result
   changed_when: certbot_result.stdout is not search('no action taken')
@@ -35,4 +31,4 @@
   cron:
     name: nginx
     special_time: daily
-    job: 'service nginx restart'
+    job: '/etc/init.d/nginx reload'
