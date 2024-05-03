@@ -1,0 +1,7 @@
+---
+- name: setup dump cronjob
+  cron:
+    name: pg_dump
+    special_time: daily
+    job: su {{ item.key }} -c 'pg_dump {{ item.key }}' > {{ item.value }}
+  loop: '{{ postgres_dump_databases | dict2items }}'

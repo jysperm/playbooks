@@ -1,0 +1,36 @@
+---
+- name: install apt packages
+  apt:
+    name: '{{item}}'
+  loop:
+    - postgresql
+    - postgresql-contrib
+    - python3-psycopg2
+
+- name: create users
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: '{{item.user}}'
+    password: '{{item.password}}'
+  loop: '{{postgres_apps}}'
+
+- name: create databases
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: '{{item.db}}'
+    owner: '{{item.user}}'
+  loop: '{{postgres_apps}}'
+
+- name: grant privileges
+  become: true
+  become_user: postgres
+  postgresql_privs:
+    database: '{{item.db}}'
+    role: '{{item.user}}'
+    type: database
+    privs: ALL
+  loop: '{{postgres_apps}}'
+
+- include_tasks: dump.yml
