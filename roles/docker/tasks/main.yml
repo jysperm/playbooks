@@ -1,16 +1,18 @@
 ---
+- include_vars: ../../global-vars.yml
+
 - name: add apt repository key
   apt_key:
-    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    url: 'https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg'
 
 - name: add apt repository
   apt_repository:
-    repo: 'deb [arch=amd64] {{ docker_mirror_url | default("https://download.docker.com/linux/ubuntu") }} {{ ansible_lsb.codename | lower }} stable'
-    update_cache: yes
+    repo: 'deb [arch={{ deb_architecture[ansible_architecture] }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'
 
 - name: install apt packages
   apt:
     name: docker-ce
+    update_cache: true
 
 - name: setup docker registry mirror
   template:
@@ -18,17 +20,3 @@
     dest: /etc/docker/daemon.json
   when: docker_registry_url is defined
   notify: restart docker
-
-- name: download docker-compose
-  get_url:
-    url: 'https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64'
-    dest: /usr/local/bin/docker-compose
-    mode: '0755'
-  tags: [download]
-
-- name: download ctop
-  get_url:
-    url: 'https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-amd64'
-    dest: /usr/local/bin/ctop
-    mode: '0755'
-  tags: [download]
