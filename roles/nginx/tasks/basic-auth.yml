@@ -1,0 +1,22 @@
+---
+- name: touch htpasswd file
+  command:
+    cmd: touch /etc/nginx/.htpasswd
+    creates: /etc/nginx/.htpasswd
+
+- name: ensure htpasswd permissions
+  file:
+    path: /etc/nginx/.htpasswd
+    state: file
+    owner: www-data
+    group: www-data
+    mode: 0600
+
+- name: generate htpasswd
+  shell:
+    cmd: 'htpasswd -i /etc/nginx/.htpasswd {{ item.key }}'
+    stdin: '{{ item.value }}'
+  loop: '{{ nginx_basic_auth | dict2items }}'
+  register: htpasswd_result
+  changed_when: htpasswd_result.stdout is search('Adding')
+  notify: restart nginx

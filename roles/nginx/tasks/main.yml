@@ -4,19 +4,14 @@
     name: '{{item}}'
   loop:
     - nginx
-    - python3-pip
-
-- name: install ngxtop
-  pip:
-    name: ngxtop
-    extra_args: '{{ pip_args | default(omit) }}'
+    - apache2-utils
 
 - name: create home dir
   user:
     name: 'www-data'
     shell: /bin/bash
     home: '/home/www-data'
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: setup ssh public keys
   authorized_key:
@@ -43,3 +38,5 @@
   notify: restart nginx
   with_fileglob:
     - nginx-sites/{{ ansible_hostname }}/*
+
+- include_tasks: basic-auth.yml
