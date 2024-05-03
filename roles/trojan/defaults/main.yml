@@ -1,0 +1,4 @@
+---
+trojan_password: 'password'
+trojan_port: 443
+trojan_domain: 'trojan.example.com'

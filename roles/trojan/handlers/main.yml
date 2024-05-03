@@ -1,0 +1,9 @@
+---
+- name: reload systemd
+  command: systemctl daemon-reload
+
+- name: restart trojan
+  service:
+    name: 'trojan'
+    state: 'restarted'
+    enabled: 'yes'

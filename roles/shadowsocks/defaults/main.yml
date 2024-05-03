@@ -1,2 +1,3 @@
 ---
 shadowsocks_password: 'password'
+shadowsocks_port: 443
