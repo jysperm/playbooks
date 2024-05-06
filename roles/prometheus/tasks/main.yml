@@ -15,7 +15,15 @@
     dest: '/root/prometheus/prometheus.yml'
   with_first_found:
     - 'files/{{ ansible_hostname }}/prometheus.yml'
-    - 'files/prometheus.yml'
+    - 'templates/prometheus.yml'
+
+- name: upload loki config
+  template:
+    src: '{{ item }}'
+    dest: '/root/prometheus/loki.yaml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/loki.yaml'
+    - 'templates/loki.yaml'
 
 - name: docker compose up
   command:
