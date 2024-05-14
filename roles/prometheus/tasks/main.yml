@@ -30,4 +30,4 @@
     cmd: docker compose up -d
     chdir: /root/prometheus
   register: compose_up_result
-  changed_when: compose_up_result.stdout.find('Creating') != -1 or compose_up_result.stdout.find('Starting') != -1
+  changed_when: compose_up_result.stderr is search('Creating|Starting|Recreated')

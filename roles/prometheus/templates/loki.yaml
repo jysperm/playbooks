@@ -4,6 +4,7 @@ server:
   http_listen_port: 3100
 
 common:
+  instance_addr: 127.0.0.1
   path_prefix: /loki
   storage:
     filesystem:
@@ -17,15 +18,15 @@ common:
 schema_config:
   configs:
     - from: 2020-10-24
-      store: boltdb-shipper
+      store: tsdb
       object_store: filesystem
-      schema: v11
+      schema: v13
       index:
         prefix: index_
         period: 24h
 
-query_scheduler:
-  max_outstanding_requests_per_tenant: 32000
+# query_scheduler:
+#   max_outstanding_requests_per_tenant: 32000
 
 ruler:
   alertmanager_url: http://localhost:9093
