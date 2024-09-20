@@ -1,0 +1,24 @@
+---
+- name: create directory
+  file:
+    path: /etc/docker/certs
+    state: directory
+
+- name: upload certs
+  copy:
+    src: 'docker-certs/{{ item }}'
+    dest: '/etc/docker/certs/{{ item }}'
+  with_items:
+    - '{{ docker_cert_name }}.cert'
+    - '{{ docker_cert_name }}.key'
+    - 'ca.pem'
+
+- name: setup docker remote access
+  lineinfile:
+    path: '/lib/systemd/system/docker.service'
+    regexp: 'ExecStart='
+    line: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock -H 0.0.0.0:2376 --tlsverify --tlscacert=/etc/docker/certs/ca.pem --tlscert=/etc/docker/certs/{{ docker_cert_name }}.cert --tlskey=/etc/docker/certs/{{ docker_cert_name }}.key'
+    firstmatch: true
+  notify:
+    - reload systemd
+    - restart docker

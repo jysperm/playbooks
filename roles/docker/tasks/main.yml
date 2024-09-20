@@ -20,3 +20,6 @@
     dest: /etc/docker/daemon.json
   when: docker_registry_url is defined
   notify: restart docker
+
+- include_tasks: remote.yml
+  when: docker_cert_name
