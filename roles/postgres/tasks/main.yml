@@ -1,10 +1,22 @@
 ---
+- name: install the common package
+  apt:
+    name: postgresql-common
+
+- name: add apt repository key
+  apt_key:
+    url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
+
+- name: add apt repository
+  apt_repository:
+    repo: 'deb https://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main'
+
 - name: install apt packages
   apt:
     name: '{{item}}'
+    update_cache: true
   loop:
-    - postgresql
-    - postgresql-contrib
+    - '{{ postgres_package_name }}'
     - python3-psycopg2
 
 - name: create users
@@ -32,5 +44,55 @@
     type: database
     privs: ALL
   loop: '{{postgres_apps}}'
+
+- name: find postgresql.conf
+  find:
+    path: /etc/postgresql/
+    recurse: true
+    patterns: postgresql.conf
+  register: postgresql_conf
+  when: postgres_remote_access
+
+- name: debug postgresql_conf
+  debug:
+    var: postgresql_conf
+
+- name: listen on all addresses
+  lineinfile:
+    path: '{{ item.path }}'
+    regexp: 'listen_addresses ='
+    line: "listen_addresses = '*'"
+    firstmatch: true
+  loop: "{{ postgresql_conf.files }}"
+  when: postgres_remote_access
+  notify: restart postgresql
+
+- name: find pg_hba.conf
+  find:
+    path: /etc/postgresql/
+    recurse: true
+    patterns: pg_hba.conf
+  register: pg_hba_conf
+  when: postgres_remote_access
+
+- name: allow all users to connect from all ipv4 addresses
+  lineinfile:
+    path: '{{ item.path }}'
+    regexp: 'host all all 0.0.0.0/0 scram-sha-256'
+    line: "host all all 0.0.0.0/0 scram-sha-256"
+    firstmatch: true
+  loop: "{{ pg_hba_conf.files }}"
+  when: postgres_remote_access
+  notify: restart postgresql
+
+- name: allow all users to connect from all ipv6 addresses
+  lineinfile:
+    path: '{{ item.path }}'
+    regexp: 'host all all ::/0 scram-sha-256'
+    line: "host all all ::/0 scram-sha-256"
+    firstmatch: true
+  loop: "{{ pg_hba_conf.files }}"
+  when: postgres_remote_access
+  notify: restart postgresql
 
 - include_tasks: dump.yml

@@ -1,3 +1,5 @@
 ---
+postgres_package_name: postgresql
+postgres_remote_access: false
 postgres_apps: []
 postgres_dump_databases: {}
