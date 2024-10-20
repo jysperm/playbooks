@@ -9,6 +9,11 @@
     dest: /etc/nginx/sites-enabled/letsencrypt.conf
   register: nginx_conf
 
+- name: ensures directory exists
+  file:
+    path: '/var/www/html'
+    state: 'directory'
+
 - name: restart nginx
   service:
     name: nginx

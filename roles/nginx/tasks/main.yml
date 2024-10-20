@@ -7,11 +7,9 @@
     - apache2-utils
 
 - name: create home dir
-  user:
-    name: 'www-data'
-    shell: /bin/bash
-    home: '/home/www-data'
-  ignore_errors: true
+  command: usermod -md /home/www-data -s /bin/bash www-data
+  args:
+    creates: /home/www-data
 
 - name: setup ssh public keys
   authorized_key:

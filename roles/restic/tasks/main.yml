@@ -1,4 +1,8 @@
 ---
+- name: install apt dependencies
+  apt:
+    name: bzip2
+
 - name: ensures directory exists
   file:
     path: '/root/downloads'
