@@ -5,22 +5,13 @@
   vars:
     letsencrypt:
       - jybox.net
-      - pidan.cat
-      - doufu.cat
-      - nohttps.org
-    rsync_users:
-      -
-        username: 'synology'
-        password: '{{ rsync_synology_password }}'
+    # rsync_users:
+    #   -
+    #     username: 'synology'
+    #     password: '{{ rsync_synology_password }}'
   roles:
     - common
     - nginx
     - letsencrypt
-    - rsync
+    # - rsync
     - frps
-
-- hosts: jp-agent
-  vars_files:
-    - secrets.yml
-  roles:
-    - shadowsocks

@@ -9,20 +9,8 @@
         domain: atom-china.org
         smtp_user: '{{ ses_smtp_user_atom_china }}'
         smtp_password: '{{ ses_smtp_secret_atom_china }}'
-      -
-        name: hexo-china
-        domain: hexo-china.org
-        smtp_user: '{{ ses_smtp_user_hexo_china }}'
-        smtp_password: '{{ ses_smtp_secret_hexo_china }}'
-      -
-        name: decentralizing
-        domain: decentralizing.io
-        smtp_user: '{{ ses_smtp_user_decentralizing }}'
-        smtp_password: '{{ ses_smtp_secret_decentralizing }}'
     letsencrypt:
       - atom-china.org
-      - hexo-china.org
-      - decentralizing.io
   roles:
     - common
     - discourse

@@ -84,10 +84,3 @@
   roles:
     - common
     - frps
-
-- hosts: qcfinity
-  vars_files:
-    - secrets.yml
-  roles:
-    - common
-    - frps
