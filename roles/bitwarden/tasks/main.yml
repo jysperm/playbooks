@@ -8,10 +8,10 @@
   template:
     src: 'docker-compose.yml'
     dest: '/root/bitwarden/docker-compose.yml'
-  register: compose_file_result
 
 - name: Start bitwarden
   command:
-    cmd: docker-compose up -d
+    cmd: docker compose up -d
     chdir: /root/bitwarden
-  when: 'compose_file_result.changed'
+  register: compose_upped
+  changed_when: compose_upped.stderr is search('Creating|Starting|Recreated')
