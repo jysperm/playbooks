@@ -1,0 +1,14 @@
+- hosts: infinity
+  vars_files:
+    - secrets.yml
+    - infinity-secrets.yml
+  vars:
+    factorio_version: '1.1.35'
+    factorio_server: 'spaceex'
+    frp_client_proxies:
+      - name: factorio-spaceex
+        local_port: 34197
+        remote_port: 34197
+        type: udp
+  roles:
+    - factorio

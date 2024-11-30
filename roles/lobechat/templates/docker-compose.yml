@@ -1,0 +1,12 @@
+services:
+  lobechat:
+    image: 'lobehub/lobe-chat:v1.26.3'
+    container_name: lobechat
+    hostname: lobechat
+    environment:
+      - OPENAI_API_KEY={{ lobechat_openai_api_key }}
+      - GOOGLE_API_KEY={{ lobechat_google_api_key }}
+      - ANTHROPIC_API_KEY={{ lobechat_anthropic_api_key }}
+      - ACCESS_CODE={{ lobechat_access_code }}
+    ports:
+      - '3210:3210'

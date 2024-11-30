@@ -1,0 +1,17 @@
+---
+- name: create compose dir
+  file:
+    path: /root/lobechat
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/lobechat/docker-compose.yml'
+
+- name: docker compose up
+  command:
+    cmd: docker compose up -d
+    chdir: /root/lobechat
+  register: compose_upped
+  changed_when: compose_upped.stderr is search('Creating|Starting|Recreated')

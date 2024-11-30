@@ -31,6 +31,7 @@
       - 'nextcloud.{{ infinity_domain }}'
       - 'miniflux.{{ infinity_domain }}'
       - 'bitwarden.{{ infinity_domain }}'
+      - 'lobechat.{{ infinity_domain }}'
     miniflux_base_url: 'https://miniflux.{{ infinity_domain }}/'
     bitwarden_base_url: 'https://bitwarden.{{ infinity_domain }}/'
     zpool_name: storage
@@ -50,33 +51,19 @@
       - /storage/shares/AudioWorks/Caipai
       - /storage/shares/VideoWorks/Rendered
   roles:
+    - bitwarden
     - common
     - docker
     - frpc
+    - letsencrypt
+    - lobechat
     - netdata
     - nextcloud
     - nginx
-    - letsencrypt
-    - samba
-    - zfs
     - restic
+    - samba
     - transmission
-    - bitwarden
-
-# - hosts: infinity
-#   vars_files:
-#     - secrets.yml
-#     - infinity-secrets.yml
-#   vars:
-#     factorio_version: '1.1.35'
-#     factorio_server: 'spaceex'
-#     frp_client_proxies:
-#       - name: factorio-spaceex
-#         local_port: 34197
-#         remote_port: 34197
-#         type: udp
-#   roles:
-#     - factorio
+    - zfs
 
 - hosts: refinity
   vars_files:
