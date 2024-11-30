@@ -1,0 +1,29 @@
+# https://github.com/ClickHouse/examples/blob/a2d75b915964adf1f54d99582f36791fb464242b/docker-compose-recipes/recipes/ch-1S_1K/docker-compose.yaml
+
+services:
+  clickhouse:
+    image: 'clickhouse/clickhouse-server:23.4'
+    container_name: clickhouse
+    hostname: clickhouse
+    restart: {{ 'unless-stopped' if restart_container else 'no' }}
+    volumes:
+      - ./config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./users.xml:/etc/clickhouse-server/users.d/users.xml
+      - '{{ clickhouse_root }}:/var/lib/clickhouse'
+      - '/var/log/clickhouse-server:/var/log/clickhouse-server'
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    depends_on:
+      - clickhouse-keeper
+
+  clickhouse-keeper:
+    image: 'clickhouse/clickhouse-keeper:23.4-alpine'
+    container_name: clickhouse-keeper
+    hostname: clickhouse-keeper
+    volumes:
+      - ./keeper.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - '{{ clickhouse_root }}:/var/lib/clickhouse'
+      - '/var/log/clickhouse-keeper:/var/log/clickhouse-keeper'
+    ports:
+      - '9181:9181'

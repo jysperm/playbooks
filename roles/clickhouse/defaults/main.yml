@@ -1,0 +1,3 @@
+---
+clickhouse_root: '/var/lib/clickhouse'
+restart_container: true

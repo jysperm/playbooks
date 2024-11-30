@@ -1,0 +1,41 @@
+---
+- name: create compose dir
+  file:
+    path: /root/clickhouse
+    state: directory
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/clickhouse/docker-compose.yml'
+
+- name: upload clickhouse config
+  template:
+    src: '{{ item }}'
+    dest: '/root/clickhouse/config.xml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/clickhouse-config.xml'
+    - 'templates/config.xml'
+
+- name: upload clickhouse users config
+  template:
+    src: '{{ item }}'
+    dest: '/root/clickhouse/users.xml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/clickhouse-users.xml'
+    - 'templates/users.xml'
+
+- name: upload clickhouse keeper config
+  template:
+    src: '{{ item }}'
+    dest: '/root/clickhouse/keeper.xml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/clickhouse-keeper.xml'
+    - 'templates/keeper.xml'
+
+- name: docker compose up
+  command:
+    cmd: docker compose up -d
+    chdir: /root/clickhouse
+  register: compose_up_result
+  changed_when: compose_up_result.stderr is search('Creating|Starting|Recreated')
