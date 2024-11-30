@@ -18,6 +18,11 @@
   with_fileglob:
     - authorized-keys/*
 
+- name: setup internal ca
+  copy:
+    src: internal-certs/ca.pem
+    dest: /etc/nginx/internal-ca.pem
+
 - name: upload nginx main config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
   notify: restart nginx
