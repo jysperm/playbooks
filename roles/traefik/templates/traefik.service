@@ -1,0 +1,9 @@
+[Unit]
+Description=traefik daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/traefik --configFile=/etc/traefik.yaml
+
+[Install]
+WantedBy=multi-user.target

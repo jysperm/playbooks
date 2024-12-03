@@ -1,0 +1,58 @@
+---
+- name: ensures directory exists
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '/root/downloads'
+    - '/etc/traefik'
+    - '/etc/traefik/fileprovider'
+    - '/var/lib/traefik'
+
+- name: download traefik
+  get_url:
+    url: 'https://github.com/traefik/traefik/releases/download/v3.2.1/traefik_v3.2.1_linux_amd64.tar.gz'
+    dest: '/root/downloads/traefik.tar.gz'
+  tags: [download]
+
+- name: unarchive traefik
+  unarchive:
+    src: '/root/downloads/traefik.tar.gz'
+    dest: '/root/downloads'
+    remote_src: 'yes'
+
+- name: install traefik
+  copy:
+    src: '/root/downloads/traefik'
+    dest: /usr/bin/traefik
+    remote_src: 'yes'
+    mode: '0755'
+  notify: restart traefik
+
+- name: upload traefix config
+  template:
+    src: '{{item}}'
+    dest: '/etc/traefik/traefik.yaml'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/traefik.yaml'
+    - 'templates/traefik.yaml'
+  notify: restart traefik
+
+- name: upload fileprovider config
+  template:
+    src: 'templates/fileprovider/{{item}}'
+    dest: '/etc/traefik/fileprovider/{{item}}'
+  with_items:
+    - 'middleware.yaml'
+    - 'serversTransport.yaml'
+    - 'dashboard.yaml'
+  notify: restart traefik
+
+- name: create systemd service
+  template:
+    src: 'traefik.service'
+    dest: '/etc/systemd/system/traefik.service'
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart traefik
