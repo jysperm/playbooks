@@ -1,4 +1,0 @@
-http:
-  serversTransports:
-    insecureSkipVerify:
-      insecureSkipVerify: true

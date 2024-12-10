@@ -1,0 +1,30 @@
+---
+- name: create dirs
+  file:
+    path: '{{item}}'
+    state: directory
+  with_items:
+    - '/root/gitea'
+    - '{{gitea_root}}/conf'
+
+- name: upload compose file
+  template:
+    src: 'docker-compose.yml'
+    dest: '/root/gitea/docker-compose.yml'
+
+- name: upload gitea config
+  template:
+    src: '{{ item }}'
+    dest: '{{gitea_root}}/conf/app.ini'
+    owner: '1000'
+    group: '1000'
+  with_first_found:
+    - 'files/{{ ansible_hostname }}/gitea.ini'
+    - 'templates/app.ini'
+
+- name: docker compose up
+  command:
+    cmd: docker compose up -d
+    chdir: /root/gitea
+  register: compose_upped
+  changed_when: compose_upped.stderr is search('Creating|Starting|Recreated')

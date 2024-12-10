@@ -22,6 +22,7 @@
   copy:
     src: internal-certs/ca.pem
     dest: /etc/nginx/internal-ca.pem
+  when: "lookup('fileglob', 'internal-certs/ca.pem') != []"
 
 - name: upload nginx main config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
