@@ -1,25 +1,27 @@
 ---
-- hosts: voyager
-  vars:
-    nextdata_exposed: true
-    # dns_proxied: true
-    frp_client_proxies:
-      - name: wireguard
-        local_port: 41194
-        remote_port: 41194
-        type: udp
-  vars_files:
-    - secrets.yml
-    - voyager-secrets.yml
-  roles:
-    - common
-    - pppoe
-    - router
-    - clash-redir
-    - dnsmasq
-    - netdata
-    - wireguard
-    - frpc
+# No longer supported since ansible 2.17
+# /opt/homebrew/opt/ansible@9/bin/ansible-playbook
+# - hosts: voyager
+#   vars:
+#     nextdata_exposed: true
+#     # dns_proxied: true
+#     frp_client_proxies:
+#       - name: wireguard
+#         local_port: 41194
+#         remote_port: 41194
+#         type: udp
+#   vars_files:
+#     - secrets.yml
+#     - voyager-secrets.yml
+#   roles:
+#     - common
+#     - pppoe
+#     - router
+#     - clash-redir
+#     - dnsmasq
+#     - netdata
+#     - wireguard
+#     - frpc
 
 - hosts: infinity
   vars_files:
@@ -45,6 +47,16 @@
         local_port: 443
         remote_port: 443
         type: tcp
+      - name: wireguard-default
+        local_port: 10011
+        local_ip: 10.0.0.1
+        remote_port: 10011
+        type: udp
+      - name: wireguard-mexin
+        local_port: 10331
+        local_ip: 10.0.0.1
+        remote_port: 10331
+        type: udp
     restic_backup_paths:
       - /storage/db
       - /storage/nextcloud
@@ -67,6 +79,13 @@
     - zfs
 
 - hosts: refinity
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+    - frps
+
+- hosts: satellite-sin
   vars_files:
     - secrets.yml
   roles:
