@@ -32,6 +32,7 @@
       - 'miniflux.{{ infinity_domain }}'
       - 'bitwarden.{{ infinity_domain }}'
       - 'lobechat.{{ infinity_domain }}'
+      - 'home.{{ infinity_domain }}'
     miniflux_base_url: 'https://miniflux.{{ infinity_domain }}/'
     bitwarden_base_url: 'https://bitwarden.{{ infinity_domain }}/'
     zpool_name: storage
