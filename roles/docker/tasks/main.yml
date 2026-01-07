@@ -7,32 +7,32 @@
 
 - name: add apt repository key (legacy)
   apt_key:
-    url: 'https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg'
-  when: not (ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 13)
+    url: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}/gpg'
+  when: not (ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13)
 
 - name: add apt repository (legacy)
   apt_repository:
-    repo: 'deb [arch={{ deb_architecture[ansible_architecture] }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'
-  when: not (ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 13)
+    repo: 'deb [arch={{ deb_architecture[ansible_facts["architecture"]] }}] https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }} {{ ansible_facts["distribution_release"] }} stable'
+  when: not (ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13)
 
 - name: create keyrings directory
   file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
-  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 13
+  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
 
 - name: add Docker GPG key
   get_url:
-    url: 'https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg'
+    url: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}/gpg'
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
-  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 13
+  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
 
 - name: add apt repository
   apt_repository:
-    repo: 'deb [arch={{ deb_architecture[ansible_architecture] }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'
-  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 13
+    repo: 'deb [arch={{ deb_architecture[ansible_facts["architecture"]] }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }} {{ ansible_facts["distribution_release"] }} stable'
+  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
 
 - name: install apt packages
   apt:
@@ -47,4 +47,4 @@
   notify: restart docker
 
 - include_tasks: remote.yml
-  when: docker_cert_name
+  when: docker_cert_name | length > 0
