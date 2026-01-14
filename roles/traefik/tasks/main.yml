@@ -11,7 +11,7 @@
 
 - name: download traefik
   get_url:
-    url: 'https://github.com/traefik/traefik/releases/download/v3.2.1/traefik_v3.2.1_linux_amd64.tar.gz'
+    url: 'https://github.com/traefik/traefik/releases/download/v3.6.6/traefik_v3.6.6_linux_amd64.tar.gz'
     dest: '/root/downloads/traefik.tar.gz'
   tags: [download]
 
@@ -39,13 +39,11 @@
   notify: restart traefik
 
 - name: upload fileprovider config
-  template:
-    src: 'templates/fileprovider/{{item}}'
-    dest: '/etc/traefik/fileprovider/{{item}}'
-  with_items:
-    - 'middleware.yaml'
-    - 'serversTransport.yaml'
-    - 'dashboard.yaml'
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/traefik/fileprovider/'
+  with_fileglob:
+    - 'files/{{ ansible_hostname }}/traefik-files/*'
   notify: restart traefik
 
 - name: create systemd service
