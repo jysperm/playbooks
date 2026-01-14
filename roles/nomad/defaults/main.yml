@@ -1,0 +1,4 @@
+---
+nomad_agent_region: 'global'
+nomad_agent_datacenter: 'dc1'
+nomad_cni_plugin_version: 'v1.6.2'
