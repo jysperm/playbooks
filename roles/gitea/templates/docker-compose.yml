@@ -22,3 +22,13 @@ services:
     ports:
       - "3300:3000"
       - "2222:2222"
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+    healthcheck:
+      test: curl --fail http://localhost:3000 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
