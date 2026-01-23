@@ -1,0 +1,37 @@
+---
+- include_vars: ../../global-vars.yml
+
+- name: install fuse3
+  apt:
+    name: fuse3
+    state: present
+
+- name: enable user_allow_other in fuse config
+  lineinfile:
+    path: /etc/fuse.conf
+    regexp: '^#?user_allow_other'
+    line: 'user_allow_other'
+
+- name: ensures download directory exists
+  file:
+    path: '/root/downloads'
+    state: 'directory'
+
+- name: download juicefs
+  get_url:
+    url: 'https://github.com/juicedata/juicefs/releases/download/v{{ juicefs_version }}/juicefs-{{ juicefs_version }}-linux-{{ deb_architecture[ansible_facts["architecture"]] }}.tar.gz'
+    dest: '/root/downloads/juicefs-{{ juicefs_version }}.tar.gz'
+  tags: [download]
+
+- name: unarchive juicefs
+  unarchive:
+    src: '/root/downloads/juicefs-{{ juicefs_version }}.tar.gz'
+    dest: '/root/downloads'
+    remote_src: 'yes'
+
+- name: install juicefs
+  copy:
+    src: '/root/downloads/juicefs'
+    dest: '/usr/local/bin/juicefs'
+    remote_src: yes
+    mode: '0755'
