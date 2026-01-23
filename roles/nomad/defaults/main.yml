@@ -1,4 +1,9 @@
 ---
-nomad_agent_region: 'global'
-nomad_agent_datacenter: 'dc1'
+nomad_client_region: 'global'
+nomad_client_datacenter: 'dc1'
 nomad_cni_plugin_version: 'v1.6.2'
+nomad_server_join: []
+nomad_client_join: []
+nomad_client_meta: {}
+nomad_client_config: ""
+nomad_run_jobs: []
