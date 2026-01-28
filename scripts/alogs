@@ -7,8 +7,9 @@ Usage:
   DEBUG=<pattern> alogs <job_name>
 
 Output format:
-  [e776818a] 10:41:26 log content
-  [e776818a] taskname 10:41:26 log content  (when multiple tasks)
+  [e776818a] · log content                          (stdout)
+  [e776818a] ! 10:41:26 log content                 (stderr)
+  [e776818a] taskname · 10:41:26 log content        (when multiple tasks)
 
 DEBUG patterns (comma-separated, follows npm "debug" convention):
   Include:   app:*                  Show only matching namespaces
@@ -77,7 +78,8 @@ else
   SHOW_TASK=0
 fi
 
-trap 'kill $(jobs -p) 2>/dev/null; exit' SIGINT SIGTERM
+TMPDIR=$(mktemp -d)
+trap 'kill $(jobs -p) 2>/dev/null; rm -rf "$TMPDIR"; exit' SIGINT SIGTERM
 
 AWK_PROG='
 BEGIN {
@@ -161,9 +163,19 @@ function debugMatch(ns,    i) {
 
   prefix = "[" shortId "]"
   if (showTask == "1") prefix = prefix " " taskName
+  prefix = prefix " " streamMarker
   if (time != "") prefix = prefix " " time
 
-  print prefix " " content
+  if (batchMode) {
+    if (time == "") {
+      sortKey = sprintf("0%08d", NR)
+    } else {
+      sortKey = "1" time sprintf("%08d", NR)
+    }
+    print sortKey "\t" prefix " " content
+  } else {
+    print prefix " " content
+  }
   fflush()
 }
 '
@@ -171,17 +183,70 @@ function debugMatch(ns,    i) {
 AWK_CMD="awk"
 awk -W interactive 'BEGIN{exit}' </dev/null 2>/dev/null && AWK_CMD="awk -W interactive"
 
+# Phase 1: Collect initial logs, sort (non-timestamped-at-start first), and display
+BATCH_IDX=0
 while IFS=' ' read -r ALLOC_ID TASK_NAME; do
   SHORT_ID=${ALLOC_ID:0:8}
 
   for STDERR_FLAG in "" "-stderr"; do
+    if [ -z "$STDERR_FLAG" ]; then STREAM_MARKER="·"; else STREAM_MARKER="!"; fi
+    TMPFILE="$TMPDIR/batch_${BATCH_IDX}"
+    BATCH_IDX=$((BATCH_IDX + 1))
+    nomad alloc logs -task "$TASK_NAME" $STDERR_FLAG -tail -n 100 "$ALLOC_ID" 2>/dev/null | $AWK_CMD \
+      -v shortId="$SHORT_ID" \
+      -v taskName="$TASK_NAME" \
+      -v showTask="$SHOW_TASK" \
+      -v debugEnv="$DEBUG" \
+      -v streamMarker="$STREAM_MARKER" \
+      -v batchMode=1 \
+      "$AWK_PROG" > "$TMPFILE" &
+  done
+done <<< "$PAIRS"
+
+wait
+
+sort -t$'\t' -k1,1 "$TMPDIR"/batch_* 2>/dev/null | cut -f2-
+
+# Generate per-stream seen files for dedup
+for i in $(seq 0 $((BATCH_IDX - 1))); do
+  cut -f2- "$TMPDIR/batch_$i" > "$TMPDIR/seen_$i"
+done
+
+# Phase 2: Follow new logs with overlap, dedup against Phase 1
+DEDUP_AWK='
+BEGIN {
+  while ((getline line < seenFile) > 0) seen[line]++
+  close(seenFile)
+  deduping = 1
+}
+{
+  if (deduping) {
+    if (seen[$0] > 0) { seen[$0]--; next }
+    deduping = 0
+  }
+  print
+  fflush()
+}
+'
+
+BATCH_IDX=0
+while IFS=' ' read -r ALLOC_ID TASK_NAME; do
+  SHORT_ID=${ALLOC_ID:0:8}
+
+  for STDERR_FLAG in "" "-stderr"; do
+    if [ -z "$STDERR_FLAG" ]; then STREAM_MARKER="·"; else STREAM_MARKER="!"; fi
+    SEEN_FILE="$TMPDIR/seen_${BATCH_IDX}"
+    BATCH_IDX=$((BATCH_IDX + 1))
     nomad alloc logs -task "$TASK_NAME" $STDERR_FLAG -tail -n 100 -f "$ALLOC_ID" 2>/dev/null | $AWK_CMD \
       -v shortId="$SHORT_ID" \
       -v taskName="$TASK_NAME" \
       -v showTask="$SHOW_TASK" \
       -v debugEnv="$DEBUG" \
-      "$AWK_PROG" &
+      -v streamMarker="$STREAM_MARKER" \
+      "$AWK_PROG" | $AWK_CMD -v seenFile="$SEEN_FILE" "$DEDUP_AWK" &
   done
 done <<< "$PAIRS"
 
 wait
+
+rm -rf "$TMPDIR"
