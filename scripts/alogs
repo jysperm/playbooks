@@ -1,0 +1,187 @@
+#!/bin/bash
+
+USAGE='alogs - Aggregate stdout and stderr from all tasks of a Nomad job
+
+Usage:
+  alogs <job_name>
+  DEBUG=<pattern> alogs <job_name>
+
+Output format:
+  [e776818a] 10:41:26 log content
+  [e776818a] taskname 10:41:26 log content  (when multiple tasks)
+
+DEBUG patterns (comma-separated, follows npm "debug" convention):
+  Include:   app:*                  Show only matching namespaces
+             app:*,backend          Multiple include patterns
+  Exclude:   -app:verbose           Hide matching namespaces
+             -app:http:*            Exclude with wildcard
+  Combined:  app:*,-app:http:*      Include app:* but exclude app:http:*
+
+When only exclude patterns are given, everything else is included.
+
+Namespaced log lines are expected on stderr in the format:
+  2026-01-27T10:41:24.551Z namespace message
+Lines not matching this format are treated as continuations of the
+previous entry and follow the same filter decision.'
+
+if [ -z "$1" ]; then
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+JOB_NAME=$1
+
+# Get running allocation IDs from nomad job status
+ALLOC_IDS=$(nomad job status "$JOB_NAME" 2>/dev/null | awk '
+  /^Allocations/ { found = 1; next }
+  found && NF == 0 { exit }
+  found && /running/ { print $1 }
+')
+
+if [ -z "$ALLOC_IDS" ]; then
+  echo "No running allocations found for job: $JOB_NAME" >&2
+  exit 1
+fi
+
+# For each allocation, discover running tasks
+PAIRS=""
+for ALLOC_ID in $ALLOC_IDS; do
+  TASKS=$(nomad alloc status "$ALLOC_ID" 2>/dev/null | awk '
+    /^Task "/ && /is "running"/ {
+      line = $0
+      sub(/^Task "/, "", line)
+      sub(/" .*/, "", line)
+      print line
+    }
+  ')
+  while IFS= read -r TASK; do
+    [ -n "$TASK" ] && PAIRS+="${ALLOC_ID} ${TASK}"$'\n'
+  done <<< "$TASKS"
+done
+
+PAIRS="${PAIRS%$'\n'}"
+
+if [ -z "$PAIRS" ]; then
+  echo "No running tasks found for job: $JOB_NAME" >&2
+  exit 1
+fi
+
+ALLOC_LIST=$(echo "$PAIRS" | while IFS=' ' read -r AID TNAME; do printf "${AID:0:8} ($TNAME), "; done)
+echo "[alogs] Aggregating logs for job $JOB_NAME: ${ALLOC_LIST%, }" >&2
+
+TASK_COUNT=$(echo "$PAIRS" | awk '{print $2}' | sort -u | wc -l | tr -d ' ')
+
+if [ "$TASK_COUNT" -gt 1 ]; then
+  SHOW_TASK=1
+else
+  SHOW_TASK=0
+fi
+
+trap 'kill $(jobs -p) 2>/dev/null; exit' SIGINT SIGTERM
+
+AWK_PROG='
+BEGIN {
+  lastTime = ""
+  lastInclude = 1
+  debugMode = 0
+  nIncludes = 0
+  nExcludes = 0
+
+  if (debugEnv != "") {
+    debugMode = 1
+    n = split(debugEnv, parts, /[,[:space:]]+/)
+    for (i = 1; i <= n; i++) {
+      if (parts[i] == "") continue
+      if (substr(parts[i], 1, 1) == "-") {
+        nExcludes++
+        excludes[nExcludes] = globToRegex(substr(parts[i], 2))
+      } else {
+        nIncludes++
+        includes[nIncludes] = globToRegex(parts[i])
+      }
+    }
+    lastInclude = (nIncludes == 0)
+  }
+}
+
+function globToRegex(pattern,    result) {
+  result = pattern
+  gsub(/\./, "\\.", result)
+  gsub(/\+/, "\\+", result)
+  gsub(/\?/, "\\?", result)
+  gsub(/\^/, "\\^", result)
+  gsub(/\$/, "\\$", result)
+  gsub(/\(/, "\\(", result)
+  gsub(/\)/, "\\)", result)
+  gsub(/\[/, "\\[", result)
+  gsub(/\]/, "\\]", result)
+  gsub(/\{/, "\\{", result)
+  gsub(/\}/, "\\}", result)
+  gsub(/\|/, "\\|", result)
+  gsub(/\*/, ".*", result)
+  return "^" result "$"
+}
+
+function debugMatch(ns,    i) {
+  for (i = 1; i <= nExcludes; i++) {
+    if (ns ~ excludes[i]) return 0
+  }
+  for (i = 1; i <= nIncludes; i++) {
+    if (ns ~ includes[i]) return 1
+  }
+  return (nIncludes == 0)
+}
+
+{
+  if ($0 == "") next
+  isNewEntry = 0
+
+  if ($0 ~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\.[0-9][0-9][0-9]Z /) {
+    time = substr($0, 12, 8)
+    content = substr($0, 26)
+    lastTime = time
+    isNewEntry = 1
+  } else {
+    time = lastTime
+    content = $0
+  }
+
+  if (debugMode) {
+    if (isNewEntry) {
+      idx = index(content, " ")
+      if (idx > 0) {
+        ns = substr(content, 1, idx - 1)
+      } else {
+        ns = content
+      }
+      lastInclude = debugMatch(ns)
+    }
+    if (!lastInclude) next
+  }
+
+  prefix = "[" shortId "]"
+  if (showTask == "1") prefix = prefix " " taskName
+  if (time != "") prefix = prefix " " time
+
+  print prefix " " content
+  fflush()
+}
+'
+
+AWK_CMD="awk"
+awk -W interactive 'BEGIN{exit}' </dev/null 2>/dev/null && AWK_CMD="awk -W interactive"
+
+while IFS=' ' read -r ALLOC_ID TASK_NAME; do
+  SHORT_ID=${ALLOC_ID:0:8}
+
+  for STDERR_FLAG in "" "-stderr"; do
+    nomad alloc logs -task "$TASK_NAME" $STDERR_FLAG -tail -n 100 -f "$ALLOC_ID" 2>/dev/null | $AWK_CMD \
+      -v shortId="$SHORT_ID" \
+      -v taskName="$TASK_NAME" \
+      -v showTask="$SHOW_TASK" \
+      -v debugEnv="$DEBUG" \
+      "$AWK_PROG" &
+  done
+done <<< "$PAIRS"
+
+wait
