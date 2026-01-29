@@ -1,3 +1,6 @@
 {
   "registry-mirrors": ["{{ docker_registry_url }}"]
+{%- if docker_insecure_registries | length > 0 %},
+  "insecure-registries": {{ docker_insecure_registries | to_json }}
+{%- endif %}
 }
