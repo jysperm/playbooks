@@ -1,3 +1,4 @@
 ---
 docker_cert_name: ''
+docker_registry_url: ''
 docker_insecure_registries: []

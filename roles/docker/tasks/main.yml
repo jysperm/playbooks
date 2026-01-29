@@ -39,11 +39,17 @@
     name: docker-ce
     update_cache: true
 
-- name: setup docker registry mirror
-  template:
-    src: daemon.json
+- name: setup docker daemon config
+  vars:
+    daemon_config: >-
+      {{
+        (docker_registry_url | length > 0) | ternary({'registry-mirrors': [docker_registry_url]}, {})
+        | combine((docker_insecure_registries | length > 0) | ternary({'insecure-registries': docker_insecure_registries}, {}))
+      }}
+  copy:
+    content: "{{ daemon_config | to_nice_json }}\n"
     dest: /etc/docker/daemon.json
-  when: docker_registry_url is defined
+  when: daemon_config | length > 0
   notify: restart docker
 
 - include_tasks: remote.yml
