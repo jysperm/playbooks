@@ -167,16 +167,13 @@ function debugMatch(ns,    i) {
     content = $0
   }
 
-  # Colorize namespace for structured logs (on stderr with timestamp)
-  if (isNewEntry && streamMarker == "!") {
+  # Colorize namespace for structured logs (first word after timestamp)
+  if (isNewEntry) {
     idx = index(content, " ")
     if (idx > 0) {
       ns = substr(content, 1, idx - 1)
       nsRest = substr(content, idx)
-      # Only colorize if it looks like a namespace (contains : or is a single word)
-      if (index(ns, ":") > 0 || idx > 1) {
-        content = selectColor(ns) ns reset nsRest
-      }
+      content = selectColor(ns) ns reset nsRest
     }
   }
 
