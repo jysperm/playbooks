@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# ce - Container Enter
+# Interactive TUI to select and enter a running Docker container
+
+# Get list of running containers
+IDS=()
+NAMES=()
+IMAGES=()
+STATUSES=()
+
+while IFS=$'\t' read -r id name image status; do
+  IDS+=("$id")
+  NAMES+=("$name")
+  IMAGES+=("$image")
+  STATUSES+=("$status")
+done < <(docker ps --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}')
+
+TOTAL=${#IDS[@]}
+
+if [ "$TOTAL" -eq 0 ]; then
+  echo "No running containers found." >&2
+  exit 1
+fi
+
+# Calculate column widths
+W_ID=12
+W_NAME=0
+W_IMAGE=0
+for i in "${!NAMES[@]}"; do
+  [ ${#NAMES[$i]} -gt $W_NAME ] && W_NAME=${#NAMES[$i]}
+  [ ${#IMAGES[$i]} -gt $W_IMAGE ] && W_IMAGE=${#IMAGES[$i]}
+done
+
+SELECTED=0
+
+cleanup() {
+  tput cnorm 2>/dev/null
+  tput sgr0 2>/dev/null
+  echo
+}
+trap cleanup EXIT
+
+draw_menu() {
+  tput clear
+  echo "Select a container (↑/↓ to move, Enter to select, q to quit):"
+  echo
+  printf "    %-${W_ID}s  %-${W_NAME}s  %-${W_IMAGE}s  %s\n" "CONTAINER ID" "NAMES" "IMAGE" "STATUS"
+
+  local i=0
+  while [ $i -lt $TOTAL ]; do
+    if [ "$i" -eq "$SELECTED" ]; then
+      tput rev
+      printf "  > %-${W_ID}s  %-${W_NAME}s  %-${W_IMAGE}s  %s\n" "${IDS[$i]}" "${NAMES[$i]}" "${IMAGES[$i]}" "${STATUSES[$i]}"
+      tput sgr0
+    else
+      printf "    %-${W_ID}s  %-${W_NAME}s  %-${W_IMAGE}s  %s\n" "${IDS[$i]}" "${NAMES[$i]}" "${IMAGES[$i]}" "${STATUSES[$i]}"
+    fi
+    i=$((i + 1))
+  done
+}
+
+# Hide cursor
+tput civis 2>/dev/null
+
+# Main loop
+while true; do
+  draw_menu
+
+  # Read a single keypress
+  IFS= read -rsn1 key
+
+  if [ "$key" = $'\x1b' ]; then
+    read -rsn2 -t 0.1 rest || true
+    key="${key}${rest}"
+  fi
+
+  case "$key" in
+    $'\x1b[A' | k)  # Up
+      if [ $SELECTED -gt 0 ]; then
+        SELECTED=$((SELECTED - 1))
+      fi
+      ;;
+    $'\x1b[B' | j)  # Down
+      if [ $SELECTED -lt $((TOTAL - 1)) ]; then
+        SELECTED=$((SELECTED + 1))
+      fi
+      ;;
+    "" )  # Enter
+      break
+      ;;
+    q | Q)
+      exit 0
+      ;;
+  esac
+done
+
+# Restore terminal before exec
+tput cnorm 2>/dev/null
+tput sgr0 2>/dev/null
+tput clear
+
+CONTAINER_ID="${IDS[$SELECTED]}"
+CONTAINER_NAME="${NAMES[$SELECTED]}"
+
+echo "Entering container: $CONTAINER_NAME"
+
+# Try bash first, fall back to sh
+if docker exec "$CONTAINER_ID" which bash >/dev/null 2>&1; then
+  exec docker exec -it "$CONTAINER_ID" bash
+else
+  exec docker exec -it "$CONTAINER_ID" sh
+fi
