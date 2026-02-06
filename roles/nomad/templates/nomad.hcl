@@ -13,6 +13,9 @@ server {
   server_join {
     retry_join = {{ nomad_server_join | to_json }}
   }
+  default_scheduler_config {
+    memory_oversubscription_enabled = true
+  }
 {% endif %}
 }
 
