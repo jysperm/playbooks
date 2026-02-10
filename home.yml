@@ -9,8 +9,9 @@
     #   -
     #     username: 'synology'
     #     password: '{{ rsync_synology_password }}'
+  pre_tasks:
+    - include_tasks: tasks/common-packages.yml
   roles:
-    - common
     - nginx
     - letsencrypt
     # - rsync

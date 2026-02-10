@@ -63,9 +63,10 @@
       - /storage/private
       - /storage/shares/AudioWorks/Caipai
       - /storage/shares/VideoWorks/Rendered
+  pre_tasks:
+    - include_tasks: tasks/common-packages.yml
   roles:
     - bitwarden
-    - common
     - docker
     - frpc
     - letsencrypt

@@ -11,8 +11,9 @@
         smtp_password: '{{ ses_smtp_secret_atom_china }}'
     letsencrypt:
       - atom-china.org
+  pre_tasks:
+    - include_tasks: tasks/common-packages.yml
   roles:
-    - common
     - discourse
     - docker
     - letsencrypt

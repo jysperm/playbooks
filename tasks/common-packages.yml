@@ -2,12 +2,12 @@
 - name: install apt packages
   apt:
     name: '{{item}}'
+    update_cache: true
   loop:
-    - nethogs
+    - cron
     - htop
-    - iotop
-    - nmon
-    - neofetch
+    - lsof
+    - sysstat # provides iostat
 
 - name: uninstall snap
   apt:
