@@ -82,13 +82,15 @@
 - hosts: refinity
   vars_files:
     - secrets.yml
+pre_tasks:
+    - include_tasks: tasks/common-packages.yml
   roles:
-    - common
-    - frps
+        - frps
 
 - hosts: satellite-sin
   vars_files:
     - secrets.yml
+pre_tasks:
+    - include_tasks: tasks/common-packages.yml
   roles:
-    - common
-    - frps
+        - frps

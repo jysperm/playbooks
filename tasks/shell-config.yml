@@ -1,0 +1,8 @@
+---
+- name: source /etc/skel/.bashrc in root's bashrc
+  blockinfile:
+    path: /root/.bashrc
+    marker: '# {mark} ANSIBLE MANAGED'
+    block: |
+      [ -f /etc/skel/.bashrc ] && . /etc/skel/.bashrc
+  when: ansible_facts['os_family'] == 'Debian'

@@ -6,3 +6,8 @@ refinity
 
 satellite-sgp
 satellite-usw
+
+[nomad]
+sgp-nomad-core1
+sgp-nomad-core2
+sgp-hostedbeans-1

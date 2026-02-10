@@ -1,0 +1,12 @@
+---
+# Iterate host_vpc_ips directly instead of hostvars[host].vpc_ip, because
+# play-level vars_files are not available in cross-host hostvars lookups.
+# See: https://github.com/ansible/ansible/issues/72389
+- name: add local hosts to /etc/hosts
+  blockinfile:
+    path: /etc/hosts
+    marker: '# {mark} ANSIBLE MANAGED'
+    block: |
+      {% for host, ip in host_vpc_ips.items() if hostvars[host].nomad_client_dc | default('') == nomad_client_dc %}
+      {{ ip }} {{ host }}
+      {% endfor %}
