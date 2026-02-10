@@ -1,10 +1,10 @@
 #!/bin/bash
 
-USAGE='alogs - Aggregate stdout and stderr from all tasks of a Nomad job
+USAGE='nlogs - Aggregate stdout and stderr from all tasks of a Nomad job
 
 Usage:
-  alogs <job_name>
-  DEBUG=<pattern> alogs <job_name>
+  nlogs <job_name>
+  DEBUG=<pattern> nlogs <job_name>
 
 Output format:
   [e776818a] · log content                          (stdout)
@@ -68,7 +68,7 @@ if [ -z "$PAIRS" ]; then
 fi
 
 ALLOC_LIST=$(echo "$PAIRS" | while IFS=' ' read -r AID TNAME; do printf "${AID:0:8} ($TNAME), "; done)
-echo "[alogs] Aggregating logs for job $JOB_NAME: ${ALLOC_LIST%, }" >&2
+echo "[nlogs] Aggregating logs for job $JOB_NAME: ${ALLOC_LIST%, }" >&2
 
 TASK_COUNT=$(echo "$PAIRS" | awk '{print $2}' | sort -u | wc -l | tr -d ' ')
 
