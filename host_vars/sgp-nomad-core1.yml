@@ -1,2 +1,13 @@
 nomad_client_dc: het-sgp
 nomad_advertise_addr: "{{ vpc_ip }}"
+
+nomad_client_config: |
+  host_volume "postgresql-data" {
+    path      = "/var/lib/postgresql/data"
+    read_only = false
+  }
+
+  host_volume "postgresql-backup" {
+    path      = "/mnt/rclone/backups/postgresql"
+    read_only = false
+  }

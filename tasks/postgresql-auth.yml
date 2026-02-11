@@ -1,0 +1,26 @@
+---
+# Required vars:
+#   postgres_superuser_password: 'password'
+#   postgres_apps:
+#     - { db: myapp, user: myapp, password: 'password' }
+
+- name: install psycopg2 for ansible postgresql modules
+  apt:
+    name: python3-psycopg2
+
+- name: create postgresql users
+  postgresql_user:
+    login_host: 127.0.0.1
+    login_password: "{{ postgres_superuser_password }}"
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+  loop: "{{ postgres_apps }}"
+
+- name: create postgresql databases
+  postgresql_db:
+    login_host: 127.0.0.1
+    login_user: postgres
+    login_password: "{{ postgres_superuser_password }}"
+    name: "{{ item.db }}"
+    owner: "{{ item.user }}"
+  loop: "{{ postgres_apps }}"

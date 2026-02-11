@@ -11,3 +11,29 @@
     - nomad
   tasks:
     - include_tasks: tasks/local-hosts.yml
+
+- hosts: sgp-nomad-core1
+  tags: postgresql
+  vars_files:
+    - secrets.yml
+  vars:
+    nomad_run_jobs:
+      - nomad-jobs/postgresql.hcl
+      - nomad-jobs/postgresql-backup.hcl
+  pre_tasks:
+    - name: create postgresql directories
+      file:
+        path: /var/lib/postgresql/data
+        state: directory
+        mode: '0755'
+
+    - name: set postgresql password in nomad variables
+      command: >-
+        nomad var put -force
+        postgresql-secrets
+        POSTGRES_PASSWORD={{ postgres_superuser_password }}
+      changed_when: false
+  roles:
+    - nomad
+  post_tasks:
+    - include_tasks: tasks/postgresql-auth.yml
