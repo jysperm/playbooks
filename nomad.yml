@@ -37,3 +37,25 @@
     - nomad
   post_tasks:
     - include_tasks: tasks/postgresql-auth.yml
+
+- hosts: sgp-nomad-core1
+  tags: garage
+  vars_files:
+    - secrets.yml
+  vars:
+    nomad_run_jobs:
+      - nomad-jobs/garage.hcl
+  pre_tasks:
+    - name: create garage data directory
+      file:
+        path: /var/lib/garage
+        state: directory
+        mode: '0755'
+
+    - name: set garage rpc secret in nomad variables
+      command: >-
+        nomad var put -force
+        garage-secrets
+        RPC_SECRET={{ garage_rpc_secret }}
+      changed_when: false
+  roles:
