@@ -34,6 +34,8 @@
       - 'miniflux.{{ infinity_domain }}'
       - 'bitwarden.{{ infinity_domain }}'
       - 'lobechat.{{ infinity_domain }}'
+      - 'prometheus.{{ infinity_domain }}'
+      - 'grafana.{{ infinity_domain }}'
       - 'home.{{ infinity_domain }}'
     miniflux_base_url: 'https://miniflux.{{ infinity_domain }}/'
     bitwarden_base_url: 'https://bitwarden.{{ infinity_domain }}/'
@@ -77,20 +79,21 @@
     - restic
     - samba
     - transmission
+    - prometheus
     - zfs
 
 - hosts: refinity
   vars_files:
     - secrets.yml
-pre_tasks:
+  pre_tasks:
     - include_tasks: tasks/common-packages.yml
   roles:
-        - frps
+    - frps
 
 - hosts: satellite-sin
   vars_files:
     - secrets.yml
-pre_tasks:
+  pre_tasks:
     - include_tasks: tasks/common-packages.yml
   roles:
-        - frps
+    - frps
