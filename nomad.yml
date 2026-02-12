@@ -34,7 +34,7 @@
         POSTGRES_PASSWORD={{ postgres_superuser_password }}
       changed_when: false
   roles:
-    - nomad
+    - nomad-jobs
   post_tasks:
     - include_tasks: tasks/postgresql-auth.yml
 
@@ -59,3 +59,5 @@
         RPC_SECRET={{ garage_rpc_secret }}
       changed_when: false
   roles:
+    - nomad-jobs
+

@@ -29,6 +29,16 @@
     mode: '0755'
     creates: /opt/cni/bin/bridge
 
+- name: find network interface for nomad_network
+  set_fact:
+    nomad_network_iface: "{{ item }}"
+  when: >-
+    nomad_network != '' and
+    ansible_facts[item] is mapping and
+    ansible_facts[item].ipv4 is defined and
+    (ansible_facts[item].ipv4.address | ansible.utils.ipaddr(nomad_network)) is truthy
+  loop: "{{ ansible_facts.interfaces }}"
+
 - name: configure nomad
   template:
     src: nomad.hcl
@@ -65,35 +75,3 @@
   notify:
     - restart nomad
 
-- name: create nomad jobs directory
-  file:
-    path: /etc/nomad.d/jobs
-    state: directory
-    mode: '0755'
-  when: nomad_run_jobs | length > 0
-
-- name: flush handlers before running jobs
-  meta: flush_handlers
-  when: nomad_run_jobs | length > 0
-
-- name: initialize expanded job list
-  set_fact:
-    nomad_run_jobs_expanded: []
-
-- name: expand nomad job paths (support glob patterns)
-  set_fact:
-    nomad_run_jobs_expanded: "{{ nomad_run_jobs_expanded + (lookup('fileglob', item, wantlist=True) if '*' in item else [item]) }}"
-  loop: '{{ nomad_run_jobs }}'
-
-- name: copy nomad job files
-  copy:
-    src: '{{ item }}'
-    dest: '/etc/nomad.d/jobs/{{ item | basename }}'
-    mode: '0644'
-  loop: '{{ nomad_run_jobs_expanded }}'
-  register: nomad_job_files
-
-- name: run nomad jobs
-  command: nomad run '{{ item.dest }}'
-  loop: '{{ nomad_job_files.results }}'
-  when: item.changed

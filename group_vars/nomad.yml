@@ -1,4 +1,5 @@
 vpc_ip: "{{ host_vpc_ips[inventory_hostname] }}"
+nomad_network: '172.16.0.0/16'
 nomad_client_region: cloud
 nomad_server_join:
   - sgp-nomad-core1

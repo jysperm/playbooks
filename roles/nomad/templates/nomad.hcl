@@ -33,6 +33,10 @@ server {
 client {
   enabled = {{ 'true' if nomad_client_join | length > 0 else 'false' }}
 
+{% if nomad_network_iface is defined and nomad_network_iface %}
+  network_interface = "{{ nomad_network_iface }}"
+{% endif %}
+
 {% if nomad_client_join | length > 0 %}
   server_join {
     retry_join = {{ nomad_client_join | to_json }}
