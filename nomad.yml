@@ -61,3 +61,21 @@
   roles:
     - nomad-jobs
 
+- hosts: sgp-nomad-core1
+  tags: github-runner
+  vars_files:
+    - secrets.yml
+  vars:
+    nomad_run_jobs:
+      - nomad-jobs/github-runner.hcl
+      - nomad-jobs/github-runner-dispatcher.hcl
+  pre_tasks:
+    - name: set github runner secrets in nomad variables
+      command: >-
+        nomad var put -force
+        github-runner-secrets
+        GITHUB_PAT={{ github_pat }}
+        WEBHOOK_SECRET={{ github_webhook_secret }}
+      changed_when: false
+  roles:
+    - nomad-jobs
