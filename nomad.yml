@@ -13,6 +13,14 @@
     - include_tasks: tasks/local-hosts.yml
 
 - hosts: sgp-nomad-core1
+  tags: traefik
+  vars:
+    nomad_run_jobs:
+      - nomad-jobs/traefik.hcl
+  roles:
+    - nomad-jobs
+
+- hosts: sgp-nomad-core1
   tags: postgresql
   vars_files:
     - secrets.yml
