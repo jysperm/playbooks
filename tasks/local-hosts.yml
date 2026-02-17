@@ -10,3 +10,6 @@
       {% for host, ip in host_vpc_ips.items() if hostvars[host].nomad_client_dc | default('') == nomad_client_dc %}
       {{ ip }} {{ host }}
       {% endfor %}
+      {% for alias in local_host_aliases | default([]) %}
+      {{ vpc_ip }} {{ alias }}
+      {% endfor %}

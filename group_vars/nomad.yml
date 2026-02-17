@@ -1,4 +1,7 @@
 vpc_ip: "{{ host_vpc_ips[inventory_hostname] }}"
+docker_insecure_registries: ["docker-registry.internal"]
+local_host_aliases:
+  - docker-registry.internal
 nomad_network: '172.16.0.0/16'
 nomad_client_region: cloud
 nomad_server_join:

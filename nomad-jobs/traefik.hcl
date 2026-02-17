@@ -32,8 +32,10 @@ job "traefik" {
 
           "--entrypoints.http.address=:80",
           "--entrypoints.https.address=:443",
-          "--entrypoints.registry.address=:5000",
           "--entrypoints.http.http.redirections.entryPoint.to=https",
+          # Lower redirect priority so internal services can optionally define
+          # routers on the http entrypoint without being redirected.
+          "--entrypoints.http.http.redirections.entryPoint.priority=1",
 
           "--certificatesresolvers.letsencrypt.acme.httpchallenge=true",
           "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http",

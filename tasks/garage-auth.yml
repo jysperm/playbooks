@@ -1,0 +1,53 @@
+---
+# Required vars:
+#   garage_apps:
+#     - { bucket: my-bucket, key: my-key, nomad_var: my-secrets }
+#     - { bucket: other-bucket, key: other-key }
+
+- name: create garage buckets
+  command: nomad alloc exec -job garage /garage bucket create {{ item.bucket }}
+  loop: "{{ garage_apps }}"
+  register: _garage_buckets
+  changed_when: _garage_buckets.rc == 0
+  failed_when: _garage_buckets.rc != 0 and 'already exist' not in _garage_buckets.stderr
+
+- name: check existing garage keys
+  command: nomad alloc exec -job garage /garage key info {{ item.key }}
+  loop: "{{ garage_apps }}"
+  register: _garage_keys_check
+  changed_when: false
+  failed_when: _garage_keys_check.rc != 0 and '0 matching keys' not in _garage_keys_check.stderr
+
+- name: create garage keys
+  command: nomad alloc exec -job garage /garage key create {{ item.item.key }}
+  loop: "{{ _garage_keys_check.results }}"
+  loop_control:
+    label: "{{ item.item.key }}"
+  when: item.rc != 0
+  register: _garage_keys
+
+- name: allow garage keys access to buckets
+  command: >-
+    nomad alloc exec -job garage
+    /garage bucket allow {{ item.bucket }} --read --write --owner --key {{ item.key }}
+  loop: "{{ garage_apps }}"
+  changed_when: false
+
+- name: get garage key info
+  command: >-
+    nomad alloc exec -job garage
+    /garage key info --show-secret {{ item.key }}
+  loop: "{{ garage_apps | selectattr('nomad_var', 'defined') }}"
+  register: _garage_key_info
+  changed_when: false
+
+- name: set garage secrets in nomad variables
+  command: >-
+    nomad var put -force
+    {{ item.item.nomad_var }}
+    S3_ACCESS_KEY={{ (item.stdout_lines | select('match', '^Key ID:') | first).split() | last }}
+    S3_SECRET_KEY={{ (item.stdout_lines | select('match', '^Secret key:') | first).split() | last }}
+  loop: "{{ _garage_key_info.results | default([]) }}"
+  loop_control:
+    label: "{{ item.item.nomad_var }}"
+  changed_when: false

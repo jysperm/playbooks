@@ -39,17 +39,22 @@
     name: docker-ce
     update_cache: true
 
+# Always write daemon.json to ensure live-restore is enabled, which keeps
+# containers running during dockerd restarts (e.g. daemon config changes or
+# package upgrades). Without live-restore, dockerd restart causes all containers
+# to restart with new ports, breaking Nomad bridge network connectivity (the
+# veth pairs are lost and iptables rules become stale).
 - name: setup docker daemon config
   vars:
     daemon_config: >-
       {{
-        (docker_registry_url | length > 0) | ternary({'registry-mirrors': [docker_registry_url]}, {})
+        {'live-restore': true}
+        | combine((docker_registry_url | length > 0) | ternary({'registry-mirrors': [docker_registry_url]}, {}))
         | combine((docker_insecure_registries | length > 0) | ternary({'insecure-registries': docker_insecure_registries}, {}))
       }}
   copy:
     content: "{{ daemon_config | to_nice_json }}\n"
     dest: /etc/docker/daemon.json
-  when: daemon_config | length > 0
   notify: restart docker
 
 - include_tasks: remote.yml
