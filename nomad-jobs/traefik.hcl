@@ -1,13 +1,13 @@
 job "traefik" {
-  type = "system"
+  type      = "system"
+  node_pool = "all"
 
   group "traefik" {
     network {
       mode = "host"
 
-      port "http"     { static = 80 }
-      port "https"    { static = 443 }
-      port "registry" { static = 5000 }
+      port "http"  { static = 80 }
+      port "https" { static = 443 }
     }
 
     task "traefik" {

@@ -33,6 +33,10 @@ server {
 client {
   enabled = {{ 'true' if nomad_client_join | length > 0 else 'false' }}
 
+{% if nomad_client_node_pool %}
+  node_pool = "{{ nomad_client_node_pool }}"
+{% endif %}
+
 {% if nomad_network_iface is defined and nomad_network_iface %}
   network_interface = "{{ nomad_network_iface }}"
 {% endif %}

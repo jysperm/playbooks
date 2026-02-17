@@ -7,8 +7,8 @@
     - include_tasks: tasks/common-packages.yml
     - include_tasks: tasks/shell-config.yml
   roles:
-    - docker
-    - nomad
+    - { role: docker, tags: docker }
+    - { role: nomad, tags: nomad }
   tasks:
     - include_tasks: tasks/local-hosts.yml
 

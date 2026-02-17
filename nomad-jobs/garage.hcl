@@ -1,5 +1,6 @@
 job "garage" {
-  type = "system"
+  type      = "system"
+  node_pool = "all"
 
   group "garage" {
     network {

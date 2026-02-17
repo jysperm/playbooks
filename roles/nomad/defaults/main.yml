@@ -7,4 +7,5 @@ nomad_cni_plugin_version: 'v1.6.2'
 nomad_server_join: []
 nomad_client_join: []
 nomad_client_meta: {}
+nomad_client_node_pool: ""
 nomad_client_config: ""

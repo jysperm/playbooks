@@ -1,2 +1,3 @@
 nomad_client_dc: het-sgp
 nomad_advertise_addr: "{{ vpc_ip }}"
+nomad_client_node_pool: hostedbeans
