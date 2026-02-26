@@ -41,7 +41,51 @@ job "traefik" {
           "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http",
           "--certificatesresolvers.letsencrypt.acme.email=jysperm@gmail.com",
           "--certificatesresolvers.letsencrypt.acme.storage=/var/lib/traefik/acme.json",
+
+          "--providers.file.directory=/local/config/",
         ]
+      }
+
+      template {
+        destination = "local/config/mtls.yml"
+        data        = <<-EOF
+        tls:
+          options:
+            mtls:
+              clientAuth:
+                caFiles:
+                  - /local/internal-ca.pem
+                clientAuthType: RequireAndVerifyClientCert
+        EOF
+      }
+
+      template {
+        destination = "local/config/nomad-dashboard.yml"
+        data        = <<-EOF
+        http:
+          routers:
+            nomad:
+              rule: "Host(`nomad.ziting.me`)"
+              entrypoints:
+                - https
+              service: nomad
+              tls:
+                certResolver: letsencrypt
+                options: mtls
+
+          services:
+            nomad:
+              loadBalancer:
+                servers:
+                  - url: "http://127.0.0.1:4646"
+        EOF
+      }
+
+      template {
+        destination = "local/internal-ca.pem"
+        data        = <<EOF
+{{ with nomadVar "traefik-internal-certs" }}{{ .CA_PEM }}{{ end }}
+EOF
       }
 
       resources {

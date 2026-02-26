@@ -17,6 +17,12 @@
   vars:
     nomad_run_jobs:
       - nomad-jobs/traefik.hcl
+  pre_tasks:
+    - name: set internal CA certificate in nomad variables
+      command: nomad var put -in json -force traefik-internal-certs -
+      args:
+        stdin: "{{ {'Items': {'CA_PEM': lookup('file', 'internal-certs/ca.pem')}} | to_json }}"
+      changed_when: false
   roles:
     - nomad-jobs
 
