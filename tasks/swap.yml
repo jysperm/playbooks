@@ -1,0 +1,32 @@
+---
+# vars:
+#   swap_size: 512M
+
+- name: check if swap file exists
+  stat:
+    path: /swapfile
+  register: swap_file
+
+- name: create swap file
+  command: fallocate -l {{ swap_size }} /swapfile
+  when: not swap_file.stat.exists
+
+- name: set swap file permissions
+  file:
+    path: /swapfile
+    mode: '0600'
+  when: not swap_file.stat.exists
+
+- name: format swap file
+  command: mkswap /swapfile
+  when: not swap_file.stat.exists
+
+- name: enable swap file
+  command: swapon /swapfile
+  when: not swap_file.stat.exists
+
+- name: add swap to fstab
+  lineinfile:
+    path: /etc/fstab
+    line: '/swapfile none swap sw 0 0'
+    state: present

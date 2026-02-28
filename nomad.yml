@@ -2,9 +2,12 @@
 - hosts: nomad
   vars_files:
     - secrets.yml
+  vars:
+    swap_size: 512M
   pre_tasks:
     - include_tasks: tasks/ansible-setup.yml
     - include_tasks: tasks/common-packages.yml
+    - include_tasks: tasks/swap.yml
     - include_tasks: tasks/shell-config.yml
   roles:
     - { role: docker, tags: docker }

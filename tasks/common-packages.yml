@@ -5,6 +5,7 @@
     update_cache: true
   loop:
     - cron
+    - git
     - htop
     - lsof
     - sysstat # provides iostat
