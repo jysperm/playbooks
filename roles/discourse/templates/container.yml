@@ -3,7 +3,6 @@ templates:
   - "templates/redis.template.yml"
   - "templates/web.template.yml"
   - "templates/web.ratelimited.template.yml"
-  - "templates/web.socketed.template.yml"
   {% for template_file in discourse_templates -%}
   - "{{ template_file }}"
   {% endfor %}
@@ -16,7 +15,7 @@ params:
 
 env:
   LANG: en_US.UTF-8
-  UNICORN_WORKERS: 2
+  UNICORN_WORKERS: 1
   DISCOURSE_HOSTNAME: '{{ item.domain }}'
   DISCOURSE_DEVELOPER_EMAILS: '{{ developer_email }}'
   DISCOURSE_SMTP_ADDRESS: '{{ smtp_address }}'

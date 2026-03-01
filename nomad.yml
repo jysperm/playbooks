@@ -8,6 +8,7 @@
     - include_tasks: tasks/ansible-setup.yml
     - include_tasks: tasks/common-packages.yml
     - include_tasks: tasks/swap.yml
+    - include_tasks: tasks/sysctl.yml
     - include_tasks: tasks/shell-config.yml
   roles:
     - { role: docker, tags: docker }
@@ -107,4 +108,28 @@
         WEBHOOK_SECRET={{ github_webhook_secret }}
       changed_when: false
   roles:
+    - nomad-jobs
+
+- hosts: sgp-nomad-core2
+  tags: discourse
+  vars_files:
+    - secrets.yml
+  vars:
+    discourse:
+      - name: atom-china
+        domain: atom-china.org
+        smtp_user: '{{ ses_smtp_user_atom_china }}'
+        smtp_password: '{{ ses_smtp_secret_atom_china }}'
+    nomad_run_jobs:
+      - nomad-jobs/atom-china.hcl
+  pre_tasks:
+    - name: set discourse secrets in nomad variables
+      command: >-
+        nomad var put -force
+        discourse-secrets
+        SMTP_USER={{ ses_smtp_user_atom_china }}
+        SMTP_PASSWORD={{ ses_smtp_secret_atom_china }}
+      changed_when: false
+  roles:
+    - discourse
     - nomad-jobs

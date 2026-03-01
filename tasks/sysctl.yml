@@ -1,0 +1,17 @@
+---
+# vars:
+#   sysctl_settings:
+#     - { name: net.ipv4.ip_forward, value: "1" }
+
+- name: configure sysctl settings
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: true
+    reload: true
+  loop: "{{ sysctl_default_settings + sysctl_settings }}"
+  vars:
+    sysctl_default_settings:
+      - { name: kernel.core_pattern, value: "/dev/null" }
+    sysctl_settings: []

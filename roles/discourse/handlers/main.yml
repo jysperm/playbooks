@@ -1,12 +1,6 @@
 ---
-- name: restart nginx
-  service:
-    name: nginx
-    state: restarted
-
 - name: rebuild discourse
-  command: './launcher rebuild {{ item.item.name }}'
+  command: './launcher bootstrap {{ item.name }}'
   args:
     chdir: '/var/discourse'
-  when: item.changed
-  with_items: '{{ definitions.results }}'
+  with_items: '{{ discourse }}'

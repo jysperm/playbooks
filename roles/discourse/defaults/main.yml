@@ -1,6 +1,5 @@
 ---
 developer_email: jysperm@gmail.com
 smtp_address: email-smtp.us-east-1.amazonaws.com
-discourse_nginx_http_listen: 80
-discourse_nginx_https_listen: 443
 discourse_templates: []
+discourse_registry: docker-registry.internal

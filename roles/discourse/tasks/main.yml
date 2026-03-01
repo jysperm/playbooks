@@ -1,4 +1,9 @@
 ---
+# First-time setup (run manually on the server):
+#   cd /var/discourse && ./launcher bootstrap <name>
+#   docker tag local_discourse/<name> docker-registry.internal/discourse/<name>
+#   docker push docker-registry.internal/discourse/<name>
+
 - name: clone git repository
   git:
     repo: 'https://github.com/discourse/discourse_docker.git'
@@ -9,12 +14,14 @@
     src: 'container.yml'
     dest: '/var/discourse/containers/{{ item.name }}.yml'
   notify: rebuild discourse
-  register: definitions
   with_items: '{{ discourse }}'
 
-- name: upload nginx configuration
-  template:
-    src: 'nginx.conf'
-    dest: '/etc/nginx/sites-enabled/{{ item.name }}.conf'
-  notify: restart nginx
+- meta: flush_handlers
+
+- name: tag and push discourse image
+  shell: |
+    docker tag local_discourse/{{ item.name }} {{ discourse_registry }}/discourse/{{ item.name }}
+    docker push {{ discourse_registry }}/discourse/{{ item.name }}
+  args:
+    chdir: '/var/discourse'
   with_items: '{{ discourse }}'
