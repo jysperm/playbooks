@@ -4,6 +4,7 @@
     - secrets.yml
   vars:
     swap_size: 512M
+    docker_live_restore: true
   pre_tasks:
     - include_tasks: tasks/ansible-setup.yml
     - include_tasks: tasks/common-packages.yml
