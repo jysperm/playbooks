@@ -20,11 +20,30 @@
     state: restarted
   when: nginx_conf.changed
 
-- name: issue certificates
+- name: issue certificates (webroot)
   command: certbot certonly --webroot -w /var/www/html -d {{ item }} --email {{ letsencrypt_email }} --noninteractive --agree-tos
   with_items: '{{ letsencrypt }}'
   register: certbot_result
   changed_when: certbot_result.stdout is not search('no action taken')
+
+- name: install python3-certbot-dns-cloudflare
+  apt:
+    name: python3-certbot-dns-cloudflare
+  when: letsencrypt_dns_cloudflare | length > 0
+
+- name: write cloudflare credentials
+  copy:
+    content: 'dns_cloudflare_api_token = {{ letsencrypt_cloudflare_api_token }}'
+    dest: /etc/letsencrypt/cloudflare.ini
+    mode: '0600'
+  when: letsencrypt_dns_cloudflare | length > 0
+
+- name: issue certificates (dns-cloudflare)
+  command: certbot certonly --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 60 --email {{ letsencrypt_email }} --noninteractive --agree-tos -d '{{ item }}'
+  with_items: '{{ letsencrypt_dns_cloudflare }}'
+  register: certbot_dns_result
+  changed_when: certbot_dns_result.stdout is not search('no action taken')
+  when: letsencrypt_dns_cloudflare | length > 0
 
 - name: setup renew cronjob
   cron:

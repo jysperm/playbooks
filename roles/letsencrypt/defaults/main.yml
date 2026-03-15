@@ -1,3 +1,5 @@
 ---
 letsencrypt_email: jysperm@gmail.com
 letsencrypt: []
+letsencrypt_dns_cloudflare: []
+letsencrypt_cloudflare_api_token: ''
