@@ -67,6 +67,8 @@
       - /storage/shares/VideoWorks/Rendered
   pre_tasks:
     - include_tasks: tasks/common-packages.yml
+  tasks:
+    - include_tasks: tasks/ddns-cloudflare.yml
   roles:
     - bitwarden
     - docker

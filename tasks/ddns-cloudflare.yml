@@ -1,0 +1,70 @@
+---
+# vars:
+#   ddns_cf_api_token: <cloudflare api token>
+#   ddns_cf_flags: '-46' (default)
+#   ddns_records:
+#     - home.example.com
+
+- name: set default ddns_cf_flags
+  set_fact:
+    ddns_cf_flags: '{{ ddns_cf_flags | default("-46") }}'
+
+- name: install dependencies
+  apt:
+    name:
+      - curl
+      - jq
+
+- name: install ddns-cloudflare script
+  copy:
+    src: '{{ playbook_dir }}/scripts/ddns-cloudflare.sh'
+    dest: /usr/local/bin/ddns-cloudflare
+    mode: '0755'
+
+- name: install systemd service
+  copy:
+    dest: /etc/systemd/system/ddns-cloudflare.service
+    content: |
+      [Unit]
+      Description=Update Cloudflare DNS records with current IP
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=oneshot
+      Environment="CF_API_TOKEN={{ ddns_cf_api_token }}"
+      ExecStart=/usr/local/bin/ddns-cloudflare {{ ddns_cf_flags }} {{ ddns_records | join(' ') }}
+
+      [Install]
+      WantedBy=multi-user.target
+  register: ddns_service
+
+- name: install systemd timer
+  copy:
+    dest: /etc/systemd/system/ddns-cloudflare.timer
+    content: |
+      [Unit]
+      Description=Run ddns-cloudflare every 5 minutes
+
+      [Timer]
+      OnCalendar=*:0/15
+      RandomizedDelaySec=30
+
+      [Install]
+      WantedBy=timers.target
+  register: ddns_timer
+
+- name: reload systemd
+  command: systemctl daemon-reload
+  when: ddns_service.changed or ddns_timer.changed
+
+- name: enable service
+  service:
+    name: ddns-cloudflare.service
+    enabled: yes
+
+- name: enable timer
+  service:
+    name: ddns-cloudflare.timer
+    state: started
+    enabled: yes
