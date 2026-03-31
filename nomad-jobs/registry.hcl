@@ -1,12 +1,6 @@
 job "registry" {
   type = "service"
 
-  constraint {
-    attribute = "${attr.unique.hostname}"
-    operator  = "regexp"
-    value     = "sgp-nomad-core[12]"
-  }
-
   group "registry" {
     count = 1
 

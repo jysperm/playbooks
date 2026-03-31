@@ -1,4 +1,5 @@
 vpc_ip: "{{ host_vpc_ips[inventory_hostname] }}"
+docker_live_restore: true
 docker_insecure_registries: ["docker-registry.internal"]
 local_host_aliases:
   - docker-registry.internal
@@ -7,8 +8,8 @@ nomad_client_region: cloud
 nomad_server_join:
   - sgp-nomad-core1
   - sgp-nomad-core2
-  - sgp-hostedbeans-1
+  - sgp-nomad-core3
 nomad_client_join:
   - sgp-nomad-core1
   - sgp-nomad-core2
-  - sgp-hostedbeans-1
+  - sgp-nomad-core3
