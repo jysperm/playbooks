@@ -17,8 +17,8 @@ scrape_configs:
       - targets: ['metrics.hostedbeans.io']
         labels:
           product: hostedbeans
-          instance: hostedbeans-1
-          __metrics_path__: /nodes/hostedbeans-1/metrics
+          instance: usw-hostedbeans-1
+          __metrics_path__: /nodes/usw-hostedbeans-1/metrics
 
   - job_name: 'hostedbeans'
     scheme: https
@@ -30,5 +30,5 @@ scrape_configs:
       - targets: ['metrics.hostedbeans.io']
         labels:
           product: hostedbeans
-          instance: hostedbeans-1
+          instance: usw-hostedbeans-1
           __metrics_path__: /hostedbeans/metrics

@@ -8,23 +8,26 @@
     src: nginx.conf
     dest: /etc/nginx/sites-enabled/letsencrypt.conf
   register: nginx_conf
+  when: letsencrypt | length > 0
 
 - name: ensures directory exists
   file:
     path: '/var/www/html'
     state: 'directory'
+  when: letsencrypt | length > 0
 
 - name: restart nginx
   service:
     name: nginx
     state: restarted
-  when: nginx_conf.changed
+  when: nginx_conf is changed
 
 - name: issue certificates (webroot)
   command: certbot certonly --webroot -w /var/www/html -d {{ item }} --email {{ letsencrypt_email }} --noninteractive --agree-tos
   with_items: '{{ letsencrypt }}'
   register: certbot_result
   changed_when: certbot_result.stdout is not search('no action taken')
+  when: letsencrypt | length > 0
 
 - name: install python3-certbot-dns-cloudflare
   apt:
