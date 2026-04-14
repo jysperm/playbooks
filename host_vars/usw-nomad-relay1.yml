@@ -1,0 +1,4 @@
+nomad_client_dc: lin-usw
+nomad_advertise_addr: "{{ vpc_ip }}"
+nomad_client_node_pool: relay
+swap_size: '' # Linode provides a swap partition

@@ -1,0 +1,10 @@
+wireguard_mesh:
+  sites:
+    het-sgp: [sgp-nomad-core1, sgp-nomad-core2, sgp-nomad-core3]
+    dgo-sgp: [sgp-nomad-relay1]
+    lin-usw: [usw-nomad-relay1]
+  host_allowed_ips: "{{ host_vpc_ips }}"
+  host_endpoints: "{{ host_public_ips }}"
+  host_interface_addresses:
+    sgp-nomad-relay1: '172.16.2.1/24'
+    usw-nomad-relay1: '172.16.3.1/24'

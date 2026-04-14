@@ -1,0 +1,6 @@
+---
+- hosts: usw-nomad-relay1,sgp-nomad-relay1
+  vars_files:
+    - secrets.yml
+  roles:
+    - frps

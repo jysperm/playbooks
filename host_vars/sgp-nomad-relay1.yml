@@ -1,0 +1,3 @@
+nomad_client_dc: dgo-sgp
+nomad_advertise_addr: "{{ vpc_ip }}"
+nomad_client_node_pool: relay

@@ -5,11 +5,9 @@ local_host_aliases:
   - docker-registry.internal
 nomad_network: '172.16.0.0/16'
 nomad_client_region: cloud
-nomad_server_join:
-  - sgp-nomad-core1
-  - sgp-nomad-core2
-  - sgp-nomad-core3
+nomad_server_join: []
 nomad_client_join:
   - sgp-nomad-core1
   - sgp-nomad-core2
   - sgp-nomad-core3
+

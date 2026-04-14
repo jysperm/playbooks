@@ -5,6 +5,10 @@
 #   vars:
 #     nextdata_exposed: true
 #     # dns_proxied: true
+#     wireguard_address: '10.0.1.1/24'
+#     wireguard_peers:
+#       - public_key: R4jEchX+mi+lezwltGQavd9d8jY2gIzk4fYW69mu/BE=
+#         address: '10.0.1.2/32'
 #     frp_client_proxies:
 #       - name: wireguard
 #         local_port: 41194
@@ -84,18 +88,3 @@
     - prometheus
     - zfs
 
-- hosts: refinity
-  vars_files:
-    - secrets.yml
-  pre_tasks:
-    - include_tasks: tasks/common-packages.yml
-  roles:
-    - frps
-
-- hosts: satellite-sin
-  vars_files:
-    - secrets.yml
-  pre_tasks:
-    - include_tasks: tasks/common-packages.yml
-  roles:
-    - frps

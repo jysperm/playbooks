@@ -2,6 +2,12 @@ job "traefik" {
   type      = "system"
   node_pool = "all"
 
+  constraint {
+    attribute = "${node.pool}"
+    operator  = "!="
+    value     = "relay"
+  }
+
   group "traefik" {
     network {
       mode = "host"

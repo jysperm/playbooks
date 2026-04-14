@@ -12,10 +12,19 @@
 - name: load private key
   slurp:
     src: /etc/wireguard/privatekey
-  register: private_key
+  register: wireguard_private_key
+  no_log: true
 
-- name: install wireguard configure
+- name: fetch public key to controller
+  fetch:
+    src: /etc/wireguard/publickey
+    dest: "{{ playbook_dir }}/wireguard-pubkeys/{{ inventory_hostname }}.pub"
+    flat: true
+
+- name: install wireguard configuration
   template:
     src: wg0.conf
     dest: /etc/wireguard/wg0.conf
+    mode: '0600'
+  diff: false
   notify: restart wireguard

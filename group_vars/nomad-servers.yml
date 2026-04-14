@@ -1,0 +1,4 @@
+nomad_server_join:
+  - sgp-nomad-core1
+  - sgp-nomad-core2
+  - sgp-nomad-core3

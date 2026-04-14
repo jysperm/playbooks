@@ -2,6 +2,12 @@ job "garage" {
   type      = "system"
   node_pool = "all"
 
+  constraint {
+    attribute = "${node.pool}"
+    operator  = "!="
+    value     = "relay"
+  }
+
   group "garage" {
     network {
       mode = "host"

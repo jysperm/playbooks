@@ -1,12 +1,22 @@
 ap-home
 voyager
 infinity
-refinity
 
-satellite-sgp
-satellite-usw
+[wireguard-mesh]
+sgp-nomad-core1
+sgp-nomad-core2
+sgp-nomad-core3
+usw-nomad-relay1
+sgp-nomad-relay1
 
 [nomad]
+sgp-nomad-core1
+sgp-nomad-core2
+sgp-nomad-core3
+usw-nomad-relay1
+sgp-nomad-relay1
+
+[nomad-servers]
 sgp-nomad-core1
 sgp-nomad-core2
 sgp-nomad-core3
