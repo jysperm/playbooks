@@ -24,10 +24,6 @@ job "traefik" {
         image        = "traefik:v3.6"
         network_mode = "host"
 
-        # TODO: May move to JuiceFS for shared cert storage across nodes.
-        # Traefik has no file locking on acme.json, but write frequency is
-        # extremely low (only on cert issuance/renewal), so the risk of
-        # concurrent write corruption is acceptable.
         volumes = [
           "/var/lib/traefik:/var/lib/traefik",
         ]
@@ -44,13 +40,23 @@ job "traefik" {
           # routers on the http entrypoint without being redirected.
           "--entrypoints.http.http.redirections.entryPoint.priority=1",
 
-          "--certificatesresolvers.letsencrypt.acme.httpchallenge=true",
-          "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http",
+          "--certificatesresolvers.letsencrypt.acme.dnschallenge=true",
+          "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare",
           "--certificatesresolvers.letsencrypt.acme.email=jysperm@gmail.com",
           "--certificatesresolvers.letsencrypt.acme.storage=/var/lib/traefik/acme.json",
 
           "--providers.file.directory=/local/config/",
         ]
+      }
+
+      template {
+        destination = "local/cloudflare.env"
+        env         = true
+        data        = <<EOF
+{{ with nomadVar "traefik-cloudflare" }}
+CF_DNS_API_TOKEN={{ .CF_DNS_API_TOKEN }}
+{{ end }}
+EOF
       }
 
       template {

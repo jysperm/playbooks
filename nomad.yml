@@ -29,6 +29,12 @@
       args:
         stdin: "{{ {'Items': {'CA_PEM': lookup('file', 'internal-certs/ca.pem')}} | to_json }}"
       changed_when: false
+    - name: set cloudflare token in nomad variables
+      command: >-
+        nomad var put -force
+        traefik-cloudflare
+        CF_DNS_API_TOKEN={{ cloudflare_api_token }}
+      changed_when: false
   roles:
     - nomad-jobs
 
