@@ -18,6 +18,8 @@
 
 - hosts: sgp-nomad-core1
   tags: traefik
+  vars_files:
+    - secrets.yml
   vars:
     nomad_run_jobs:
       - nomad-jobs/traefik.hcl

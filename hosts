@@ -2,7 +2,7 @@ ap-home
 voyager
 infinity
 
-[wireguard-mesh]
+[wireguard_mesh]
 sgp-nomad-core1
 sgp-nomad-core2
 sgp-nomad-core3
@@ -16,7 +16,7 @@ sgp-nomad-core3
 usw-nomad-relay1
 sgp-nomad-relay1
 
-[nomad-servers]
+[nomad_servers]
 sgp-nomad-core1
 sgp-nomad-core2
 sgp-nomad-core3

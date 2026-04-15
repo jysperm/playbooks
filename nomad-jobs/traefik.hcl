@@ -1,3 +1,4 @@
+#jinja2: variable_start_string: '[%', variable_end_string: '%]'
 job "traefik" {
   type      = "system"
   node_pool = "all"
@@ -71,7 +72,7 @@ job "traefik" {
         http:
           routers:
             nomad:
-              rule: "Host(`nomad.ziting.me`)"
+              rule: "Host(`nomad.[% infra_domain %]`)"
               entrypoints:
                 - https
               service: nomad

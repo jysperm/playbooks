@@ -1,3 +1,4 @@
+#jinja2: variable_start_string: '[%', variable_end_string: '%]'
 job "garage" {
   type      = "system"
   node_pool = "all"

@@ -1,3 +1,4 @@
+#jinja2: variable_start_string: '[%', variable_end_string: '%]'
 job "github-runner-dispatcher" {
   type = "service"
 
@@ -15,7 +16,7 @@ job "github-runner-dispatcher" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.github-runner-dispatcher.rule=Host(`github-runner.ziting.me`)",
+        "traefik.http.routers.github-runner-dispatcher.rule=Host(`github-runner.[% infra_domain %]`)",
         "traefik.http.routers.github-runner-dispatcher.entrypoints=https",
         "traefik.http.routers.github-runner-dispatcher.tls=true",
         "traefik.http.routers.github-runner-dispatcher.tls.certresolver=letsencrypt",

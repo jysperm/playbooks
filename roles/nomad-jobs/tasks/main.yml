@@ -19,8 +19,8 @@
     nomad_run_jobs_expanded: "{{ nomad_run_jobs_expanded + (lookup('fileglob', item, wantlist=True) if '*' in item else [item]) }}"
   loop: '{{ nomad_run_jobs }}'
 
-- name: copy nomad job files
-  copy:
+- name: template nomad job files
+  template:
     src: '{{ item }}'
     dest: '/etc/nomad.d/jobs/{{ item | basename }}'
     mode: '0644'

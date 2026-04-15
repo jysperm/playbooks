@@ -1,3 +1,4 @@
+#jinja2: variable_start_string: '[%', variable_end_string: '%]'
 // Discourse upgrade must be done via ansible (./launcher bootstrap),
 // NOT from the admin panel. Admin panel upgrades run migrations but
 // don't update the Docker image, causing version mismatch on redeploy.

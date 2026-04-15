@@ -1,5 +1,5 @@
 ---
-- hosts: wireguard-mesh
+- hosts: wireguard_mesh
   vars_files:
     - secrets.yml
   vars:
