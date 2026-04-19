@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/frpc -c /etc/frpc/frpc-%i.ini
+ExecStart=/usr/bin/frpc -c /etc/frpc/frpc-%i.toml
 Restart=on-failure
 
 [Install]

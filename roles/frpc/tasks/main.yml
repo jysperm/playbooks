@@ -30,8 +30,8 @@
 
 - name: generate frpc configure
   template:
-    src: 'frpc.ini'
-    dest: '/etc/frpc/frpc-{{ item }}.ini'
+    src: 'frpc.toml'
+    dest: '/etc/frpc/frpc-{{ item }}.toml'
   with_items: '{{ frp_servers }}'
   register: generate_result
 

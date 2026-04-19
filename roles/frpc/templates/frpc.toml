@@ -1,0 +1,13 @@
+serverAddr = "{{ item }}"
+serverPort = 7000
+auth.method = "token"
+auth.token = "{{ frp_token }}"
+
+{% for proxy in frp_client_proxies %}
+[[proxies]]
+name = "{{ proxy.name }}"
+type = "{{ proxy.type }}"
+localIP = "{{ proxy.local_ip | default('127.0.0.1') }}"
+localPort = {{ proxy.local_port }}
+remotePort = {{ proxy.remote_port }}
+{% endfor %}

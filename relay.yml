@@ -1,6 +1,17 @@
 ---
-- hosts: usw-nomad-relay1,sgp-nomad-relay1
+- hosts: sgp-nomad-core1
+  tags: frps
   vars_files:
     - secrets.yml
+  vars:
+    nomad_run_jobs:
+      - nomad-jobs/relay-frps.hcl
+  pre_tasks:
+    - name: set frps token in nomad variables
+      command: >-
+        nomad var put -force
+        relay-frps-secrets
+        TOKEN={{ frp_token }}
+      changed_when: false
   roles:
-    - frps
+    - nomad-jobs
