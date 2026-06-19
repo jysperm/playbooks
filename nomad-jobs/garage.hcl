@@ -34,6 +34,11 @@ job "garage" {
         port     = "s3"
         interval = "5s"
         timeout  = "2s"
+
+        check_restart {
+          limit = 10
+          grace = "60s"
+        }
       }
     }
 
