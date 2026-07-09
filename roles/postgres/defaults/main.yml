@@ -1,5 +1,8 @@
 ---
 postgres_package_name: postgresql
 postgres_remote_access: false
+# Set to 'logical' to enable logical replication.
+postgres_wal_level: ''
+postgres_data_dir: ''
 postgres_apps: []
 postgres_dump_databases: {}

@@ -2,6 +2,7 @@
 docker_cert_name: ''
 docker_registry_url: ''
 docker_insecure_registries: []
+docker_data_root: ''
 # Required for Nomad nodes — without live-restore, dockerd restart causes all
 # containers to restart with new ports, breaking Nomad bridge network
 # connectivity (the veth pairs are lost and iptables rules become stale).

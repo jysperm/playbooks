@@ -1,0 +1,3 @@
+bindPort = 7000
+auth.method = "token"
+auth.token = "{{ frp_token }}"

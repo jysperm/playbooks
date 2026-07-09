@@ -1,14 +1,16 @@
 ---
-- name: download hashicorp apt key
-  get_url:
-    url: https://apt.releases.hashicorp.com/gpg
-    dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
-    mode: '0644'
+- name: install apt dependencies
+  apt:
+    name: python3-debian
 
 - name: add apt repository
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ansible_facts['distribution_release'] }} main"
-    filename: hashicorp
+  deb822_repository:
+    name: hashicorp
+    types: deb
+    uris: https://apt.releases.hashicorp.com
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: main
+    signed_by: https://apt.releases.hashicorp.com/gpg
 
 - name: install apt packages
   apt:

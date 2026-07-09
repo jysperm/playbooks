@@ -3,36 +3,19 @@
 
 - name: install apt packages
   apt:
-    name: gnupg
-
-- name: add apt repository key (legacy)
-  apt_key:
-    url: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}/gpg'
-  when: not (ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13)
-
-- name: add apt repository (legacy)
-  apt_repository:
-    repo: 'deb [arch={{ deb_architecture[ansible_facts["architecture"]] }}] https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }} {{ ansible_facts["distribution_release"] }} stable'
-  when: not (ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13)
-
-- name: create keyrings directory
-  file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: '0755'
-  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
-
-- name: add Docker GPG key
-  get_url:
-    url: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}/gpg'
-    dest: /etc/apt/keyrings/docker.asc
-    mode: '0644'
-  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
+    name:
+      - gnupg
+      - python3-debian
 
 - name: add apt repository
-  apt_repository:
-    repo: 'deb [arch={{ deb_architecture[ansible_facts["architecture"]] }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }} {{ ansible_facts["distribution_release"] }} stable'
-  when: ansible_facts["distribution"] == "Debian" and ansible_facts["distribution_major_version"]|int >= 13
+  deb822_repository:
+    name: docker
+    types: deb
+    uris: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}'
+    suites: '{{ ansible_facts["distribution_release"] }}'
+    components: stable
+    architectures: '{{ deb_architecture[ansible_facts["architecture"]] }}'
+    signed_by: 'https://download.docker.com/linux/{{ ansible_facts["distribution"] | lower }}/gpg'
 
 - name: install apt packages
   apt:
@@ -44,6 +27,7 @@
     daemon_config: >-
       {{
         (docker_live_restore | ternary({'live-restore': true}, {}))
+        | combine((docker_data_root | length > 0) | ternary({'data-root': docker_data_root}, {}))
         | combine((docker_registry_url | length > 0) | ternary({'registry-mirrors': [docker_registry_url]}, {}))
         | combine((docker_insecure_registries | length > 0) | ternary({'insecure-registries': docker_insecure_registries}, {}))
       }}

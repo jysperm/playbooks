@@ -1,15 +1,34 @@
 ---
 - name: install the common package
   apt:
-    name: postgresql-common
+    name:
+      - postgresql-common
+      - python3-debian
 
-- name: add apt repository key
-  apt_key:
-    url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
+- name: create configured PostgreSQL data directory
+  file:
+    path: '{{ postgres_data_dir }}'
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: '0700'
+  when: postgres_data_dir | length > 0
+
+- name: configure default PostgreSQL cluster data directory
+  lineinfile:
+    path: /etc/postgresql-common/createcluster.conf
+    regexp: '^#?data_directory\s*='
+    line: "data_directory = '{{ postgres_data_dir }}'"
+  when: postgres_data_dir | length > 0
 
 - name: add apt repository
-  apt_repository:
-    repo: 'deb https://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main'
+  deb822_repository:
+    name: pgdg
+    types: deb
+    uris: https://apt.postgresql.org/pub/repos/apt
+    suites: '{{ ansible_distribution_release }}-pgdg'
+    components: main
+    signed_by: https://www.postgresql.org/media/keys/ACCC4CF8.asc
 
 - name: install apt packages
   apt:
@@ -51,7 +70,7 @@
     recurse: true
     patterns: postgresql.conf
   register: postgresql_conf
-  when: postgres_remote_access
+  when: postgres_remote_access or postgres_wal_level == 'logical'
 
 - name: debug postgresql_conf
   debug:
@@ -65,6 +84,19 @@
     firstmatch: true
   loop: "{{ postgresql_conf.files }}"
   when: postgres_remote_access
+  notify: restart postgresql
+
+# Logical replication is required by the app's CREATE PUBLICATION statements
+# (see SpeedBackend src/db/migrations/publications.sql). wal_level is a
+# server-level setting that is not carried by pg_dump, so it must be set here.
+- name: set wal_level for logical replication
+  lineinfile:
+    path: '{{ item.path }}'
+    regexp: '^#?\s*wal_level\s*='
+    line: "wal_level = logical"
+    firstmatch: true
+  loop: "{{ postgresql_conf.files }}"
+  when: postgres_wal_level == 'logical'
   notify: restart postgresql
 
 - name: find pg_hba.conf

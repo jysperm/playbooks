@@ -29,8 +29,8 @@
 
 - name: install frps configure
   template:
-    src: 'frps.ini'
-    dest: /etc/frps/frps.ini
+    src: 'frps.toml'
+    dest: /etc/frps/frps.toml
   notify: restart frps
 
 - name: create systemd service

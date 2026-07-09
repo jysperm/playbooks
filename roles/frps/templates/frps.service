@@ -1,9 +1,12 @@
 [Unit]
 Description=frps daemon
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/frps -c /etc/frps/frps.ini
+ExecStart=/usr/bin/frps -c /etc/frps/frps.toml
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
